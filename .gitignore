@@ -1,0 +1,34 @@
+# Working drafts — not for repo
+_temp/*
+!_temp/.gitkeep
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Personal context filled during onboarding
+# Uncomment these if you want to prevent personal data from being committed
+# after onboarding has been run:
+#
+# CLAUDE.md           ← contains your name, role, company, KPIs
+# GOALS.md            ← contains your personal goals
+# Tasks/active.md     ← contains your real tasks
+# Tasks/backlog.md
+# Tasks/follow-ups.md
+# Knowledge/People/   ← contains stakeholder profiles
+# Projects/           ← contains real campaign briefs
+#
+# Keep these commented while the repo is still a template (placeholders only).
+# Uncomment ONLY if you've personalised the OS and want to share a sanitised version.
+
+# Verdict files (generated artifacts — optional to commit)
+# *.brief-review-passed
+# *.campaign-readiness-passed
+# *.experiment-readiness-passed
