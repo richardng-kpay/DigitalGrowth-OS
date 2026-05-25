@@ -144,8 +144,11 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 **Every time a user asks a question about the project, search the Lark wiki first before answering.**
 
 - **Wiki space:** KPay Digital Growth · Space ID `7542461607352238112`
+- **Wiki root:** `https://kpay-group.sg.larksuite.com/wiki/ATQ3wXAlvisKHJkLhJwl7ywBgCP`
 - **Performance Marketing folder:** `https://kpay-group.sg.larksuite.com/wiki/M5Hmw8xEpivuCik5ka2l6hwXgqe`
 - **Full wiki index:** `Knowledge/Reference/lark-wiki-index.md`
+- **Auth:** Lark MCP uses your personal Lark credentials. Results are scoped to what your account can access.
+- **Not connected?** → Run `Workflows/lark-setup.md` to configure the Lark MCP server before searching.
 
 ### Search protocol (mandatory on every project question)
 1. Call `mcp__lark-mcp__docx_builtin_search` with the user's topic as `search_key`
@@ -155,7 +158,7 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
    - Sheets: `https://kpay-group.sg.larksuite.com/sheets/{token}`
    - Bitable: `https://kpay-group.sg.larksuite.com/base/{token}`
    - Wiki node: `https://kpay-group.sg.larksuite.com/wiki/{node_token}`
-4. If no relevant wiki doc is found, say so and answer from OS context — do not fabricate a source.
+4. If no relevant doc is found or the MCP call errors, say so and point to `Workflows/lark-setup.md` — do not fabricate a source.
 
 ### DO NOT
 - Answer project questions without checking the wiki first
