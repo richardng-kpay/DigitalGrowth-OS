@@ -27,6 +27,10 @@ Maintain this working schema during the interview. Preserve placeholders or mark
 ```markdown
 ## Setup capture
 
+### Lark connection
+- Status: [✅ verified / ❌ failed / ⏭ skipped]
+- Documents found in test search: [N]
+
 ### Identity
 - Name:
 - Role on growth team:
@@ -102,6 +106,37 @@ Ask:
 3. Are there any placeholders you want to preserve for now?
 
 Record identity in the setup capture.
+
+---
+
+## Phase 0B — Lark MCP connection check
+
+**Run this phase immediately after Phase 0, before any role branching.**
+
+This OS searches your team's Lark wiki to answer project questions. The wiki runs under your personal Lark credentials — so each user must have the `lark-mcp` server configured in their own Claude Code settings.
+
+### Connection test
+
+1. Tell the user: "Let me confirm your Lark MCP connection is working before we continue."
+2. Call `mcp__lark-mcp__docx_builtin_search` with `search_key: "digital growth"` (or the user's company name if they provided it in Phase 0).
+3. Evaluate the result:
+
+**✅ Pass — results returned:**
+> "Great — Lark MCP is connected under your account. Found [N] documents. The wiki is ready."
+Record `Lark connection: ✅ verified · N documents found` in setup capture. Proceed to Phase 1.
+
+**❌ Fail — error or 0 results:**
+> "Lark MCP isn't connected yet. Before we continue onboarding, you'll need to configure it with your personal Lark credentials."
+> "Open `Workflows/lark-setup.md` for step-by-step instructions. Come back once you can run a successful search."
+Record `Lark connection: ❌ failed` in setup capture. **Pause onboarding here.** Do not proceed to Phase 1 until the user confirms the connection test passes.
+
+### Re-entry after fixing
+When the user returns, re-run the connection test once more. Only mark as `✅ verified` and proceed to Phase 1 after a successful search.
+
+### If the user wants to skip Lark setup
+If the user explicitly says they want to skip Lark for now:
+> "Understood — you can set up Lark later via `Workflows/lark-setup.md`. Wiki search won't work until it's configured."
+Record `Lark connection: ⏭ skipped by user`. Continue to Phase 1. Add a follow-up in `Tasks/follow-ups.md`: "Configure Lark MCP — see Workflows/lark-setup.md."
 
 ---
 
@@ -376,6 +411,9 @@ Before writing any files, show:
 ```markdown
 ## Proposed setup
 
+### Lark connection
+- Status: [✅ verified / ❌ failed / ⏭ skipped]
+
 ### Identity
 - Name: ...
 - Role: ...
@@ -471,6 +509,7 @@ Run this check before declaring onboarding finished.
 
 | Check | How to verify | If it fails |
 |---|---|---|
+| **Lark connected** | Setup capture shows `✅ verified`, or user explicitly skipped with a follow-up logged. | Re-run Phase 0B, or open `Workflows/lark-setup.md`. |
 | **Placeholders filled** | Grep `CLAUDE.md`, `GOALS.md`, `Tasks/active.md` for `[YOUR_`, `[STAKEHOLDER_`, `[METRIC_`. Any remaining brackets must be explicit user choices. | Ask user to fill or confirm keeping. |
 | **Role set** | `CLAUDE.md` → `Role` is not a bracketed list. | Re-run Phase 1. |
 | **Area tags match role** | `CLAUDE.md` → `Conventions` area tags match the role's configured tag set. | Re-run Phase 1B. |

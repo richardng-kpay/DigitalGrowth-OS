@@ -35,6 +35,18 @@ Then, in either harness:
 
 ---
 
+## Lark wiki integration
+
+This OS reads the KPay Digital Growth Lark wiki to answer project questions — strategy docs, experiment notes, vendor evaluations, stakeholder interviews. Search happens under **your personal Lark credentials**, not a shared account, so each team member must connect their own Lark MCP once before the wiki features work.
+
+**Onboarding (Phase 0B) runs a connection test automatically.** If the test fails, it pauses and points you to `Workflows/lark-setup.md` — follow that guide, then resume onboarding.
+
+- **Wiki root:** https://kpay-group.sg.larksuite.com/wiki/ATQ3wXAlvisKHJkLhJwl7ywBgCP
+- **Setup guide:** `Workflows/lark-setup.md`
+- **Full doc index:** `Knowledge/Reference/lark-wiki-index.md`
+
+---
+
 ## What this is
 
 A growth marketer's daily work is high-context, multi-channel, and fast-moving. On any given day you're switching between campaign briefs, performance reviews, experiment design, email segmentation, and stakeholder updates — each needing different context, different templates, and different output formats.
@@ -175,7 +187,9 @@ DigitalGrowth-OS/
 │       └── company.md                ← Company and brand context
 │
 ├── Templates/                        ← 9 marketing document templates
-├── Workflows/                        ← Interactive onboarding + campaign workflows
+├── Workflows/
+│   ├── interactive-onboarding.md     ← Role-adaptive setup interview (11 phases)
+│   └── lark-setup.md                 ← Lark MCP credential setup + troubleshooting
 ├── Evals/                            ← Onboarding and synthesis eval suites
 ├── Meetings/                         ← Meeting notes
 ├── _Registry/
