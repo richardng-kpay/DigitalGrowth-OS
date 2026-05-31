@@ -124,7 +124,7 @@ Record identity in the setup capture.
 
 **Run this phase immediately after Phase 0, before any role branching.**
 
-This OS searches your team's Lark wiki to answer project questions. The wiki runs under your personal Lark credentials — so each user must have the `lark-mcp` server configured in their own Claude Code settings.
+This OS searches your team's Lark wiki to answer project questions. The Lark MCP uses the shared team app (`cli_a944aca53c381ed3`) with per-user OAuth — each user logs in with their own Lark account and sees only what they have access to. Each user must have the `lark-mcp` server configured in their own `~/.claude.json` with the App Secret pasted locally (see `Workflows/lark-setup.md`).
 
 ### Connection test
 

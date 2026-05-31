@@ -15,9 +15,8 @@ The Digital Growth OS searches your team's Lark wiki to answer project questions
 ## Before you start
 
 You need:
-- An active Lark account for your organization (e.g. `yourname@yourcompany.com`)
-- Your team's **Lark domain** — e.g. `yourcompany.larksuite.com` or `yourcompany.feishu.cn`
-- Either a shared **app credential** (App ID + App Secret) from your admin, or your own **User Access Token**
+- An active **Lark account** for your organization (e.g. `yourname@yourcompany.com`) — you'll log in with this account via OAuth
+- The **App Secret** for the shared team app `cli_a944aca53c381ed3` — ask Richard or your team lead for it via password manager or secure DM
 
 If you don't have a Lark account, ask your IT or Lark admin to create one.
 
@@ -31,44 +30,44 @@ You need an active Lark account for your organization. If you don't have one, as
 
 ---
 
-### Step 2 — Add `lark-mcp` to your Claude Code global settings
+### Step 2 — Add `lark-mcp` to your Claude Code config
 
-Claude Code MCP servers are configured in your global settings file: `~/.claude/settings.json`.
+Claude Code MCP servers are configured in your global config file: `~/.claude.json`.
 
-Open it (or create it if it doesn't exist) and add the following under `"mcpServers"`:
+Open your `~/.claude.json` (or create it if it doesn't exist) and add the following under `"mcpServers"`:
 
 ```json
 {
   "mcpServers": {
     "lark-mcp": {
-      "command": "npx",
-      "args": ["-y", "@larksuite/lark-mcp"],
+      "command": "/usr/local/bin/npx",
+      "args": [
+        "--yes",
+        "@larksuiteoapi/lark-mcp",
+        "mcp",
+        "--domain", "https://open.larksuite.com",
+        "--token-mode", "user_access_token",
+        "--tools", "bitable.v1.appTable.list,bitable.v1.appTableField.list,bitable.v1.appTableRecord.search,docx.v1.document.rawContent,docx.builtin.search,wiki.v2.space.getNode,wiki.v1.node.search,contact.v3.user.batchGetId,calendar.v4.calendar.primary,calendar.v4.calendarEvent.get,calendar.v4.freebusy.list"
+      ],
       "env": {
-        "LARK_APP_ID": "<your-app-id>",
-        "LARK_APP_SECRET": "<your-app-secret>",
-        "LARK_DOMAIN": "https://[YOUR_LARK_DOMAIN]"
-      }
+        "PATH": "/usr/local/bin:/usr/bin:/bin",
+        "APP_ID": "cli_a944aca53c381ed3",
+        "APP_SECRET": "<paste-app-secret-here>"
+      },
+      "type": "stdio"
     }
   }
 }
 ```
 
-Replace `[YOUR_LARK_DOMAIN]` with your organization's Lark domain (e.g. `yourcompany.larksuite.com`).
+**The App ID `cli_a944aca53c381ed3` is the shared team app** — it's the same for everyone and safe to keep here.
 
-**Where to get `LARK_APP_ID` and `LARK_APP_SECRET`:**
-- These come from a Lark developer app shared with your team.
-- Ask your Lark admin or team lead for the app credentials.
-- Do **not** share these in Slack, email, or commit them to any repo.
+**Where to get the `APP_SECRET`:**
+- The secret is **not** stored in this repo. Ask Richard (or your team lead) for it via a password manager or secure DM.
+- Paste it into the `<paste-app-secret-here>` slot in your **own** `~/.claude.json` only.
+- Do **not** share it in Slack, email, or commit it to any repo. If it leaks, it gets rotated in the Lark dev console and everyone re-pastes.
 
-**Alternative — Personal User Access Token (UAT):**
-If you prefer to use a personal token instead of the shared app:
-```json
-"env": {
-  "LARK_USER_ACCESS_TOKEN": "<your-personal-UAT>",
-  "LARK_DOMAIN": "https://[YOUR_LARK_DOMAIN]"
-}
-```
-Generate a UAT from the Lark developer console under your account. Note: UATs expire (typically after a few hours); app credentials are longer-lived.
+**Access model — per-user OAuth.** The MCP runs in `--token-mode user_access_token`. On first use, you'll be prompted to **log in with your own Lark account** via an OAuth flow. The app credentials just identify which Lark app brokers the auth — **your results are scoped to what your own Lark account can access.** If a doc doesn't show up, you need access to it in Lark under your own account, not the bot's.
 
 ---
 
@@ -96,19 +95,19 @@ Ask the assistant:
 | `lark-mcp` tools not available in the assistant | Server not in `~/.claude/settings.json` | Re-do Step 2 and restart Claude Code |
 | Tools available but 0 results returned | Wrong `LARK_DOMAIN` or app credentials | Double-check the domain and app ID/secret |
 | Error: `Unauthorized` or `token invalid` | Token expired or wrong | Re-generate the UAT or get fresh app credentials |
-| Results returned but missing specific docs | Your account doesn't have access to those docs | Ask the wiki admin to share them with your Lark account |
+| Results returned but missing specific docs | Your Lark account doesn't have access to those docs | Ask the doc owner or wiki admin to share them with your Lark account |
 | Everything works on your machine but not a colleague's | They haven't done this setup yet | Share this guide with them |
 
 ---
 
 ## Permission note
 
-The Lark MCP runs under **your** Lark identity. If a document exists in the wiki but doesn't appear in your search results, it means your Lark account hasn't been granted access to it.
+The Lark MCP runs under **your own** Lark identity via OAuth (`--token-mode user_access_token`). The shared app credentials (`cli_a944aca53c381ed3`) just identify the app — your search results are scoped to your personal Lark account's access. Different team members may see different results depending on their access.
 
-To request access:
-1. Open the doc URL (from `Knowledge/Reference/lark-wiki-index.md` or a colleague's link)
-2. You'll see a "Request access" prompt in Lark
-3. Or ask the document owner or wiki admin to share it directly with your account
+If a document exists in the wiki but doesn't appear in your search results:
+1. Open the doc URL in Lark (from `Knowledge/Reference/lark-wiki-index.md` or a colleague's link)
+2. You'll see a "Request access" prompt — or ask the document owner to share it with your account
+3. Re-run the search — it will now appear for you
 
 ---
 
@@ -126,6 +125,28 @@ You can find your Space ID and root node by running:
 mcp__lark-mcp__wiki_v2_space_getNode
   wiki_token: [the token from your wiki URL]
 ```
+
+---
+
+## Team distribution — shared app, per-user access
+
+The team shares one Lark app (`cli_a944aca53c381ed3`). The app is the auth broker — each user logs in with their own Lark account via OAuth and sees only what their account can access. What is **not** shared in git is the App Secret — each person pastes it into their own machine's `~/.claude.json`.
+
+Why this matters:
+- The App ID is the same for everyone and is safe to keep in the repo.
+- The App Secret is a live credential. **Never commit it** — a secret in a repo with GitHub remotes is exposed on push and must be rotated.
+- Each user authenticates with their own Lark account. Results are scoped to that user's personal access, not the app's.
+
+### How to distribute this OS to a teammate
+
+1. Share the repo (or your fork) with them.
+2. Tell them to open `Workflows/lark-setup.md` before anything else.
+3. Send them the **App Secret** over a password manager or secure DM — never Slack, email, or git.
+4. They paste it into the `<paste-app-secret-here>` slot in their own `~/.claude.json`.
+5. On first use, they'll be prompted to log in with their own Lark account via OAuth.
+6. They run the connection test, then trigger `Computer, onboard me into this OS` — Phase 0B verifies the connection.
+
+The only credential they share back with you is their **Lark handle** (for `TEAM.md`).
 
 ---
 

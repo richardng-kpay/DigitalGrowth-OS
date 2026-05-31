@@ -4,7 +4,7 @@ The 30-60-90 outcomes should name a deliverable, decision, or evidence — not a
 
 ## Criteria (binary)
 
-1. ✅ / ❌ Each of the three phases (30 / 60 / 90) has at least 2 outcomes derived from the user's stated answers (anchor project: "Activation funnel redesign", manager: Priya Shah, stakeholders named).
+1. ✅ / ❌ Each of the three phases (30 / 60 / 90) has at least 2 outcomes derived from the user's stated answers (primary campaign/workstream, manager/sponsor, stakeholders named).
 2. ✅ / ❌ At least 50% of outcomes name a deliverable (doc, dashboard, test, decision) — not a generic verb like "understand" or "learn."
 3. ✅ / ❌ The 30-day section contains the user's stated 30-day outcome ("Ship activation funnel discovery readout; align Priya on top 3 hypotheses") in recognizable form.
 4. ✅ / ❌ The 60-day section contains the user's stated 60-day outcome (A/B test + baseline dashboard) in recognizable form.
