@@ -2,6 +2,9 @@
 _temp/*
 !_temp/.gitkeep
 
+# WhatsApp Web cache (not part of the OS)
+.wwebjs_cache/
+
 # macOS
 .DS_Store
 .AppleDouble
@@ -32,3 +35,8 @@ _temp/*
 # *.brief-review-passed
 # *.campaign-readiness-passed
 # *.experiment-readiness-passed
+
+# Lark wiki index files — these are populated per-user after onboarding.
+# Uncomment to prevent committing your team's internal wiki data:
+# Knowledge/Reference/lark-wiki-index.md
+# Knowledge/Reference/lark-wiki-performance-marketing.md

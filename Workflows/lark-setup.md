@@ -6,18 +6,20 @@ Use this guide when the Lark MCP connection test fails during onboarding, or whe
 
 ## What is Lark MCP and why do I need it?
 
-The Digital Growth OS searches the KPay Digital Growth wiki to answer project questions — strategy docs, experiment notes, vendor evaluations, stakeholder interviews, and more. It does this via the `lark-mcp` MCP server, which connects Claude Code to Lark's API.
+The Digital Growth OS searches your team's Lark wiki to answer project questions — strategy docs, experiment notes, vendor evaluations, stakeholder interviews, and more. It does this via the `lark-mcp` MCP server, which connects Claude Code to Lark's API.
 
 **Your account, your access.** The MCP server uses your personal Lark credentials (User Access Token). You can only see documents your Lark account has been granted access to — the OS never uses someone else's token.
 
 ---
 
-## Team wiki
+## Before you start
 
-All KPay Digital Growth documentation lives here:
+You need:
+- An active Lark account for your organization (e.g. `yourname@yourcompany.com`)
+- Your team's **Lark domain** — e.g. `yourcompany.larksuite.com` or `yourcompany.feishu.cn`
+- Either a shared **app credential** (App ID + App Secret) from your admin, or your own **User Access Token**
 
-> **Wiki root:** https://kpay-group.sg.larksuite.com/wiki/ATQ3wXAlvisKHJkLhJwl7ywBgCP
-> **Performance Marketing folder:** https://kpay-group.sg.larksuite.com/wiki/M5Hmw8xEpivuCik5ka2l6hwXgqe
+If you don't have a Lark account, ask your IT or Lark admin to create one.
 
 ---
 
@@ -25,7 +27,7 @@ All KPay Digital Growth documentation lives here:
 
 ### Step 1 — Confirm you have a Lark account
 
-You need an active KPay Lark account (`yourname@kpay-group.com` or your team's Lark domain). If you don't have one, ask your IT or Lark admin to create it.
+You need an active Lark account for your organization. If you don't have one, ask your IT or Lark admin to create it.
 
 ---
 
@@ -44,16 +46,18 @@ Open it (or create it if it doesn't exist) and add the following under `"mcpServ
       "env": {
         "LARK_APP_ID": "<your-app-id>",
         "LARK_APP_SECRET": "<your-app-secret>",
-        "LARK_DOMAIN": "https://kpay-group.sg.larksuite.com"
+        "LARK_DOMAIN": "https://[YOUR_LARK_DOMAIN]"
       }
     }
   }
 }
 ```
 
+Replace `[YOUR_LARK_DOMAIN]` with your organization's Lark domain (e.g. `yourcompany.larksuite.com`).
+
 **Where to get `LARK_APP_ID` and `LARK_APP_SECRET`:**
-- These come from the KPay Lark developer app shared with the Digital Growth team.
-- Ask Richard or your team's Lark admin for the app credentials.
+- These come from a Lark developer app shared with your team.
+- Ask your Lark admin or team lead for the app credentials.
 - Do **not** share these in Slack, email, or commit them to any repo.
 
 **Alternative — Personal User Access Token (UAT):**
@@ -61,7 +65,7 @@ If you prefer to use a personal token instead of the shared app:
 ```json
 "env": {
   "LARK_USER_ACCESS_TOKEN": "<your-personal-UAT>",
-  "LARK_DOMAIN": "https://kpay-group.sg.larksuite.com"
+  "LARK_DOMAIN": "https://[YOUR_LARK_DOMAIN]"
 }
 ```
 Generate a UAT from the Lark developer console under your account. Note: UATs expire (typically after a few hours); app credentials are longer-lived.
@@ -77,9 +81,9 @@ After editing `settings.json`, fully quit and reopen Claude Code (or run `/resta
 ### Step 4 — Run the connection test
 
 Ask the assistant:
-> "Search Lark for digital growth strategy"
+> "Search Lark for [your team name] strategy"
 
-**✅ Pass:** The assistant returns doc titles and links from the KPay wiki. You're connected.
+**✅ Pass:** The assistant returns doc titles and links from your team's wiki. You're connected.
 
 **❌ Fail:** See troubleshooting below.
 
@@ -105,6 +109,23 @@ To request access:
 1. Open the doc URL (from `Knowledge/Reference/lark-wiki-index.md` or a colleague's link)
 2. You'll see a "Request access" prompt in Lark
 3. Or ask the document owner or wiki admin to share it directly with your account
+
+---
+
+## After connecting — update your CLAUDE.md
+
+Once your Lark MCP is working, fill in the Lark Wiki section in `CLAUDE.md` with your team's details:
+
+```markdown
+- **Wiki space:** [YOUR_TEAM_NAME] · Space ID `[YOUR_SPACE_ID]` · Root node: `[YOUR_WIKI_ROOT_NODE]`
+- **Lark domain:** `[YOUR_LARK_DOMAIN]`
+```
+
+You can find your Space ID and root node by running:
+```
+mcp__lark-mcp__wiki_v2_space_getNode
+  wiki_token: [the token from your wiki URL]
+```
 
 ---
 

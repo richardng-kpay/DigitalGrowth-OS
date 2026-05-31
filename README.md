@@ -37,13 +37,12 @@ Then, in either harness:
 
 ## Lark wiki integration
 
-This OS reads the KPay Digital Growth Lark wiki to answer project questions — strategy docs, experiment notes, vendor evaluations, stakeholder interviews. Search happens under **your personal Lark credentials**, not a shared account, so each team member must connect their own Lark MCP once before the wiki features work.
+This OS reads your team's Lark wiki to answer project questions — strategy docs, experiment notes, vendor evaluations, stakeholder interviews. Search happens under **your personal Lark credentials**, not a shared account, so each team member must connect their own Lark MCP once before the wiki features work.
 
 **Onboarding (Phase 0B) runs a connection test automatically.** If the test fails, it pauses and points you to `Workflows/lark-setup.md` — follow that guide, then resume onboarding.
 
-- **Wiki root:** https://kpay-group.sg.larksuite.com/wiki/ATQ3wXAlvisKHJkLhJwl7ywBgCP
 - **Setup guide:** `Workflows/lark-setup.md`
-- **Full doc index:** `Knowledge/Reference/lark-wiki-index.md`
+- **Full doc index:** `Knowledge/Reference/lark-wiki-index.md` (populate after connecting)
 
 ---
 

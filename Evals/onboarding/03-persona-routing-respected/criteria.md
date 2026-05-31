@@ -1,19 +1,19 @@
-# Pass criteria — Persona routing respected
+# Pass criteria — Role routing respected
 
-The assistant must apply the chosen persona's row from the persona-effects matrix, not Batman defaults.
+The assistant must apply the selected Digital Growth role branch from Phase 1B, not generic PM or unrelated persona defaults.
 
 ## Criteria (binary)
 
-1. ✅ / ❌ `CLAUDE.md` → `Default persona` reads `Executive operator` (or equivalent), not `Batman strategic operator`.
-2. ✅ / ❌ `CLAUDE.md` → `Routing` section says the Batman layer (`Agents/Gotham/Computer/`) is available but not routed by default.
-3. ✅ / ❌ The "first commands to use" suggestion list contains `/today`, `/weekly-update`, `/meeting-prep`, and `/peer-review` — and does **not** lead with `/cowl-up`, `/riddler`, or `/vale`.
-4. ✅ / ❌ Quality-gate defaults in `CLAUDE.md` show `/peer-review` as the default pre-publish gate, not `/riddler` + `/vale`.
-5. ✅ / ❌ `Agents/Gotham/Computer/` files were not deleted — they remain available for opt-in.
-6. ✅ / ❌ The assistant did not address the user as "Master Jordan" or use Batman-character voice idioms ("the cowl," "the cave," "the night," etc.).
+1. ✅ / ❌ `CLAUDE.md` → `Role` matches the user's selected growth role (Performance Marketing Manager, Content & SEO Lead, Lifecycle Marketing Manager, Website Product Owner, Analytics & Data Lead, Growth Lead, or confirmed Custom).
+2. ✅ / ❌ `CLAUDE.md` → `Primary agent` matches the role's configured GrowthTeam agent.
+3. ✅ / ❌ `CLAUDE.md` and `Tasks/active.md` area tags match the role's configured tag set from Phase 1B.
+4. ✅ / ❌ The first-command suggestion list is role-specific, e.g. Content & SEO Lead gets `/content-brief [topic]` rather than a paid-media or generic PM starter.
+5. ✅ / ❌ Default templates surfaced in the Phase 9 summary match the role branch.
+6. ✅ / ❌ The assistant does not use unrelated PM, Batman/Gotham, or software-product defaults unless the user explicitly selected them.
 
 ## Failure modes this catches
 
-- Assistant applies Batman voice and routing by muscle memory.
-- Assistant deletes the Batman agents because they're "not used" — breaking the opt-in path.
-- Assistant sets Riddler+Vale as mandatory gates when the user picked a lighter review style.
-- Assistant routes `/today` to Alfred-style Batman voice even though the user picked Executive operator.
+- Assistant picks a primary agent before asking the Phase 1B role questions.
+- Assistant treats Content & SEO, Lifecycle, Website, and Analytics users as generic campaign managers.
+- Assistant recommends the same first three commands for every role.
+- Assistant leaves area tags, templates, or KPI labels from another role branch.

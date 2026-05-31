@@ -15,6 +15,12 @@ When the user says `Computer, onboard me into this OS`, `set up this template`, 
 3. Summarize proposed edits before changing any files.
 4. Only write setup files after explicit confirmation.
 
+## Team context
+- Team roster: `TEAM.md` — channel ownership map, OKR owners, Lark handles
+- Team OKRs: `TEAM-GOALS.md` — shared KRs with per-member accountability
+- On any cross-functional question, check `TEAM.md` for who owns that channel before routing
+- Team-view agent: `Agents/GrowthTeam/team-lead-view.md` — cross-channel synthesis for the Growth Lead
+
 ## Operating contract
 
 Default to the persona selected during onboarding. If no persona is selected yet, use a neutral growth-operator voice and ask the user their role on the digital growth team. Default principles:
@@ -56,6 +62,7 @@ Filled during onboarding. Used to calibrate how the assistant frames decisions a
 3. `GOALS.md` — 30-60-90 goals, channel KPIs, and growth metrics.
 4. For campaign work: `Projects/[YOUR_ANCHOR_CAMPAIGN_OR_PROJECT]/brief.md`.
 5. **Lark wiki is live.** On any project question, search the wiki first (see §Lark Wiki below).
+6. For cross-team questions: `TEAM.md` (roster, OKR owners) and `TEAM-GOALS.md` (shared KRs).
 
 ## Routing — which layer answers
 
@@ -143,9 +150,8 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 
 **Every time a user asks a question about the project, search the Lark wiki first before answering.**
 
-- **Wiki space:** KPay Digital Growth · Space ID `7542461607352238112`
-- **Wiki root:** `https://kpay-group.sg.larksuite.com/wiki/ATQ3wXAlvisKHJkLhJwl7ywBgCP`
-- **Performance Marketing folder:** `https://kpay-group.sg.larksuite.com/wiki/M5Hmw8xEpivuCik5ka2l6hwXgqe`
+- **Wiki space:** [YOUR_TEAM_NAME] · Space ID `[YOUR_SPACE_ID]` · Root node: `[YOUR_WIKI_ROOT_NODE]`
+- **Lark domain:** `[YOUR_LARK_DOMAIN]` (e.g. `yourcompany.larksuite.com` or `yourcompany.feishu.cn`)
 - **Full wiki index:** `Knowledge/Reference/lark-wiki-index.md`
 - **Auth:** Lark MCP uses your personal Lark credentials. Results are scoped to what your account can access.
 - **Not connected?** → Run `Workflows/lark-setup.md` to configure the Lark MCP server before searching.
@@ -154,15 +160,24 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 1. Call `mcp__lark-mcp__docx_builtin_search` with the user's topic as `search_key`
 2. Pick the most relevant result(s) — pull content with `mcp__lark-mcp__docx_v1_document_rawContent` if needed
 3. **Always include the source link** in the response:
-   - Docs/wiki: `https://kpay-group.sg.larksuite.com/docx/{token}`
-   - Sheets: `https://kpay-group.sg.larksuite.com/sheets/{token}`
-   - Bitable: `https://kpay-group.sg.larksuite.com/base/{token}`
-   - Wiki node: `https://kpay-group.sg.larksuite.com/wiki/{node_token}`
-4. If no relevant doc is found or the MCP call errors, say so and point to `Workflows/lark-setup.md` — do not fabricate a source.
+   - Docs/wiki: `https://[YOUR_LARK_DOMAIN]/docx/{token}`
+   - Sheets: `https://[YOUR_LARK_DOMAIN]/sheets/{token}`
+   - Bitable: `https://[YOUR_LARK_DOMAIN]/base/{token}`
+   - Wiki node: `https://[YOUR_LARK_DOMAIN]/wiki/{node_token}`
+4. If no relevant doc is found or the MCP call errors, say so plainly and do not fabricate a source. If the MCP is not connected, point to `Workflows/lark-setup.md`. If the search works but returns weak or irrelevant results, say the wiki had no useful hit and continue from clearly labeled non-wiki evidence.
+5. **After every search that returns useful results — persist:**
+   - New doc not yet in `lark-wiki-index.md` → add a row under the right category
+   - Key finding (channel insight, stakeholder position, vendor verdict, metric) → save to `Knowledge/Ingestion/[topic]-[YYYY-MM-DD].md` with `[doc-research]` tag
+   - Testable belief surfaced → seed `Knowledge/Hypotheses/candidate/[YYYY-MM-DD-slug].md`
+   - Stakeholder insight → update or create `Knowledge/People/[name].md`
+   - Append one row to `Knowledge/log.md`: date · search_key · docs found · files touched
+   - Full promotion to the right layer: run `/wiki-ingest`
+6. If the search returns no useful result, append one row to `Knowledge/log.md` with the date, `search_key`, `0 useful docs`, and `no files touched` so future searches do not look skipped.
 
 ### DO NOT
 - Answer project questions without checking the wiki first
 - Invent document URLs — only link tokens confirmed by search results
+- Skip step 5 — every useful search must leave a residue in the Knowledge layer
 
 ## Lean OS
 - CLAUDE.md ≤ 200 lines. Procedural stuff lives in skills and workflows.

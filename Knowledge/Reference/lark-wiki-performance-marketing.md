@@ -1,10 +1,15 @@
 # Lark Wiki — Performance Marketing Folder
-*Wiki node: M5Hmw8xEpivuCik5ka2l6hwXgqe*
-*URL: https://kpay-group.sg.larksuite.com/wiki/M5Hmw8xEpivuCik5ka2l6hwXgqe*
-*Space ID: 7542461607352238112 · Last indexed: 2026-05-24*
+*Wiki node: [YOUR_PERF_MARKETING_WIKI_NODE]*
+*URL: https://[YOUR_LARK_DOMAIN]/wiki/[YOUR_PERF_MARKETING_WIKI_NODE]*
+*Space ID: [YOUR_SPACE_ID] · Last indexed: [Date]*
 
-This folder is the **authoritative source** for all Performance Marketing docs at KPay.
+This folder is the **authoritative source** for all Performance Marketing docs at [YOUR_COMPANY].
 Search here first for: paid media guidelines, ad creative, channel performance, budgets, SEM, Meta/Google/LinkedIn.
+
+**How to populate this file:**
+1. Connect Lark MCP (`Workflows/lark-setup.md`)
+2. Run a search: `mcp__lark-mcp__docx_builtin_search` with `search_key: "performance marketing"`
+3. Add the relevant results to the table below
 
 ---
 
@@ -12,25 +17,19 @@ Search here first for: paid media guidelines, ad creative, channel performance, 
 
 | Title | Type | Token | Direct link |
 |---|---|---|---|
-| Liam - Performance Marketing (discovery) | docx | `AXUrdIdFhoH2TtxRr11lXVDwgHc` | [open](https://kpay-group.sg.larksuite.com/docx/AXUrdIdFhoH2TtxRr11lXVDwgHc) |
-| KPayJP_Performance Marketing Creative | docx | `GBa0dRPkboqShsxi9ZglRkecgMf` | [open](https://kpay-group.sg.larksuite.com/docx/GBa0dRPkboqShsxi9ZglRkecgMf) |
-| Performance (metrics sheet) | sheet | `KzHosqRCihQ1brtnePzliOvWgrf` | [open](https://kpay-group.sg.larksuite.com/sheets/KzHosqRCihQ1brtnePzliOvWgrf) |
-| Digital Growth Requests | bitable | `NxUrbVpASantrosvAyAlRUoHgRg` | [open](https://kpay-group.sg.larksuite.com/base/NxUrbVpASantrosvAyAlRUoHgRg) |
-| Technical Account Approval | bitable | `FtTKbPVl8a1f3tsV7d1l4HEegGx` | [open](https://kpay-group.sg.larksuite.com/base/FtTKbPVl8a1f3tsV7d1l4HEegGx) |
-| 03_Paid Media Guidelines_SEPT2023.pdf | file | `DIVsblOQYokVbrxrtj2laoDSgac` | (file — download from Lark Drive) |
-| (External) Meta Glow up Your Reels with AI Q2'2026 | file | `FBfHbKbxQo2CYnxOLpelIKvzgKj` | (file — download from Lark Drive) |
-| [WIP] AFP Competitor Samples | slides | `VbOOsrTy1lwly9dCzRXlLZ4QgKe` | [open](https://kpay-group.sg.larksuite.com/slides/VbOOsrTy1lwly9dCzRXlLZ4QgKe) |
-| UNITE-Pirate Metrics Funnel Template | slides | `JHxWskOgllEDGndGRlzlKzCfgXb` | [open](https://kpay-group.sg.larksuite.com/slides/JHxWskOgllEDGndGRlzlKzCfgXb) |
+| [Performance marketing guidelines] | docx | `[token]` | [open](https://[YOUR_LARK_DOMAIN]/docx/[token]) |
+| [Channel metrics sheet] | sheet | `[token]` | [open](https://[YOUR_LARK_DOMAIN]/sheets/[token]) |
+| [Campaign requests tracker] | bitable | `[token]` | [open](https://[YOUR_LARK_DOMAIN]/base/[token]) |
+| [Paid media guidelines PDF] | file | `[token]` | (file — download from Lark Drive) |
 
 ---
 
-## Key intel (from Liam discovery doc)
+## Key intel
+*Fill in after reviewing the indexed docs. Tag each finding with a provenance tag.*
 
-- **Data trust issue** — GA, CRM, HubSpot numbers don't match. No one knows the gap size. `[verbal-stake]`
-- **SensorData verdict** — "Great for real-time behavioral tracking, not analytics. You'll struggle 100%." `[verbal-stake]`
-- **Stack owner** — Liam has master access to all platforms. Key contact for any audit.
-- **Paid Media Guidelines** — last updated Sept 2023. Check `DIVsblOQYokVbrxrtj2laoDSgac` for brand/channel rules.
-- **Mixpanel pitched KPay ~1 year ago** — Liam was impressed. Active evaluation underway.
+- **[Finding 1]** — [detail]. `[doc-research]`
+- **[Finding 2]** — [detail]. `[verbal-stake]`
+- **[Stack owner]** — [Name] has access to [platforms]. Key contact for audits.
 
 ---
 

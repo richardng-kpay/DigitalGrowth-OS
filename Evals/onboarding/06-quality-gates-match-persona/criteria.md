@@ -1,18 +1,18 @@
-# Pass criteria — Quality gates match persona
+# Pass criteria — Review gates match role
 
-The quality-gate config must reflect the persona the user chose, per the persona-effects matrix.
+The review-gate config must reflect the user's selected growth role, channel, and approval chain.
 
 ## Criteria (binary)
 
-1. ✅ / ❌ Executive operator run: `CLAUDE.md` → `Quality gates` lists `/peer-review` as the default pre-publish gate.
-2. ✅ / ❌ Executive operator run: `/riddler` and `/vale` are listed only as optional opt-ins, not mandatory.
-3. ✅ / ❌ Batman run: `CLAUDE.md` → `Quality gates` lists `/riddler` + `/vale` as mandatory pre-publish gates.
-4. ✅ / ❌ Both runs preserve the standard PM gates (`/peer-review`, `/prd-readiness`, `/research-sufficiency`, `/go-nogo`) regardless of persona.
-5. ✅ / ❌ The two runs produce **different** `Quality gates` sections — if they're identical, persona-aware gating failed.
+1. ✅ / ❌ External artifacts always route to `/brief-review` or an explicitly confirmed equivalent pre-publish review gate.
+2. ✅ / ❌ Role-specific gates are present where relevant: content routes to `/brief-review` plus audience/brand approval, experiments route to `/experiment-brief` / experiment readiness, performance work routes to campaign or weekly-performance review.
+3. ✅ / ❌ The user's named approval chain is reflected in `CLAUDE.md` or the Phase 9 edit plan.
+4. ✅ / ❌ Gates do not invent approvers, agencies, legal review, or data sign-off the user did not name.
+5. ✅ / ❌ Different roles produce meaningfully different starter commands and gate notes; if all roles get identical gates and commands, role-aware onboarding failed.
 
 ## Failure modes this catches
 
-- Assistant applies Batman gates by default regardless of persona.
-- Assistant strips standard PM gates when downgrading from Batman.
-- Assistant produces identical configs for Batman vs Executive operator (silent persona collapse).
-- Assistant lists `/riddler` and `/vale` as mandatory for a persona row that doesn't require them.
+- Assistant treats `/brief-review` as optional for public content, ads, emails, or landing pages.
+- Assistant gives Content & SEO users paid-media launch gates but no content approval chain.
+- Assistant invents legal, brand, or data approvers instead of asking.
+- Assistant produces identical configs for Content & SEO, Performance, Lifecycle, and Analytics roles.
