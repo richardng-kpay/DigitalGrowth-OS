@@ -1,10 +1,18 @@
 # Campaign Brief: [CAMPAIGN_NAME]
 
-**Status:** Draft / In Review / Approved  
-**Owner:** [YOUR_NAME]  
-**Created:** [DATE]  
-**Flight dates:** [START_DATE] → [END_DATE]  
+**Status:** Draft / In Review / Approved
+**Owner:** [YOUR_NAME] — [ROLE]
+**Contributors:** [Name (role)], [Name (role)]
+**Approver:** [Name] (Creative Reviewer gate)
+**Created:** [DATE]
+**Flight dates:** [START_DATE] → [END_DATE]
 **Last updated:** [DATE]
+**OKR linkage:** [KR from TEAM-GOALS.md this campaign is meant to move]
+
+**Handoff dependencies:**
+| Upstream owner | What they deliver | By when |
+|----------------|-------------------|---------|
+| [Name (role)] | [Asset / data / approval] | [Date] |
 
 ---
 

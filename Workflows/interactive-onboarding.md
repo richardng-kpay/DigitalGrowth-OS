@@ -16,7 +16,7 @@ Trigger phrases:
 2. **Ask in small batches.** 3–5 questions at a time so the user can answer quickly.
 3. **Offer choices, but always allow custom answers.** Never lock the user into a dropdown.
 4. **Role-branch after Phase 1.** Once the user confirms their role, the rest of the interview adapts to that role's specific channels and KPIs.
-5. **Summarize before writing.** Show a Phase 8 confirmation summary before editing any files.
+5. **Summarize before writing.** Show a Phase 9 confirmation summary before editing any files.
 6. **Only write files after explicit confirmation.** "Sounds good" does not count — ask for explicit yes.
 7. **Preserve placeholders when the user is unsure.** Do not invent values.
 
@@ -30,6 +30,17 @@ Maintain this working schema during the interview. Preserve placeholders or mark
 ### Lark connection
 - Status: [✅ verified / ❌ failed / ⏭ skipped]
 - Documents found in test search: [N]
+- Lark domain:
+- Wiki space / root node:
+
+### Team setup (Phase 0C)
+- OS mode: [personal / team]
+- Team name:
+- Team manager:
+- Shared Lark space ID:
+- Roster collected: [N members / skipped]
+- TEAM.md status: [ready / placeholder / skipped]
+- TEAM-GOALS.md status: [ready / placeholder / skipped]
 
 ### Identity
 - Name:
@@ -123,7 +134,11 @@ This OS searches your team's Lark wiki to answer project questions. The wiki run
 
 **✅ Pass — results returned:**
 > "Great — Lark MCP is connected under your account. Found [N] documents. The wiki is ready."
-Record `Lark connection: ✅ verified · N documents found` in setup capture. Proceed to Phase 1.
+Record `Lark connection: ✅ verified · N documents found` in setup capture.
+
+Then ask the user for the Lark domain and, if they know it, the wiki space / root node label to write into `CLAUDE.md`. If they do not know either value, record `Unknown / to confirm` and add a dated follow-up in `Tasks/follow-ups.md`; do not leave silent bracket placeholders.
+
+Proceed to Phase 1.
 
 **❌ Fail — error or 0 results:**
 > "Lark MCP isn't connected yet. Before we continue onboarding, you'll need to configure it with your personal Lark credentials."
@@ -136,7 +151,58 @@ When the user returns, re-run the connection test once more. Only mark as `✅ v
 ### If the user wants to skip Lark setup
 If the user explicitly says they want to skip Lark for now:
 > "Understood — you can set up Lark later via `Workflows/lark-setup.md`. Wiki search won't work until it's configured."
-Record `Lark connection: ⏭ skipped by user`. Continue to Phase 1. Add a follow-up in `Tasks/follow-ups.md`: "Configure Lark MCP — see Workflows/lark-setup.md."
+Record `Lark connection: ⏭ skipped by user`. Continue to Phase 0C. Add a dated follow-up in `Tasks/follow-ups.md`: "Configure Lark MCP and confirm Lark domain / wiki root — see Workflows/lark-setup.md."
+
+---
+
+## Phase 0C — Team setup
+
+**Run this phase after the Lark check, before role branching.**
+
+This phase determines whether this OS is a personal install or a shared team OS, and populates `TEAM.md` and `TEAM-GOALS.md` if it's shared.
+
+Ask:
+
+> "Is this OS being set up for you individually, or are you setting it up as a shared OS for your whole growth team?"
+
+### If personal install
+
+Record `OS mode: personal`. Skip to Phase 1.
+
+Add a note in the setup capture: "Team files (TEAM.md, TEAM-GOALS.md) left as templates — populate if the team adopts a shared OS later."
+
+### If shared team OS
+
+Tell the user:
+> "Great — I'll set up the team coordination layer. I'll need a few details about your team. You can fill in what you know now and leave the rest as placeholders."
+
+Ask in two batches:
+
+**Batch 1 — Team identity:**
+1. What is the team name? (e.g., "Digital Growth Team", "KPay Growth")
+2. Who is the team manager / head?
+3. What is the shared Lark space ID and root node label for the team wiki? (If different from what we found in Phase 0B — or skip if unknown)
+
+**Batch 2 — Team roster** (collect for each member, including the current user):
+For each team member:
+- Name
+- Role (Performance Marketer / Content & SEO / Lifecycle / Website Owner / Analytics Lead / Growth Lead / Custom)
+- Channels they own
+- Which team OKR metric they're accountable for
+- Lark handle (optional)
+
+Tell the user: "You can add yourself first, then go through each teammate. Skip anyone you're unsure about — I'll leave them as placeholders."
+
+**After collecting roster:**
+
+1. Show a preview of `TEAM.md` populated with the collected data
+2. Ask: "What are the team's top 1–2 OKRs for this quarter? I'll set up `TEAM-GOALS.md` with owners assigned."
+3. Show a preview of `TEAM-GOALS.md`
+4. Ask for explicit confirmation before writing either file
+
+Record `OS mode: team · [N] members · TEAM.md ready · TEAM-GOALS.md ready` in setup capture.
+
+Continue to Phase 1 (the current user's role and personal config).
 
 ---
 
@@ -372,7 +438,7 @@ Ask:
 
 1. Who are the 3–6 people the OS should know first? (Manager, direct collaborators, agency contacts, exec stakeholders)
 2. Who approves, blocks, or influences your work?
-3. What decisions are currently open on your anchor campaign or project?
+3. What decisions are currently open on your primary campaign, project, or workstream?
 4. What risks are already visible?
 
 **Per-stakeholder rule:** For each person named, ask in conversation before drafting any file:
@@ -459,7 +525,7 @@ Before writing any files, show:
 - `Tasks/active.md`
 - `Tasks/backlog.md`
 - `Knowledge/People/...`
-- `Projects/.../brief.md`
+- `Projects/.../brief.md` if the user named a primary campaign/project that needs a dedicated brief
 
 ### Boundaries
 - Never write: ...
@@ -471,7 +537,7 @@ Before writing any files, show:
 - `Tasks/active.md`: P0/P1 work, blockers, near-term commitments; area tags updated to match role
 - `Tasks/backlog.md`: P2 work and future candidates
 - `Knowledge/People/...`: confirmed stakeholder profiles only
-- `Projects/.../brief.md`: anchor campaign/project context, open decisions, risks
+- `Projects/.../brief.md`: primary campaign/project context, open decisions, risks, if the user explicitly wants a dedicated project file
 ```
 
 **Mandatory display rule.** Show the full Phase 9 summary — including file-by-file edit plan — before asking for approval. Do not ask "Ready?" without showing the summary first. If the user requests changes, revise and re-display before re-asking.
@@ -495,10 +561,13 @@ Only proceed after an explicit "yes." "Sounds good" or "ok" do not count — re-
 Only after every file is written:
 
 1. Show a concise change summary.
-2. Recommend the first three commands:
-   - `/today` — daily priorities
-   - `/weekly-performance-report` — your channel metrics
-   - `/campaign-brief [name]` — start a new campaign
+2. Recommend the first three commands based on the confirmed role:
+   - Performance Marketing Manager: `/today`, `/weekly-performance-report`, `/campaign-brief [name]`
+   - Content & SEO Lead: `/today`, `/content-brief [topic]`, `/channel-review`
+   - Lifecycle Marketing Manager: `/today`, `/email-brief [campaign]`, `/experiment-brief [test]`
+   - Website Product Owner: `/today`, `/experiment-brief [test]`, `/channel-review`
+   - Analytics & Data Lead: `/today`, `/weekly-performance-report`, `/channel-review`
+   - Growth Lead: `/today`, `/team-standup`, `/weekly-performance-report`
 3. Ask whether the user wants to run `/today` immediately.
 
 ---
@@ -510,6 +579,10 @@ Run this check before declaring onboarding finished.
 | Check | How to verify | If it fails |
 |---|---|---|
 | **Lark connected** | Setup capture shows `✅ verified`, or user explicitly skipped with a follow-up logged. | Re-run Phase 0B, or open `Workflows/lark-setup.md`. |
+| **OS mode confirmed** | Setup capture shows `OS mode: personal` or `OS mode: team`. | Re-run Phase 0C. |
+| **TEAM.md populated (team OS only)** | `TEAM.md` has ≥1 non-placeholder member row. | Re-run Phase 0C team roster collection. |
+| **TEAM-GOALS.md populated (team OS only)** | `TEAM-GOALS.md` has ≥1 OKR objective with at least one KR and an owner. | Re-run Phase 0C OKR capture. |
+| **Projects/README.md initialized** | `Projects/README.md` exists. | Create it from `Projects/README.md` template. |
 | **Placeholders filled** | Grep `CLAUDE.md`, `GOALS.md`, `Tasks/active.md` for `[YOUR_`, `[STAKEHOLDER_`, `[METRIC_`. Any remaining brackets must be explicit user choices. | Ask user to fill or confirm keeping. |
 | **Role set** | `CLAUDE.md` → `Role` is not a bracketed list. | Re-run Phase 1. |
 | **Area tags match role** | `CLAUDE.md` → `Conventions` area tags match the role's configured tag set. | Re-run Phase 1B. |

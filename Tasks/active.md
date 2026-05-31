@@ -9,7 +9,9 @@
 ## In Progress
 
 - [ ] [Task description] #p0 #[area-tag] — [Notes or blockers]
+  @owner: [your name]  @reviewer: [name if needed]
 - [ ] [Task description] #p1 #[area-tag]
+  @owner: [your name]
 
 ---
 
@@ -17,10 +19,13 @@
 
 ### #p0 — Must happen this week
 - [ ] [Task description] #p0 #[area-tag]
+  @owner: [name]  @blocks: [downstream person or task]
 
 ### #p1 — Should happen this week
 - [ ] [Task description] #p1 #[area-tag]
+  @owner: [name]
 - [ ] [Task description] #p1 #[area-tag]
+  @owner: [name]  @reviewer: [name]
 
 ### #p2 — Nice to do / backlog candidate
 - [ ] [Task description] #p2 #[area-tag]
@@ -30,6 +35,7 @@
 ## Blocked
 
 - [ ] [Task description] — blocked on [what / who] — ETA [date]
+  @owner: [your name]  @unblocked-by: [name]
 
 ---
 

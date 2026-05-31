@@ -31,7 +31,7 @@ The transcript must include:
 
 - Every assistant question and every user reply, in order.
 - The order and granularity of file-write operations (one row per write, with filename).
-- The Phase 10 verification ✅/❌ row results.
+- The Phase 11 verification ✅/❌ row results.
 - Any place the user replied with a polite-but-non-explicit acknowledgement (so eval 07 criterion 5 can be graded).
 
 ## 3. Grade independently
