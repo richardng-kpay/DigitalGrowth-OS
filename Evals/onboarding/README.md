@@ -32,13 +32,13 @@ Core fixtures live in `inputs/` and cover multiple growth roles to surface bugs 
 
 | Fixture | Role / style | What it stresses |
 |---|---|---|
-| `jordan-lee-profile.md` | Executive operator | Non-Batman routing, quality-gate downgrade, baseline interactivity |
-| `sam-okafor-batman-variant.md` | Batman strategic operator | Mandatory `/riddler` + `/vale` gates, Batman voice, full Gotham agent routing |
+| `jordan-lee-profile.md` | Legacy PM fixture | Archived baseline fixture from the earlier PM OS; use only when comparing against historical runs |
+| `sam-okafor-batman-variant.md` | Legacy Batman fixture | Archived stress fixture from the earlier PM OS; use only when comparing against historical runs |
 | `riley-park-minimalist.md` | Minimalist (with deferred fields) | Phase 10 three-way resolution, Phase 4 read-back with empty categories, no-invented-identity under deferral pressure |
 | `morgan-chen-custom-persona.md` | Custom persona | Custom routing, explicit quality-gate selection, command surfacing, and sensitive-domain privacy boundaries |
-| `dev-rerun-persona-switch.md` | Executive → Batman (re-run) | Failure mode #12: silent persona preservation across re-runs (D9) |
+| `dev-rerun-persona-switch.md` | Legacy re-run fixture | Historical coverage for silent style preservation across re-runs (D9) |
 | `taylor-polite-acks.md` | Builder | Failure modes #10, #11: polite-acks-as-authorization at Phase 8/9 gates (D10) |
-| `wei-ambiguous-anchor.md` | Researcher | Failure modes #6, #8: ambiguous anchor project + ambiguous gate selection (D8, D6) |
+| `wei-ambiguous-anchor.md` | Legacy ambiguity fixture | Historical coverage for ambiguous primary project and review-gate selection (D8, D6) |
 | `mardiana-content-seo.md` | Content & SEO Lead | Phase 1B-B role branch, Lark-first content brief, first useful SEO output |
 
 A single fixture is a data point, not a signal. Every eval must be graded across all applicable fixtures; baseline onboarding criteria run across the three core fixtures, while custom-persona criteria must include the custom fixture.

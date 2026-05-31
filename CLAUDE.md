@@ -146,14 +146,16 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 - Area: `#paid` · `#content` · `#email` · `#seo` · `#lifecycle` · `#web` · `#analytics` · `#strategy`
 - All files Markdown; new docs use `Templates/`
 
-## Lark Wiki — live knowledge base
+## Lark MCP — live knowledge base
 
 **Every time a user asks a question about the project, search the Lark wiki first before answering.**
 
 - **Wiki space:** [YOUR_TEAM_NAME] · Space ID `[YOUR_SPACE_ID]` · Root node: `[YOUR_WIKI_ROOT_NODE]`
 - **Lark domain:** `[YOUR_LARK_DOMAIN]` (e.g. `yourcompany.larksuite.com` or `yourcompany.feishu.cn`)
 - **Full wiki index:** `Knowledge/Reference/lark-wiki-index.md`
-- **Auth:** Lark MCP uses your personal Lark credentials. Results are scoped to what your account can access.
+- **Shared Lark app:** `cli_a944aca53c381ed3` — the same App ID + Secret for everyone. Configured in each user's local `~/.claude.json`.
+- **Auth model (per-user OAuth):** The MCP runs in `--token-mode user_access_token`. The shared app credentials identify the Lark app; each user completes an **OAuth login with their own Lark account** and gets their own access token. **Results are scoped to what that user's Lark identity can access** — not what the bot sees, not what the OS owner sees. If a doc isn't showing up, the user needs Lark access to that doc under their own account.
+- **Secret handling (non-negotiable):** The App ID may live in the repo and setup docs. The **App Secret must NEVER be committed to git** — each user receives it via secure channel (password manager or DM) and pastes it into their own local config. Rotate the secret in the Lark dev console if it is ever exposed.
 - **Not connected?** → Run `Workflows/lark-setup.md` to configure the Lark MCP server before searching.
 
 ### Search protocol (mandatory on every project question)

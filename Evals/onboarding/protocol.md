@@ -57,7 +57,7 @@ Capture the answer — it is the harness bug report.
 A single fixture is a data point, not a signal. Run every eval against **all three fixtures**:
 
 - `inputs/jordan-lee-profile.md` (Executive operator)
-- `inputs/sam-okafor-batman-variant.md` (Batman)
+- `inputs/mardiana-content-seo.md` (Content & SEO Lead, seamless-start coverage)
 - `inputs/riley-park-minimalist.md` (Minimalist, with many deferred fields)
 
 Report per-fixture results and a per-eval pass rate. Compute a 95% confidence interval where N ≥ 30; below that, report the raw count and flag low statistical power.
