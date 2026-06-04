@@ -567,7 +567,8 @@ Only after every file is written:
    - Lifecycle Marketing Manager: `/today`, `/email-brief [campaign]`, `/experiment-brief [test]`
    - Website Product Owner: `/today`, `/experiment-brief [test]`, `/channel-review`
    - Analytics & Data Lead: `/today`, `/weekly-performance-report`, `/channel-review`
-   - Growth Lead: `/today`, `/team-standup`, `/weekly-performance-report`
+   - Growth Lead: `/today`, `/weekly-performance-report`, `/campaign-brief [name]`
+   If Phase 0C confirmed this is a team OS or `TEAM.md` has at least one non-placeholder member row, also surface `/team-standup` as a shared team command for every role: "For team syncs, use `/team-standup` to review blockers, handoffs, and decisions across members." Do not make `/team-standup` Growth Lead-only.
 3. Ask whether the user wants to run `/today` immediately.
 
 ---
