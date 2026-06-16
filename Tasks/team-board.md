@@ -40,9 +40,11 @@ See `TEAM.md` for roster and channel ownership. Run `/team-standup` to synthesiz
 
 ---
 
-## Decisions needed from Growth Lead
+## Decisions needed
 
-- [ ] [Decision description] — input from [Name] — needed by [Date]
+| Decision | Owner | Input needed from | Needed by |
+|----------|-------|-------------------|-----------|
+| [Decision description] | [Name] | [Name / team] | [Date] |
 
 ---
 

@@ -20,7 +20,7 @@ The CLAUDE.md search protocol writes here automatically after every useful Lark 
 
 - Raw document dumps — summarize, don't paste
 - Task items — those go in `Tasks/`
-- Copy or campaign drafts — those go in `Projects/` or `_temp/`
+- Copy or campaign drafts — those go in `Projects/`
 
 ---
 

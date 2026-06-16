@@ -1,6 +1,6 @@
 # Sample passing output — eval 05 (goals specific, not generic)
 
-This is what `GOALS.md` should look like for Jordan Lee after onboarding completes. Graders use it as the anchor for "specific."
+This is one passing example for Jordan Lee after onboarding completes. Graders use it as the anchor for "specific," but the criteria should be applied to each fixture's own role, KPIs, stakeholders, and stated 30/60/90 outcomes.
 
 ## 30-60-90 Day Goals
 
@@ -35,3 +35,4 @@ This is what `GOALS.md` should look like for Jordan Lee after onboarding complet
 - "Success looks like" lines are concrete and verifiable.
 - No outcome reuses template scaffolding bullets.
 - Numeric targets (≥ 1pp, stat-sig) are present only where Jordan provided them or where they restate Jordan's "measurable activation lift" answer in operational terms.
+- For other fixtures, equivalent role-specific artifacts should pass: e.g. a Content & SEO Lead's Search Console audit, keyword map, content calendar, ranking target, and content-attribution baseline.

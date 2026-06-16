@@ -104,7 +104,7 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 
 ## Skills (slash commands)
 
-9 slash commands ship with the OS. Available immediately after onboarding.
+11 slash commands ship with the OS. Available immediately after onboarding.
 
 | Skill | What it does |
 |---|---|
@@ -117,6 +117,8 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 | `/channel-review` | Channel retrospective — vs. target, what worked, recommendations |
 | `/email-brief` | Email campaign brief with UTMs and QA checklist |
 | `/content-brief` | Content and SEO brief — keyword, intent, audience, outline |
+| `/team-standup` | Weekly team sync — blockers, handoffs, decisions across members |
+| `/wiki-ingest` | Knowledge maintenance — promotes Lark findings into durable Knowledge files |
 
 ---
 
@@ -191,12 +193,8 @@ DigitalGrowth-OS/
 │   └── lark-setup.md                 ← Lark MCP credential setup + troubleshooting
 ├── Evals/                            ← Onboarding and synthesis eval suites
 ├── Meetings/                         ← Meeting notes
-├── _Registry/
-│   └── reviewer-verdict-schema.md    ← Format for /brief-review verdict files
-├── _temp/                            ← Working drafts (gitignored, not durable)
-│
 └── .claude/
-    └── skills/                       ← 9 slash commands
+    └── skills/                       ← 11 slash commands
         ├── today/
         ├── todo/
         ├── weekly-performance-report/
@@ -205,7 +203,9 @@ DigitalGrowth-OS/
         ├── brief-review/
         ├── channel-review/
         ├── email-brief/
-        └── content-brief/
+        ├── content-brief/
+        ├── team-standup/
+        └── wiki-ingest/
 ```
 
 ---

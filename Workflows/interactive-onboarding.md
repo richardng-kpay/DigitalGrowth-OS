@@ -567,7 +567,8 @@ Only after every file is written:
    - Lifecycle Marketing Manager: `/today`, `/email-brief [campaign]`, `/experiment-brief [test]`
    - Website Product Owner: `/today`, `/experiment-brief [test]`, `/channel-review`
    - Analytics & Data Lead: `/today`, `/weekly-performance-report`, `/channel-review`
-   - Growth Lead: `/today`, `/team-standup`, `/weekly-performance-report`
+   - Growth Lead: `/today`, `/weekly-performance-report`, `/campaign-brief [name]`
+   If Phase 0C confirmed this is a team OS or `TEAM.md` has at least one non-placeholder member row, also surface `/team-standup` as a shared team command for every role: "For team syncs, use `/team-standup` to review blockers, handoffs, and decisions across members." Do not make `/team-standup` Growth Lead-only.
 3. Ask whether the user wants to run `/today` immediately.
 
 ---
@@ -642,7 +643,7 @@ The dry run passes only if the assistant:
 4. Asks about operating style, cadence, goals, and stakeholders separately.
 5. Does not write any files until Phase 9 summary is shown and explicitly approved.
 6. Produces a Phase 9 summary with role-specific agent routing, area tags, and file-by-file edit plan.
-7. Recommends `/today`, `/weekly-performance-report`, and `/campaign-brief` after setup.
+7. Recommends the first three commands for the confirmed role. For this Performance Marketing Manager test profile: `/today`, `/weekly-performance-report`, and `/campaign-brief [name]`.
 
 ### Fail signals
 

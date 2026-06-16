@@ -1,6 +1,6 @@
 # Sample failing output — eval 05 (goals specific, not generic)
 
-This is what a failure looks like for the same Jordan Lee fixture. Graders use it as the anchor for "generic."
+This is one failure example for the Jordan Lee fixture. Graders use it as the anchor for "generic" behavior: goals that could be pasted into any role without preserving the user's stated work, metrics, or stakeholders.
 
 ## 30-60-90 Day Goals
 
@@ -38,5 +38,6 @@ This is what a failure looks like for the same Jordan Lee fixture. Graders use i
 - **No named stakeholders.** Jordan named Priya, Marco, Elena, Sam Rivera. None appear.
 - **"Success looks like" lines are vague.** "Tangible output visible to stakeholders" cannot be falsified — any output qualifies.
 - **Template scaffolding survived.** "Listen, Learn, Align" and "Define and Decide" are the literal headings from the template scaffold, not Jordan's themes.
+- **Role-specific inputs would be lost in the same way.** For a Content & SEO fixture, the equivalent failure would omit Search Console, keyword map, target terms, rankings, content-attributed MQLs, Jervis/brand approval, or the attribution blocker.
 
-Any of these alone would fail criterion 2 (50%+ outcomes name a deliverable). Together they fail criteria 1, 3, 4, 5, and 6.
+Any of these alone would fail criterion 2 (50%+ outcomes name a deliverable or decision). Together they fail criteria 1, 3, 4, 5, 6, and 7.

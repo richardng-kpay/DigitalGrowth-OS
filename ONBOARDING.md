@@ -44,6 +44,8 @@ After reviewing a full summary, you confirm — then Claude writes your config f
 | `/weekly-performance-report` | Weekly channel performance summary |
 | `/brief-review` | Pre-publish quality gate on any brief or copy |
 | `/channel-review` | Channel strategy health check |
+| `/team-standup` | Team sync for shared OS installs: blockers, handoffs, decisions |
+| `/wiki-ingest` | Knowledge maintenance after useful Lark wiki searches |
 
 ---
 

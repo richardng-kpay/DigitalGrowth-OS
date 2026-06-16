@@ -10,7 +10,7 @@ Start a new campaign brief. Opens an interactive interview to fill `Templates/ca
 
 ## Steps (new brief)
 
-1. Read `AGENTS.md` — pull the user's channels, primary KPIs, and default audience context
+1. Read `CLAUDE.md` — pull the user's channels, primary KPIs, and default audience context
 2. Read `GOALS.md` — understand what quarter goal this campaign should ladder up to
 3. Read `Knowledge/Segments/` — check for existing audience segment profiles to reference
 

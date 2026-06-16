@@ -20,7 +20,7 @@ Pre-publish quality gate. Routes any external artifact to the Creative Reviewer 
 ## Steps
 
 1. Read the specified file (or ask the user to paste the content if it's not saved yet)
-2. Read `AGENTS.md` — get the user's role and audience context
+2. Read `CLAUDE.md` — get the user's role and audience context
 3. Read `Knowledge/Segments/` — check if the target audience is profiled
 4. Run the Creative Reviewer assessment:
 

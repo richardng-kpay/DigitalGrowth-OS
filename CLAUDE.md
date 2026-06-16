@@ -137,7 +137,6 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 - Create `Projects/` files without a `brief.md`
 - Edit `Knowledge/People/` profiles without confirming
 - Create new top-level folders — extend existing
-- Treat `_temp/` as durable
 - Ship any public artifact without the selected reviewer gates
 - Use Haiku in agentic loops with untrusted input
 
