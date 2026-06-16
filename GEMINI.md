@@ -1,4 +1,4 @@
-# ProductManagement-OS — Gemini CLI Entry Point
+# DigitalGrowth-OS — Gemini CLI Entry Point
 
 This file is the entry point for **Gemini CLI**. The OS is harness-neutral — Claude Code reads `CLAUDE.md`, Codex CLI reads `AGENTS.md`, and Gemini CLI reads this file. All three route to the same configuration surface and the same workflows.
 
@@ -18,11 +18,12 @@ This file is the entry point for **Gemini CLI**. The OS is harness-neutral — C
 When the user says `Computer, onboard me into this OS`, `set up this template`, or similar:
 
 1. Run `Workflows/interactive-onboarding.md` phase by phase.
-2. Ask the user — never invent — for identity, purpose, persona, cadence, current tasks, goals, stakeholders, and privacy boundaries.
-3. Confirm each phase's read-back before moving on. Do not batch-propose tasks or stakeholders.
-4. Show the Phase 8 summary in full before asking for write approval.
-5. Write files one at a time in Phase 9, asking explicitly per file. Polite acknowledgements ("ok", "sounds good") do not count as approval — require an explicit "yes" per file.
-6. On re-run, re-confirm persona / tone / quality gates even if previously set.
+2. Ask the user — never invent — for their role on the growth team, channels they own, KPIs, cadence, current tasks, goals, stakeholders, and privacy boundaries.
+3. Branch by role in Phase 1B — the interview is different for Performance Marketer, Content/SEO, Lifecycle Marketer, Website Owner, Analytics Lead, and Growth Lead.
+4. Confirm each phase's read-back before moving on. Do not batch-propose tasks or goals.
+5. Show the Phase 9 summary in full before asking for write approval.
+6. Write files one at a time in Phase 10, asking explicitly per file. Polite acknowledgements ("ok", "sounds good") do not count as approval — require an explicit "yes" per file.
+7. On re-run, re-confirm role / KPIs / quality gates even if previously set.
 
 ## Operating contract (after onboarding)
 
@@ -31,7 +32,7 @@ Once `CLAUDE.md` is filled, treat it as the source of truth for how to respond �
 ## DO NOT
 
 - Commit, push, or delete files without explicit approval.
-- Write setup files during onboarding before the user confirms the Phase 8 summary.
+- Write setup files during onboarding before the user confirms the Phase 9 summary.
 - Replace placeholders (`[YOUR_NAME]`, `[YOUR_COMPANY]`, etc.) with invented values — ask the user.
 - Create new top-level folders — extend existing structure.
 - Ship any public artifact without the reviewer gates selected during onboarding.
@@ -40,6 +41,6 @@ Once `CLAUDE.md` is filled, treat it as the source of truth for how to respond �
 
 - `Computer, onboard me into this OS` → `Workflows/interactive-onboarding.md`
 - `Computer, what should I focus on today?` → daily brief workflow
-- `/today`, `/peer-review`, `/prd-readiness`, `/go-nogo`, `/eval-review`, `/build-review`, `/test-plan` → corresponding skill or workflow under `Workflows/` or `.claude/skills/`.
+- `/today`, `/todo`, `/weekly-performance-report`, `/campaign-brief`, `/experiment-brief`, `/brief-review`, `/channel-review`, `/email-brief`, `/content-brief`, `/team-standup`, `/wiki-ingest` → corresponding skill under `.claude/skills/`.
 
 Full routing table: `Agents/README.md`.

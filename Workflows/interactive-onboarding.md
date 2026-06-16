@@ -643,7 +643,7 @@ The dry run passes only if the assistant:
 4. Asks about operating style, cadence, goals, and stakeholders separately.
 5. Does not write any files until Phase 9 summary is shown and explicitly approved.
 6. Produces a Phase 9 summary with role-specific agent routing, area tags, and file-by-file edit plan.
-7. Recommends `/today`, `/weekly-performance-report`, and `/campaign-brief` after setup.
+7. Recommends the first three commands for the confirmed role. For this Performance Marketing Manager test profile: `/today`, `/weekly-performance-report`, and `/campaign-brief [name]`.
 
 ### Fail signals
 
