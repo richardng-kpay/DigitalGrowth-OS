@@ -13,12 +13,23 @@ Trigger phrases:
 ## Operating rules
 
 1. **Be interactive.** Do not assume the user's role, channels, KPIs, company, goals, or stakeholders.
-2. **Ask in small batches.** 3–5 questions at a time so the user can answer quickly.
-3. **Offer choices, but always allow custom answers.** Never lock the user into a dropdown.
-4. **Role-branch after Phase 1.** Once the user confirms their role, the rest of the interview adapts to that role's specific channels and KPIs.
-5. **Summarize before writing.** Show a Phase 9 confirmation summary before editing any files.
-6. **Only write files after explicit confirmation.** "Sounds good" does not count — ask for explicit yes.
-7. **Preserve placeholders when the user is unsure.** Do not invent values.
+2. **Ask through the question tool, not the chat.** When running in a harness that exposes a structured question tool (Claude Code's `AskUserQuestion`), use it for every question batch. Present each question with its likely answers as selectable options. Do **not** print numbered questions as plain chat text and wait for a typed reply — that is the fallback only. See **Question mechanism** below.
+3. **Ask in small batches.** Group related questions; the structured tool takes up to **4 questions per call**, each with **2–4 options**. Send one batch, wait for the answers, then continue.
+4. **Offer choices, but always allow custom answers.** Every option set is a starting point, never a lock-in. The structured tool's built-in **"Other"** free-text choice covers this; in chat fallback, say "or give your own."
+5. **Role-branch after Phase 1.** Once the user confirms their role, the rest of the interview adapts to that role's specific channels and KPIs.
+6. **Summarize before writing.** Show a Phase 9 confirmation summary before editing any files.
+7. **Only write files after explicit confirmation.** "Sounds good" does not count — ask for explicit yes.
+8. **Preserve placeholders when the user is unsure.** Do not invent values.
+
+## Question mechanism
+
+Every phase below lists what to `Ask:`. Deliver those questions as follows:
+
+- **Preferred (Claude Code):** call `AskUserQuestion`. Map each item to a question with a short `header` (e.g. `Role`, `Tone`, `Pushback`) and 2–4 plausible `options` drawn from the role/style menus in this workflow. Use `multiSelect: true` when answers are not mutually exclusive (e.g. channels owned, review gates). The user can always pick "Other" to type a custom value, which satisfies rule 4.
+- **Open-ended fields** that have no natural option set (the user's **name**, **company**, free-form goal text) can still go through the tool as a single question whose options are sensible guesses plus "Other", or be asked inline when the tool would add friction. Prefer the tool whenever 2+ reasonable options exist.
+- **Fallback (Codex CLI, Gemini CLI, or any harness without the tool):** ask the same questions as a numbered list in chat, 3–5 at a time, each with example choices and an explicit "or give your own."
+
+This keeps the workflow harness-neutral — the *questions* are identical; only the *delivery* adapts to whether a structured question tool is available.
 
 ## Setup capture schema
 
@@ -110,11 +121,13 @@ Maintain this working schema during the interview. Preserve placeholders or mark
 
 ## Phase 0 — Confirm first-run context
 
-Ask:
+Ask (via `AskUserQuestion` — see **Question mechanism**):
 
-1. Is this OS for your day-to-day work on the growth team, a side project, learning, or a mix?
-2. What name, role, and company should the OS use? (e.g., "Sarah, Performance Marketing Manager at Acme")
-3. Are there any placeholders you want to preserve for now?
+1. **Purpose** — Is this OS for your day-to-day growth-team work, a side project, learning, or a mix?
+2. **Identity** — What name, role, and company should the OS use? (e.g., "Sarah, Performance Marketing Manager at Acme")
+3. **Placeholders** — Any sections you want to leave as placeholders for now rather than fill today?
+
+**Worked example (Claude Code):** call `AskUserQuestion` with — Q1 `header: "Purpose"`, options `Day-to-day work` / `Side project` / `Learning` / `Mix`; Q2 `header: "Identity"`, options seeded from any name/role you already know plus `Other` for free text; Q3 `header: "Placeholders"`, options `Fill everything now` / `Leave some as placeholders`. The user selects or types "Other". Do not paste these as a numbered chat list unless the tool is unavailable.
 
 Record identity in the setup capture.
 
