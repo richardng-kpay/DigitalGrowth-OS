@@ -1,6 +1,6 @@
-# Lark Wiki Index — [YOUR_COMPANY] Digital Growth Team
-*Last indexed: [Date] · Space: [YOUR_TEAM_NAME] (ID: [YOUR_SPACE_ID])*
-*Root wiki node: [YOUR_WIKI_ROOT_NODE] — "[READ ME] Folder & Documentation Hierarchy"*
+# Lark Wiki Index — KPay Digital Growth Team
+*Last indexed: 2026-06-19 · Space ID: `7542461607352238112` · Domain: `kpay-group.sg.larksuite.com`*
+*Root wiki node: `ATQ3wXAlvisKHJkLhJwl7ywBgCP` — "[READ ME] Folder & Documentation Hierarchy" (docx token `ApMTdYX5bo1TW0x5qq1lgjrpgee`) → https://kpay-group.sg.larksuite.com/wiki/ATQ3wXAlvisKHJkLhJwl7ywBgCP*
 
 This file maps every discovered Lark wiki doc to its OS layer equivalent.
 Use it to find the authoritative source for any topic before creating a new doc.
@@ -92,6 +92,7 @@ Then update this file with the results, organized by category.
 
 | Title | Type | Token | Owner |
 |---|---|---|---|
+| [READ ME] Folder & Documentation Hierarchy (wiki root) | docx | `ApMTdYX5bo1TW0x5qq1lgjrpgee` (node `ATQ3wXAlvisKHJkLhJwl7ywBgCP`) | — |
 | [Orientation / onboarding deck] | slides | `[token]` | [Team] |
 | [Company slide deck] | slides | `[token]` | [Team] |
 
