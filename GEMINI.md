@@ -15,9 +15,9 @@ This file is the entry point for **Gemini CLI**. The OS is harness-neutral — C
 
 ## Onboarding mode
 
-When the user says `Computer, onboard me into this OS`, `set up this template`, or similar:
+**Trigger proactively** on first run — when placeholders (`[YOUR_NAME]`, `[YOUR_COMPANY]`, etc.) remain, greet the user and offer onboarding before substantive work; do not wait for a trigger phrase. `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts to the same flow.
 
-1. Run `Workflows/interactive-onboarding.md` phase by phase.
+1. Run `Workflows/interactive-onboarding.md` phase by phase. Use a structured question tool where available; validate inferred values with the user before recording them.
 2. Ask the user — never invent — for their role on the growth team, channels they own, KPIs, cadence, current tasks, goals, stakeholders, and privacy boundaries.
 3. Branch by role in Phase 1B — the interview is different for Performance Marketer, Content/SEO, Lifecycle Marketer, Website Owner, Analytics Lead, and Growth Lead.
 4. Confirm each phase's read-back before moving on. Do not batch-propose tasks or goals.

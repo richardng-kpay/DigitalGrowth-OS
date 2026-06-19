@@ -4,7 +4,9 @@ Use this workflow when a team member first sets up or clones the DigitalGrowth-O
 
 This workflow is harness-neutral — it runs the same way in Claude Code, Codex CLI, or Gemini CLI. The configuration it writes lives in `CLAUDE.md` and is respected by all harnesses.
 
-Trigger phrases:
+**When to run.** This workflow is designed for an OS attached inside a user's Cowork. Run it **proactively on first run** — when placeholders (`[YOUR_NAME]`, `[YOUR_COMPANY]`, etc.) are still present in `CLAUDE.md`/`GOALS.md`/`Tasks/active.md`, greet the user and offer onboarding before answering substantive work. Do not wait for a trigger phrase; assume most users won't know one.
+
+Trigger phrases (shortcuts to the same flow):
 - `Computer, onboard me into this OS`
 - `Set up this OS for me`
 - `Help me configure my growth OS`
@@ -13,6 +15,7 @@ Trigger phrases:
 ## Operating rules
 
 1. **Be interactive.** Do not assume the user's role, channels, KPIs, company, goals, or stakeholders.
+1a. **Validate assumptions, don't adopt them.** You may *infer* a starting point (role from a job title, company from an email domain, a likely KPI from the role) — but an inference is an assumption until the user confirms it. Surface every inference as an `AskUserQuestion` choice with your best guess pre-listed as an option, and let the user confirm or correct. Never write an inferred value into a file as if the user stated it.
 2. **Ask through the question tool, not the chat.** When running in a harness that exposes a structured question tool (Claude Code's `AskUserQuestion`), use it for every question batch. Present each question with its likely answers as selectable options. Do **not** print numbered questions as plain chat text and wait for a typed reply — that is the fallback only. See **Question mechanism** below.
 3. **Ask in small batches.** Group related questions; the structured tool takes up to **4 questions per call**, each with **2–4 options**. Send one batch, wait for the answers, then continue.
 4. **Offer choices, but always allow custom answers.** Every option set is a starting point, never a lock-in. The structured tool's built-in **"Other"** free-text choice covers this; in chat fallback, say "or give your own."
@@ -26,7 +29,7 @@ Trigger phrases:
 Every phase below lists what to `Ask:`. Deliver those questions as follows:
 
 - **Preferred (Claude Code):** call `AskUserQuestion`. Map each item to a question with a short `header` (e.g. `Role`, `Tone`, `Pushback`) and 2–4 plausible `options` drawn from the role/style menus in this workflow. Use `multiSelect: true` when answers are not mutually exclusive (e.g. channels owned, review gates). The user can always pick "Other" to type a custom value, which satisfies rule 4.
-- **Open-ended fields** that have no natural option set (the user's **name**, **company**, free-form goal text) can still go through the tool as a single question whose options are sensible guesses plus "Other", or be asked inline when the tool would add friction. Prefer the tool whenever 2+ reasonable options exist.
+- **Open-ended fields** that have no natural option set (the user's **name**, **company**, free-form goal text) can still go through the tool as a single question whose options are sensible guesses plus "Other", or be asked inline when the tool would add friction. Prefer the tool whenever 2+ reasonable options exist. **Exception — any field you *inferred* (per rule 1a, e.g. company from an email domain) must go through the tool as a confirmable option, never asked inline as open free-text**, so the user actively confirms or corrects the guess rather than passively accepting it.
 - **Fallback (Codex CLI, Gemini CLI, or any harness without the tool):** ask the same questions as a numbered list in chat, 3–5 at a time, each with example choices and an explicit "or give your own."
 
 This keeps the workflow harness-neutral — the *questions* are identical; only the *delivery* adapts to whether a structured question tool is available.

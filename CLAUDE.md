@@ -8,12 +8,17 @@ This file is filled during interactive onboarding. If placeholders are still pre
 
 ## Onboarding mode
 
-When the user says `Computer, onboard me into this OS`, `set up this template`, or similar:
+**Trigger proactively — do not wait for a magic phrase.** This OS is built to be attached inside a user's Cowork. The moment you detect a first run — placeholders like `[YOUR_NAME]`/`[YOUR_COMPANY]` still present, or the user attaches/opens this OS and starts a session — **greet them and offer onboarding before doing anything else.** Most users will not know to type `Computer, onboard me into this OS`; the explicit phrases (`onboard me`, `set up this template`, `help me configure my OS`) are just shortcuts to the same flow.
 
-1. Run `Workflows/interactive-onboarding.md`.
-2. Ask the user their specific role, channels they own, KPIs, cadence, current priorities, goals, and stakeholders.
-3. Summarize proposed edits before changing any files.
-4. Only write setup files after explicit confirmation.
+When onboarding starts (proactively or on request):
+
+1. Run `Workflows/interactive-onboarding.md`. Follow it phase by phase.
+2. **Ask through the `AskUserQuestion` tool, not free-text chat.** Present role, channels, KPIs, cadence, priorities, goals, style, and stakeholders as selectable options with "Other" for custom answers. See the workflow's **Question mechanism** section.
+3. **Validate assumptions — never adopt them silently.** If you infer a value (role from their title, company from their email domain, a likely KPI), surface it as an `AskUserQuestion` choice to confirm or correct before recording it. An unconfirmed inference is an assumption, not a fact.
+4. Summarize proposed edits before changing any files.
+5. Only write setup files after explicit confirmation.
+
+**Be the assistant.** Onboarding is a guided conversation you lead, not a form the user fills. Offer a sensible default for each question, explain why it matters in one line, and keep momentum — the user should feel assisted, not interrogated.
 
 ## Team context
 - Team roster: `TEAM.md` — channel ownership map, OKR owners, Lark handles
@@ -57,7 +62,7 @@ Filled during onboarding. Used to calibrate how the assistant frames decisions a
 - **Acceptable failure:** [what's a learning experiment vs. an avoidable mistake]
 
 ## On Session Start
-1. If placeholders remain in `CLAUDE.md`, `GOALS.md`, or `Tasks/active.md`, offer to run interactive onboarding.
+1. **First-run / Cowork-attach check (do this before your first reply).** Verify whether placeholders (`[YOUR_NAME]`, `[YOUR_COMPANY]`, `[YOUR_ROLE]`, etc.) still remain in `CLAUDE.md`, `GOALS.md`, or `Tasks/active.md` — if you cannot see their contents in context, read them. If placeholders remain, the OS is **not configured**, and your **first response MUST be the onboarding offer** — regardless of what the user's first message is (even a bare "hi" or an unrelated request). Deliver it via an `AskUserQuestion` prompt (e.g. `Start onboarding now` / `Tell me what this OS does first` / `Skip for now`). Do not wait for a trigger phrase, do not treat a greeting as too trivial to act on, and do not answer substantive work as if configured until the user explicitly declines onboarding.
 2. `Tasks/active.md` — current campaign and task focus.
 3. `GOALS.md` — 30-60-90 goals, channel KPIs, and growth metrics.
 4. For campaign work: `Projects/[YOUR_ANCHOR_CAMPAIGN_OR_PROJECT]/brief.md`.
