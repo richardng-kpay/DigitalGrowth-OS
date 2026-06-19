@@ -4,7 +4,7 @@ Use this workflow when a team member first sets up or clones the DigitalGrowth-O
 
 This workflow is harness-neutral — it runs the same way in Claude Code, Codex CLI, or Gemini CLI. The configuration it writes lives in `CLAUDE.md` and is respected by all harnesses.
 
-**When to run.** This workflow is designed for an OS attached inside a user's Cowork. Run it **proactively on first run** — when placeholders (`[YOUR_NAME]`, `[YOUR_COMPANY]`, etc.) are still present in `CLAUDE.md`/`GOALS.md`/`Tasks/active.md`, greet the user and offer onboarding before answering substantive work. Do not wait for a trigger phrase; assume most users won't know one.
+**When to run.** This workflow is designed for an OS attached inside a user's Cowork. Run it **proactively on first run** — defined by the `Onboarding-Complete` marker at the top of `CLAUDE.md` being `no` or absent. When it is, greet the user and offer onboarding before answering substantive work. Do not wait for a trigger phrase; assume most users won't know one. **Do not use placeholder presence as the first-run signal** — a configured user may intentionally retain placeholders, and the marker is the single source of truth. If the marker is `yes`, only run this workflow when the user explicitly asks (a trigger phrase or a re-run request).
 
 Trigger phrases (shortcuts to the same flow):
 - `Computer, onboard me into this OS`
@@ -574,6 +574,8 @@ Only proceed after an explicit "yes." "Sounds good" or "ok" do not count — re-
 4. Show a one-line confirmation: "Updated `[filename]`. Next: `[next filename]`."
 5. Move to the next file.
 
+**Flip the completion marker.** When you write `CLAUDE.md`, set the `Onboarding-Complete` marker at the top from `no` to `yes (YYYY-MM-DD)` using today's date. This is what stops the OS from re-offering onboarding on every future session. Do this even if the user intentionally left placeholders behind — completion is defined by the user finishing the flow, not by zero placeholders remaining.
+
 Only after every file is written:
 
 1. Show a concise change summary.
@@ -608,6 +610,7 @@ Run this check before declaring onboarding finished.
 | **Active tasks present** | `Tasks/active.md` has ≥1 P0 or P1 item that is not a template placeholder. | Re-run Phase 5. |
 | **At least one stakeholder started** | `Knowledge/People/` has ≥1 non-template file, or user explicitly deferred. | Re-run Phase 7. |
 | **Privacy boundaries recorded** | `CLAUDE.md` → `Privacy boundaries` is not a bracketed placeholder. | Re-run Phase 8. |
+| **Completion marker flipped** | `CLAUDE.md` top marker reads `Onboarding-Complete: yes (YYYY-MM-DD)`. | Set it (Phase 10) — without it the OS re-offers onboarding every session. |
 
 Report as a checklist (✅ / ❌) to the user.
 

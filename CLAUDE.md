@@ -1,14 +1,17 @@
+<!-- Onboarding-Complete: no -->
+<!-- This marker is the single source of truth for whether onboarding has run. The template ships with `no`; the onboarding workflow flips it to `yes (YYYY-MM-DD)` on completion. The proactive onboarding offer is gated on THIS marker, never on the presence of placeholders — a configured user may intentionally keep placeholders. -->
+
 # CLAUDE.md — [YOUR_NAME]'s Digital Growth OS
 
 **[YOUR_NAME]** — [YOUR_ROLE] on the Digital Growth team at [YOUR_COMPANY].
 Manager / primary sponsor: [YOUR_MANAGER] → [HEAD_OF_DEPT].
 Anchor workstream: [YOUR_ANCHOR_CAMPAIGN_OR_PROJECT].
 
-This file is filled during interactive onboarding. If placeholders are still present, run `Workflows/interactive-onboarding.md` before assuming the user's role, channels, KPIs, or goals.
+This file is filled during interactive onboarding. If a specific value you need for a task is still a placeholder, ask the user for that one value — do not invent it, and do not re-run the whole onboarding flow unless the `Onboarding-Complete` marker above is `no`.
 
 ## Onboarding mode
 
-**Trigger proactively — do not wait for a magic phrase.** This OS is built to be attached inside a user's Cowork. The moment you detect a first run — placeholders like `[YOUR_NAME]`/`[YOUR_COMPANY]` still present, or the user attaches/opens this OS and starts a session — **greet them and offer onboarding before doing anything else.** Most users will not know to type `Computer, onboard me into this OS`; the explicit phrases (`onboard me`, `set up this template`, `help me configure my OS`) are just shortcuts to the same flow.
+**Trigger proactively — do not wait for a magic phrase.** This OS is built to be attached inside a user's Cowork. **First-run signal = the `Onboarding-Complete` marker at the top of this file is `no` or absent.** When it is, on the user's first message of the session **greet them and offer onboarding before doing anything else.** Most users will not know to type `Computer, onboard me into this OS`; the explicit phrases (`onboard me`, `set up this template`, `help me configure my OS`) are just shortcuts to the same flow. **If the marker is `yes`, do NOT offer onboarding** — the user is configured, even if some placeholders were intentionally left behind. (To re-run later they can use a trigger phrase.)
 
 When onboarding starts (proactively or on request):
 
@@ -62,7 +65,7 @@ Filled during onboarding. Used to calibrate how the assistant frames decisions a
 - **Acceptable failure:** [what's a learning experiment vs. an avoidable mistake]
 
 ## On Session Start
-1. **First-run / Cowork-attach check (do this before your first reply).** Verify whether placeholders (`[YOUR_NAME]`, `[YOUR_COMPANY]`, `[YOUR_ROLE]`, etc.) still remain in `CLAUDE.md`, `GOALS.md`, or `Tasks/active.md` — if you cannot see their contents in context, read them. If placeholders remain, the OS is **not configured**, and your **first response MUST be the onboarding offer** — regardless of what the user's first message is (even a bare "hi" or an unrelated request). Deliver it via an `AskUserQuestion` prompt (e.g. `Start onboarding now` / `Tell me what this OS does first` / `Skip for now`). Do not wait for a trigger phrase, do not treat a greeting as too trivial to act on, and do not answer substantive work as if configured until the user explicitly declines onboarding.
+1. **First-run / Cowork-attach check (do this before your first reply).** Read the `Onboarding-Complete` marker at the top of this file. **If it is `no` or absent**, the OS is not configured: your **first response MUST be the onboarding offer** — regardless of the user's first message (even a bare "hi" or an unrelated request). Deliver it via an `AskUserQuestion` prompt (e.g. `Start onboarding now` / `Tell me what this OS does first` / `Skip for now`). Do not wait for a trigger phrase, do not treat a greeting as too trivial to act on, and do not answer substantive work as if configured until the user explicitly declines. **If the marker is `yes`, skip this — the user is configured.** Remaining placeholders do NOT re-trigger onboarding; if a placeholder blocks a specific task, ask the user for that one value instead.
 2. `Tasks/active.md` — current campaign and task focus.
 3. `GOALS.md` — 30-60-90 goals, channel KPIs, and growth metrics.
 4. For campaign work: `Projects/[YOUR_ANCHOR_CAMPAIGN_OR_PROJECT]/brief.md`.

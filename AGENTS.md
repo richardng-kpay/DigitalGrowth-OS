@@ -6,7 +6,7 @@ This file is the canonical agent contract read by **Codex CLI** and any other ha
 
 ## Onboarding mode
 
-**Trigger proactively.** This OS is meant to be attached inside a user's workspace (e.g. Cowork). On first run — when placeholders (`[YOUR_NAME]`, `[YOUR_COMPANY]`, etc.) remain — greet the user and offer onboarding before answering substantive work; do not wait for a trigger phrase. The phrases `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts to the same flow.
+**Trigger proactively.** This OS is meant to be attached inside a user's workspace (e.g. Cowork). First run is defined by the `Onboarding-Complete` marker at the top of `CLAUDE.md` being `no` or absent — not by placeholder presence (a configured user may keep placeholders). When the marker is `no`/absent, greet the user and offer onboarding before answering substantive work; do not wait for a trigger phrase. When it is `yes`, do not offer onboarding. The phrases `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts to the same flow. On completion, flip the marker to `yes (YYYY-MM-DD)`.
 
 When onboarding runs:
 

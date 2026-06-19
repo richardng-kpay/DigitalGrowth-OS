@@ -15,7 +15,7 @@ This file is the entry point for **Gemini CLI**. The OS is harness-neutral — C
 
 ## Onboarding mode
 
-**Trigger proactively** on first run — when placeholders (`[YOUR_NAME]`, `[YOUR_COMPANY]`, etc.) remain, greet the user and offer onboarding before substantive work; do not wait for a trigger phrase. `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts to the same flow.
+**Trigger proactively** on first run — defined by the `Onboarding-Complete` marker at the top of `CLAUDE.md` being `no` or absent (NOT by placeholder presence; a configured user may keep placeholders). When it is `no`/absent, greet the user and offer onboarding before substantive work; do not wait for a trigger phrase. When it is `yes`, do not offer. `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts. Flip the marker to `yes (YYYY-MM-DD)` on completion.
 
 1. Run `Workflows/interactive-onboarding.md` phase by phase. Use a structured question tool where available; validate inferred values with the user before recording them.
 2. Ask the user — never invent — for their role on the growth team, channels they own, KPIs, cadence, current tasks, goals, stakeholders, and privacy boundaries.
