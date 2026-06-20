@@ -1,10 +1,15 @@
 # Onboarding eval run — Performance Marketing Manager path (Devi)
 
+> **⚠ Superseded.** This run tested the workflow at `0efbf12`, **before** the
+> AskUserQuestion-delivery, proactive marker-gated trigger, and assumption-
+> validation changes landed (PR #6). Its 12/12 result does **not** reflect
+> current `main`. See the re-run: `2026-06-20_opus-4-8_devi-pmm-rerun.md`.
+
 | Field | Value |
 |---|---|
 | Date | 2026-06-19 |
 | Model | claude-opus-4-8 |
-| Workflow commit SHA | `0efbf122381ae8101707f0c05aafb0a2b7457577` (current `main`) |
+| Workflow commit SHA | `0efbf122381ae8101707f0c05aafb0a2b7457577` (was current `main` at run time; superseded by PR #6) |
 | Runner agent | general-purpose subagent (role-played both sides, dry-run — no live config written) |
 | Grader agent | separate general-purpose subagent (blind; read transcript + criteria only, NOT the workflow) |
 | Fixtures used | `inputs/devi-performance-marketing-manager.md` (new — first Performance Marketing Manager / 1B-A fixture) |
@@ -16,7 +21,7 @@
 The question driving it: **"Is the OS ready to be onboarded by a Marketing Manager?"**
 A marketing manager maps most directly onto the **Performance Marketing Manager**
 path (Phase 1B-A) — which **no prior fixture had ever exercised**. This run also
-re-tests onboarding against **current `main` (`0efbf12`)**, since the last formal
+re-tested onboarding against **`main` at `0efbf12`**, since the last formal
 eval (2026-05-29, Mardiana) ran against `3b5d2c2`, before 4 commits touched the
 workflow (team-structure layer, Lark per-user OAuth). Current `main` had no
 passing eval on record until this run.
