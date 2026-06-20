@@ -6,9 +6,11 @@ This file is the canonical agent contract read by **Codex CLI** and any other ha
 
 ## Onboarding mode
 
-When the user says `Computer, onboard me into this OS`, `set up this template`, or similar:
+**Trigger proactively.** This OS is meant to be attached inside a user's workspace (e.g. Cowork). First run is defined by the `Onboarding-Complete` marker at the top of `CLAUDE.md` being `no` or absent — not by placeholder presence (a configured user may keep placeholders). When the marker is `no`/absent, greet the user and offer onboarding before answering substantive work; do not wait for a trigger phrase. When it is `yes`, do not offer onboarding. The phrases `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts to the same flow. On completion, flip the marker to `yes (YYYY-MM-DD)`.
 
-1. Run `Workflows/interactive-onboarding.md`. Follow it phase by phase.
+When onboarding runs:
+
+1. Run `Workflows/interactive-onboarding.md`. Follow it phase by phase. Prefer a structured question tool (`AskUserQuestion` in Claude Code) over free-text chat; fall back to numbered chat questions on harnesses without it. Validate inferred values with the user before recording — an inference is an assumption until confirmed.
 2. Ask the user — do not invent — for their role on the growth team, channels they own, KPIs, cadence, current tasks, goals, stakeholders, and privacy boundaries.
 3. **Branch by role in Phase 1B** — the interview is different for Performance Marketer, Content/SEO, Lifecycle Marketer, Website Owner, Analytics Lead, and Growth Lead.
 4. Confirm each phase's read-back before moving on. Do not batch-propose tasks or goals.
