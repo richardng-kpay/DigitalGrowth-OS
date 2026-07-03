@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "lark-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "--yes",
+        "@larksuiteoapi/lark-mcp",
+        "mcp",
+        "--domain", "https://open.larksuite.com",
+        "--token-mode", "user_access_token",
+        "--tools", "bitable.v1.appTable.list,bitable.v1.appTableField.list,bitable.v1.appTableRecord.search,docx.v1.document.rawContent,docx.builtin.search,wiki.v2.space.getNode,wiki.v1.node.search,contact.v3.user.batchGetId,calendar.v4.calendar.primary,calendar.v4.calendarEvent.get,calendar.v4.freebusy.list"
+      ],
+      "env": {
+        "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin",
+        "APP_ID": "cli_a944aca53c381ed3",
+        "APP_SECRET": "${LARK_APP_SECRET}"
+      }
+    }
+  }
+}

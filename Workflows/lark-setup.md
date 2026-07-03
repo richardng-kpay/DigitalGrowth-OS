@@ -30,42 +30,34 @@ You need an active Lark account for your organization. If you don't have one, as
 
 ---
 
-### Step 2 — Add `lark-mcp` to your Claude Code config
+### Step 2 — The MCP server ships with the repo (`.mcp.json`)
 
-Claude Code MCP servers are configured in your global config file: `~/.claude.json`.
+**You do not need to hand-edit any JSON.** This repo includes a committed `.mcp.json` at its root that already defines the `lark-mcp` server (shared App ID, domain, token mode, tool list). When you open this folder in Claude Code, you'll be prompted to **approve the project MCP server** — say yes.
 
-Open your `~/.claude.json` (or create it if it doesn't exist) and add the following under `"mcpServers"`:
+The one thing `.mcp.json` does **not** contain is the App Secret. It reads the secret from an environment variable:
 
 ```json
-{
-  "mcpServers": {
-    "lark-mcp": {
-      "command": "/usr/local/bin/npx",
-      "args": [
-        "--yes",
-        "@larksuiteoapi/lark-mcp",
-        "mcp",
-        "--domain", "https://open.larksuite.com",
-        "--token-mode", "user_access_token",
-        "--tools", "bitable.v1.appTable.list,bitable.v1.appTableField.list,bitable.v1.appTableRecord.search,docx.v1.document.rawContent,docx.builtin.search,wiki.v2.space.getNode,wiki.v1.node.search,contact.v3.user.batchGetId,calendar.v4.calendar.primary,calendar.v4.calendarEvent.get,calendar.v4.freebusy.list"
-      ],
-      "env": {
-        "PATH": "/usr/local/bin:/usr/bin:/bin",
-        "APP_ID": "cli_a944aca53c381ed3",
-        "APP_SECRET": "<paste-app-secret-here>"
-      },
-      "type": "stdio"
-    }
-  }
+"env": {
+  "APP_ID": "cli_a944aca53c381ed3",
+  "APP_SECRET": "${LARK_APP_SECRET}"
 }
 ```
 
-**The App ID `cli_a944aca53c381ed3` is the shared team app** — it's the same for everyone and safe to keep here.
+So all you do is set that one env var before launching Claude Code:
 
-**Where to get the `APP_SECRET`:**
-- The secret is **not** stored in this repo. Ask Richard (or your team lead) for it via a password manager or secure DM.
-- Paste it into the `<paste-app-secret-here>` slot in your **own** `~/.claude.json` only.
-- Do **not** share it in Slack, email, or commit it to any repo. If it leaks, it gets rotated in the Lark dev console and everyone re-pastes.
+```bash
+# add to your ~/.zshrc (or ~/.bashrc), then restart your shell
+export LARK_APP_SECRET="paste-the-secret-here"
+```
+
+**The App ID `cli_a944aca53c381ed3` is the shared team app** — same for everyone, safe to keep in the repo.
+
+**Where to get the secret:**
+- It is **not** stored in this repo. Ask Richard (or your team lead) for it via a password manager or secure DM.
+- Put it in your **own** shell env (`LARK_APP_SECRET`) only — never in `.mcp.json`, Slack, email, or any commit.
+- If it leaks, it gets rotated in the Lark dev console and everyone re-exports.
+
+> Prefer the old global-config method? You can still define the same server under `"mcpServers"` in your `~/.claude.json` with the secret pasted inline — but the `.mcp.json` + env-var path above is the supported handoff flow.
 
 **Access model — per-user OAuth.** The MCP runs in `--token-mode user_access_token`. On first use, you'll be prompted to **log in with your own Lark account** via an OAuth flow. The app credentials just identify which Lark app brokers the auth — **your results are scoped to what your own Lark account can access.** If a doc doesn't show up, you need access to it in Lark under your own account, not the bot's.
 
@@ -139,11 +131,11 @@ Why this matters:
 
 ### How to distribute this OS to a teammate
 
-1. Share the repo (or your fork) with them.
+1. Share the repo (or your fork) with them — it already contains `.mcp.json`.
 2. Tell them to open `Workflows/lark-setup.md` before anything else.
-3. Send them the **App Secret** over a password manager or secure DM — never Slack, email, or git.
-4. They paste it into the `<paste-app-secret-here>` slot in their own `~/.claude.json`.
-5. On first use, they'll be prompted to log in with their own Lark account via OAuth.
+3. Send them the **App Secret** over a password manager or secure DM — never Slack, email, or git. This is the *shared app's* secret (the same value everyone uses), not a personal one.
+4. They set it as an env var: `export LARK_APP_SECRET="…"` in their `~/.zshrc`, then restart their shell.
+5. They open the folder in Claude Code, approve the project MCP server, and on first use log in with their own Lark account via OAuth.
 6. They run the connection test, then trigger `Computer, onboard me into this OS` — Phase 0B verifies the connection.
 
 The only credential they share back with you is their **Lark handle** (for `TEAM.md`).
