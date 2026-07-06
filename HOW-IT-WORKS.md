@@ -37,15 +37,15 @@ The onboarding workflow asks your role on the growth team (Performance Marketer,
 └─────────────────────────────────────────────────────┘
                        ↑
 ┌─────────────────────────────────────────────────────┐
-│  Layer 1 — KNOWLEDGE  (CLAUDE.md, GOALS.md,         │
-│  Knowledge/, Tasks/, Projects/)                     │
+│  Layer 1 — KNOWLEDGE  (Users/<you>/config.md +      │
+│  memory/, GOALS.md, Knowledge/, Tasks/, Projects/)  │
 │  Persistent context. Agents read this               │
 │  before they answer.                                │
 └─────────────────────────────────────────────────────┘
 ```
 
 **The trick to high automation: Layer 1 quality.**  
-The more accurately `CLAUDE.md` and `GOALS.md` describe your role, channels, KPIs, and stakeholders, the more an agent can do without asking repeated questions.
+The more accurately `Users/<you>/config.md`, your memory files, and `GOALS.md` describe your role, channels, KPIs, and stakeholders, the more an agent can do without asking repeated questions. This layer compounds: `/eod` writes today's decisions and corrections into memory, so tomorrow's answers start smarter.
 
 ---
 
@@ -157,7 +157,7 @@ Everything else — finding the template, formatting the report, checking the hy
 ## Quick-start checklist
 
 - [ ] Day 1 (20 min): run `Computer, onboard me into this OS`
-- [ ] Day 1 (15 min): review and approve proposed edits to `CLAUDE.md`, `GOALS.md`, and task files
+- [ ] Day 1 (15 min): review and approve proposed edits to `Users/<you>/config.md`, `GOALS.md`, and task files
 - [ ] Day 2 (15 min): list your 3–5 key stakeholders in `Knowledge/People/`
 - [ ] Day 2: try `/today` — see what's missing, fill those gaps
 - [ ] Day 3: draft your first campaign or content brief using the relevant template

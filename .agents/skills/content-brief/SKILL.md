@@ -10,7 +10,7 @@ Start a new content or SEO brief. Fills `Templates/content-brief.md` through a s
 
 ## Steps (new brief)
 
-1. Read `CLAUDE.md` — get the user's content and SEO context. Do not re-ask role, channels, KPIs, approval chain, or review gates already captured there.
+1. Read `Users/<active-user>/config.md` (resolve via `Users/.active-user`) — get the user's content and SEO context. Do not re-ask role, channels, KPIs, approval chain, or review gates already captured there.
 2. Follow the `CLAUDE.md` Lark wiki search protocol for the topic before drafting. Use confirmed wiki sources when relevant; if the search returns no useful hit or the MCP is unavailable, state that plainly and do not fabricate links.
 3. Read `Knowledge/Segments/` — check for audience profiles relevant to this piece
 4. Read `Knowledge/Source/` — check for any competitor snapshots relevant to this topic

@@ -36,7 +36,7 @@ Every piece of communication makes an implicit promise. The subject line promise
 
 - Before any external-facing copy ships — mandatory gate
 - `/brief-review [file]` — review a campaign brief or content brief
-- `/audience-check [file]` — verify the message is right for the stated audience
+- Audience pass (agent-routed — ask the Creative Reviewer directly): verify the message is right for the stated audience
 - "Does this email subject line work for [segment]?"
 - "Is this ad copy clear and on-brand?"
 - "Will this landing page headline match what users expect from this ad?"

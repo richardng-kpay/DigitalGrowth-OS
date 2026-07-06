@@ -2,9 +2,9 @@
 
 Use this workflow when a team member first sets up or clones the DigitalGrowth-OS.
 
-This workflow is harness-neutral — it runs the same way in Claude Code, Codex CLI, or Gemini CLI. The configuration it writes lives in `CLAUDE.md` and is respected by all harnesses.
+This workflow is harness-neutral — it runs the same way in Claude Code, Codex CLI, or Gemini CLI. The configuration it writes lives in the **user layer** (`Users/<name>/config.md` and siblings — see `Users/README.md`) and is respected by all harnesses. **Template-layer files (`CLAUDE.md`, `AGENTS.md`, workflows, skills) are never personalized** — they are updated weekly from GitHub via `/os-update`, and personal edits to them would conflict.
 
-**When to run.** This workflow is designed for an OS attached inside a user's Cowork. Run it **proactively on first run** — defined by the `Onboarding-Complete` marker at the top of `CLAUDE.md` being `no` or absent. When it is, greet the user and offer onboarding before answering substantive work. Do not wait for a trigger phrase; assume most users won't know one. **Do not use placeholder presence as the first-run signal** — a configured user may intentionally retain placeholders, and the marker is the single source of truth. If the marker is `yes`, only run this workflow when the user explicitly asks (a trigger phrase or a re-run request).
+**When to run.** This workflow is designed for an OS attached inside a user's Cowork. Run it **proactively on first run** — defined by the file `Users/.active-user` being **absent**. When it is absent, greet the user and offer onboarding before answering substantive work. Do not wait for a trigger phrase; assume most users won't know one. **Do not use placeholder presence as the first-run signal** — a configured user may intentionally retain placeholders, and `.active-user` is the single source of truth. If it exists, only run this workflow when the user explicitly asks (a trigger phrase or a re-run request).
 
 Trigger phrases (shortcuts to the same flow):
 - `Computer, onboard me into this OS`
@@ -23,12 +23,13 @@ Trigger phrases (shortcuts to the same flow):
 6. **Summarize before writing.** Show a Phase 9 confirmation summary before editing any files.
 7. **Only write files after explicit confirmation.** "Sounds good" does not count — ask for explicit yes.
 8. **Preserve placeholders when the user is unsure.** Do not invent values.
+9. **Write to the user layer and user-owned files only.** Personal config → `Users/<name>/config.md`; goals → `GOALS.md`; tasks → `Tasks/*.md`; stakeholders → `Knowledge/People/`. Never write personal values into `CLAUDE.md`, `AGENTS.md`, or any other template-layer file.
 
 ## Question mechanism
 
 Every phase below lists what to `Ask:`. Deliver those questions as follows:
 
-- **Preferred (Claude Code):** call `AskUserQuestion`. Map each item to a question with a short `header` (e.g. `Role`, `Tone`, `Pushback`) and 2–4 plausible `options` drawn from the role/style menus in this workflow. Use `multiSelect: true` when answers are not mutually exclusive (e.g. channels owned, review gates). The user can always pick "Other" to type a custom value, which satisfies rule 4.
+- **Preferred (Claude Code):** call `AskUserQuestion`. Map each item to a question with a short `header` (e.g. `Role`, `Tone`, `Pushback`) and 2–4 plausible `options` drawn from the role/style menus in this workflow. Use `multiSelect: true` when answers are not mutually exclusive (e.g. channels owned, review gates). The user can always pick "Other" to type a custom value, which satisfies rule 4. **When a phase lists more than 4 questions, split into two consecutive calls; when an option menu exceeds 4 entries (e.g. the 7 roles in Phase 1), present the 3 likeliest for this user plus "Other" — never silently drop options without the "Other" escape.**
 - **Open-ended fields** that have no natural option set (the user's **name**, **company**, free-form goal text) can still go through the tool as a single question whose options are sensible guesses plus "Other", or be asked inline when the tool would add friction. Prefer the tool whenever 2+ reasonable options exist. **Exception — any field you *inferred* (per rule 1a, e.g. company from an email domain) must go through the tool as a confirmable option, never asked inline as open free-text**, so the user actively confirms or corrects the guess rather than passively accepting it.
 - **Fallback (Codex CLI, Gemini CLI, or any harness without the tool):** ask the same questions as a numbered list in chat, 3–5 at a time, each with example choices and an explicit "or give your own."
 
@@ -134,6 +135,11 @@ Ask (via `AskUserQuestion` — see **Question mechanism**):
 
 Record identity in the setup capture.
 
+**Then give the one-paragraph orientation (scripted — do not skip or bury it):**
+> "Quick orientation before we go on: everything personal you tell me lands in your own folder, `Users/<your-name>/` — it stays on your machine, never goes to the team repo, and weekly template updates never touch it. That folder is also my memory: Claude doesn't remember chats by itself here, so durable facts get saved as files and reloaded every session. `/eod` at the end of each day is what does the saving."
+
+This is the OS's core value proposition — the user should hear it in plain terms in the first minute, not discover it in a README.
+
 ---
 
 ## Phase 0B — Lark MCP connection check
@@ -152,22 +158,21 @@ This OS searches your team's Lark wiki to answer project questions. The Lark MCP
 > "Great — Lark MCP is connected under your account. Found [N] documents. The wiki is ready."
 Record `Lark connection: ✅ verified · N documents found` in setup capture.
 
-Then ask the user for the Lark domain and, if they know it, the wiki space / root node label to write into `CLAUDE.md`. If they do not know either value, record `Unknown / to confirm` and add a dated follow-up in `Tasks/follow-ups.md`; do not leave silent bracket placeholders.
+Then ask the user for the Lark domain and, if they know it, the wiki space / root node label — these are recorded in the setup capture and written to `Users/<name>/config.md` (under Role context) at Phase 10. If they do not know either value, record `Unknown / to confirm` in the setup capture and **queue** a dated follow-up for `Tasks/follow-ups.md` in the Phase 9 edit plan — no file is written before Phase 9 approval; do not leave silent bracket placeholders.
 
 Proceed to Phase 1.
 
 **❌ Fail — error or 0 results:**
-> "Lark MCP isn't connected yet. Before we continue onboarding, you'll need to configure it with your personal Lark credentials."
-> "Open `Workflows/lark-setup.md` for step-by-step instructions. Come back once you can run a successful search."
-Record `Lark connection: ❌ failed` in setup capture. **Pause onboarding here.** Do not proceed to Phase 1 until the user confirms the connection test passes.
+> "Lark MCP isn't connected yet — it needs your personal Lark credentials (see `Workflows/lark-setup.md`). We can pause here while you set it up, or skip it and keep going — everything except wiki search works without it."
+Then offer the choice via `AskUserQuestion`: `Pause — I'll set up Lark now` / `Skip for now — continue onboarding`. Record `Lark connection: ❌ failed` in setup capture. If the user pauses, do not proceed to Phase 1 until the connection test passes. If they skip, follow the skip path below. Never leave a first-time user stranded at this wall without surfacing the skip option.
 
 ### Re-entry after fixing
 When the user returns, re-run the connection test once more. Only mark as `✅ verified` and proceed to Phase 1 after a successful search.
 
 ### If the user wants to skip Lark setup
-If the user explicitly says they want to skip Lark for now:
+If the user chooses to skip Lark (via the fail-path question or unprompted):
 > "Understood — you can set up Lark later via `Workflows/lark-setup.md`. Wiki search won't work until it's configured."
-Record `Lark connection: ⏭ skipped by user`. Continue to Phase 0C. Add a dated follow-up in `Tasks/follow-ups.md`: "Configure Lark MCP and confirm Lark domain / wiki root — see Workflows/lark-setup.md."
+Record `Lark connection: ⏭ skipped by user`. Continue to Phase 0C. **Queue** a dated follow-up for `Tasks/follow-ups.md` in the Phase 9 edit plan: "Configure Lark MCP and confirm Lark domain / wiki root — see Workflows/lark-setup.md." (No file writes before Phase 9 approval.)
 
 ---
 
@@ -256,7 +261,7 @@ Ask:
 2. What are your primary KPIs? (ROAS, CAC, CPA, CPL, CTR, conversion rate, spend efficiency — pick the ones you're accountable for)
 3. What tools do you use day-to-day? (Google Ads, Meta Ads Manager, SA360, DV360, Looker, other)
 4. What does your weekly reporting cycle look like? (Weekly to manager / bi-weekly exec update / monthly review)
-5. What is your approximate monthly budget range? (Optional — used to calibrate cost benchmarks)
+5. What is your approximate monthly budget range? (Optional — used to calibrate cost benchmarks. Preface it: "You can skip this, and it's never written to any file without your explicit OK — you'll set privacy rules for things like budgets in a later step.")
 
 Record: channels, primary KPIs, tools, reporting cadence in the setup capture under "Role context."
 
@@ -394,7 +399,7 @@ Ask:
 3. What recurring meetings or reviews should the OS prepare you for? (e.g., weekly channel review, Monday standup, monthly exec update)
 4. What are the first 3 commands you'd want to use in this OS?
 
-Reflect the cadence in `CLAUDE.md` and recurring workflow suggestions.
+Reflect the cadence in `Users/<name>/config.md` and recurring workflow suggestions. Mention the standing rhythm skills here: `/daily-sync` each morning (memory consolidation → `/today`), `/eod` at close of day (memory sweep), `/os-update` weekly (pull template updates).
 
 ---
 
@@ -535,8 +540,10 @@ Before writing any files, show:
 ### Stakeholders
 - ...
 
-### Files I propose to update
-- `CLAUDE.md`
+### Files I propose to create / update
+- `Users/<name>/` (created from `Users/_template/`)
+- `Users/<name>/config.md`
+- `Users/.active-user` (written LAST — see edit plan)
 - `GOALS.md`
 - `Tasks/active.md`
 - `Tasks/backlog.md`
@@ -548,12 +555,17 @@ Before writing any files, show:
 - Ask before editing: ...
 
 ### File-by-file edit plan
-- `CLAUDE.md`: identity, role, operating style, agent routing, area tags, cadence, quality gates, privacy boundaries
+- `Users/<name>/`: copy the `_template` scaffold to the user's folder (no marker yet)
+- `Users/<name>/config.md`: identity, role context, operating style, thought frameworks, agent routing, area tags, cadence, quality gates, privacy boundaries, OS version
+- `Users/<name>/memory/`: seed 1–3 memory files from the interview (e.g., strongest stated preference, anchor workstream context). **Use the file format documented in the comment block of `Users/_template/memory/MEMORY.md`** — frontmatter `name` / `description` / `type` / `date`, one fact per file, filename `YYYY-MM-DD-<slug>.md` — then add one index line per file in `MEMORY.md`
+- `Users/.active-user`: one line, the user's folder name — **written last, after `config.md` and memory succeed**. Its presence marks onboarding complete; writing it earlier would leave an aborted run permanently marked as configured
 - `GOALS.md`: 30-60-90 outcomes, role-specific KPI placeholders, strategic alignment (OKR, proof metric, kill condition)
 - `Tasks/active.md`: P0/P1 work, blockers, near-term commitments; area tags updated to match role
 - `Tasks/backlog.md`: P2 work and future candidates
 - `Knowledge/People/...`: confirmed stakeholder profiles only
 - `Projects/.../brief.md`: primary campaign/project context, open decisions, risks, if the user explicitly wants a dedicated project file
+
+**Note:** `CLAUDE.md` is NOT in this list — it is template-layer and never personalized.
 ```
 
 **Mandatory display rule.** Show the full Phase 9 summary — including file-by-file edit plan — before asking for approval. Do not ask "Ready?" without showing the summary first. If the user requests changes, revise and re-display before re-asking.
@@ -566,15 +578,14 @@ Only proceed after an explicit "yes." "Sounds good" or "ok" do not count — re-
 
 ## Phase 10 — Write files
 
-**Per-file write rule.** For each file in the confirmed edit plan, in order:
+**Two-gate write rule.** The Phase 9 approval covered the whole plan; Phase 10 confirms in two batches, not one prompt per file (that reads as distrust theater after a full-plan approval):
 
-1. Ask: "Ready for me to update `[filename]`?"
-2. Wait for explicit "yes."
-3. Write the file.
-4. Show a one-line confirmation: "Updated `[filename]`. Next: `[next filename]`."
-5. Move to the next file.
+1. **Gate 1 — user layer:** "Writing your personal layer now: `Users/<name>/` scaffold, `config.md`, memory seeds. OK?" On explicit yes → write all three in that order, then a one-line report per file.
+2. **Gate 2 — shared working files:** "Now the working files: `GOALS.md`, `Tasks/active.md`, `Tasks/backlog.md`[, `Tasks/follow-ups.md`, `Knowledge/People/<name>.md`, `Projects/.../brief.md` as applicable]. OK?" On explicit yes → write them, one-line report per file.
 
-**Flip the completion marker.** When you write `CLAUDE.md`, set the `Onboarding-Complete` marker at the top from `no` to `yes (YYYY-MM-DD)` using today's date. This is what stops the OS from re-offering onboarding on every future session. Do this even if the user intentionally left placeholders behind — completion is defined by the user finishing the flow, not by zero placeholders remaining.
+If the user wants finer control ("show me each file"), fall back to per-file confirmation. Either way, "sounds good" does not count as a gate approval — require an explicit yes.
+
+**Write the completion marker LAST.** Only after Gate 1's files are successfully written: write `Users/.active-user` containing exactly the user's folder name (one line), and set `Onboarding completed: yes (YYYY-MM-DD)` plus `OS version at onboarding` / `Last seen OS version` (from the `OS-Version` marker in `CLAUDE.md`) inside `config.md`. The presence of `.active-user` is what stops the OS from re-offering onboarding on every future session — never write it before `config.md` exists, and do write it even if the user intentionally left placeholders behind: completion is defined by the user finishing the flow, not by zero placeholders remaining.
 
 Only after every file is written:
 
@@ -587,6 +598,7 @@ Only after every file is written:
    - Analytics & Data Lead: `/today`, `/weekly-performance-report`, `/channel-review`
    - Growth Lead: `/today`, `/weekly-performance-report`, `/campaign-brief [name]`
    If Phase 0C confirmed this is a team OS or `TEAM.md` has at least one non-placeholder member row, also surface `/team-standup` as a shared team command for every role: "For team syncs, use `/team-standup` to review blockers, handoffs, and decisions across members." Do not make `/team-standup` Growth Lead-only.
+   For every role, also introduce the standing rhythm in one line: "`/daily-sync` each morning, `/eod` before you log off (that's what makes your memory persist), `/os-update` once a week for template updates, `/os-feedback` whenever you have opinions about the OS itself."
 3. Ask whether the user wants to run `/today` immediately.
 
 ---
@@ -602,22 +614,25 @@ Run this check before declaring onboarding finished.
 | **TEAM.md populated (team OS only)** | `TEAM.md` has ≥1 non-placeholder member row. | Re-run Phase 0C team roster collection. |
 | **TEAM-GOALS.md populated (team OS only)** | `TEAM-GOALS.md` has ≥1 OKR objective with at least one KR and an owner. | Re-run Phase 0C OKR capture. |
 | **Projects/README.md initialized** | `Projects/README.md` exists. | Create it from `Projects/README.md` template. |
-| **Placeholders filled** | Grep `CLAUDE.md`, `GOALS.md`, `Tasks/active.md` for `[YOUR_`, `[STAKEHOLDER_`, `[METRIC_`. Any remaining brackets must be explicit user choices. | Ask user to fill or confirm keeping. |
-| **Role set** | `CLAUDE.md` → `Role` is not a bracketed list. | Re-run Phase 1. |
-| **Area tags match role** | `CLAUDE.md` → `Conventions` area tags match the role's configured tag set. | Re-run Phase 1B. |
-| **Primary agent set** | `CLAUDE.md` → `Primary agent` is not placeholder text. | Re-run Phase 1B. |
+| **Placeholders filled** | Grep `Users/<name>/config.md`, `GOALS.md`, `Tasks/active.md` for `[YOUR_`, `[STAKEHOLDER_`, `[METRIC_`. Any remaining brackets must be explicit user choices. | Ask user to fill or confirm keeping. |
+| **Role set** | `config.md` → `Role` is not a bracketed list. | Re-run Phase 1. |
+| **Area tags match role** | `config.md` → `Area tags` match the role's configured tag set. | Re-run Phase 1B. |
+| **Primary agent set** | `config.md` → `Primary agent` is not placeholder text. | Re-run Phase 1B. |
+| **Memory seeded** | `Users/<name>/memory/MEMORY.md` index has ≥1 entry. | Seed from interview capture (Phase 10 edit plan). |
+| **Template layer untouched** | `git status` shows no modifications to `CLAUDE.md`, `AGENTS.md`, `Workflows/`, or skills. | Revert the personal edit and move the value into `config.md`. |
 | **KPIs specific** | Each KPI in `GOALS.md` names an actual metric and target, not just a category. | Re-run Phase 6. |
 | **Active tasks present** | `Tasks/active.md` has ≥1 P0 or P1 item that is not a template placeholder. | Re-run Phase 5. |
 | **At least one stakeholder started** | `Knowledge/People/` has ≥1 non-template file, or user explicitly deferred. | Re-run Phase 7. |
-| **Privacy boundaries recorded** | `CLAUDE.md` → `Privacy boundaries` is not a bracketed placeholder. | Re-run Phase 8. |
-| **Completion marker flipped** | `CLAUDE.md` top marker reads `Onboarding-Complete: yes (YYYY-MM-DD)`. | Set it (Phase 10) — without it the OS re-offers onboarding every session. |
+| **Privacy boundaries recorded** | `Users/<name>/config.md` → `Privacy boundaries` is not a bracketed placeholder. | Re-run Phase 8. |
+| **Quality gates resolve to real skills** | Every gate in `config.md` → `Quality gates selected` matches a skill that exists under `.claude/skills/`. | Replace with an existing gate (e.g. `/brief-review`) or note it as agent-routed. |
+| **Completion marker written** | `Users/.active-user` exists and names the user's folder; `config.md` shows `Onboarding completed: yes (YYYY-MM-DD)`. | Write it (Phase 10) — without `.active-user` the OS re-offers onboarding every session. |
 
 Report as a checklist (✅ / ❌) to the user.
 
 **Three-way resolution for ❌ items:**
 - **(a) Fill it now** — capture the value and update the file.
 - **(b) Defer with a follow-up** — record in `Tasks/follow-ups.md` with a date.
-- **(c) Accept intentionally** — user states written reason why the placeholder stays; record that reason in `CLAUDE.md` next to the field.
+- **(c) Accept intentionally** — user states written reason why the placeholder stays; record that reason in `Users/<name>/config.md` next to the field. (Never in `CLAUDE.md` — template layer.)
 
 Only say "Onboarding complete" after every ❌ row is resolved.
 
@@ -627,7 +642,7 @@ Only say "Onboarding complete" after every ❌ row is resolved.
 
 The user can re-run at any time by saying `Computer, onboard me into this OS` again. On re-run:
 
-1. Read current `CLAUDE.md`, `GOALS.md`, `Tasks/active.md` to see what's already set.
+1. Read current `Users/<active-user>/config.md`, `GOALS.md`, `Tasks/active.md` to see what's already set. (Migrating from OS 1.0.x — personal values still inside `CLAUDE.md`? Move them into `Users/<name>/config.md`, restore `CLAUDE.md` from upstream, and write `Users/.active-user`.)
 2. **Always re-confirm the role and primary KPIs explicitly** — e.g., "You previously set your role as Performance Marketing Manager. Still right?"
 3. For non-critical fields, ask which sections the user wants to update rather than restarting from scratch.
 4. Do not silently carry over role, KPIs, or quality gates — confirm each explicitly in this run.
@@ -671,6 +686,8 @@ Tighten before shipping if the assistant:
 - Assumes a role or channels without asking.
 - Skips Phase 1B branching.
 - Writes files before confirmation.
+- Proposes writing personal values into `CLAUDE.md`, `AGENTS.md`, or any template-layer file.
+- Finishes without writing `Users/.active-user` or seeding `Users/<name>/memory/`.
 - Uses PM-specific terminology (PRD, roadmap, sprint, engineering handoff).
 - Produces generic goals that don't reflect the user's stated channels and KPIs.
 - Ignores privacy boundaries the user set.

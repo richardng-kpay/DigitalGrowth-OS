@@ -6,7 +6,7 @@ This file is the canonical agent contract read by **Codex CLI** and any other ha
 
 ## Onboarding mode
 
-**Trigger proactively.** This OS is meant to be attached inside a user's workspace (e.g. Cowork). First run is defined by the `Onboarding-Complete` marker at the top of `CLAUDE.md` being `no` or absent — not by placeholder presence (a configured user may keep placeholders). When the marker is `no`/absent, greet the user and offer onboarding before answering substantive work; do not wait for a trigger phrase. When it is `yes`, do not offer onboarding. The phrases `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts to the same flow. On completion, flip the marker to `yes (YYYY-MM-DD)`.
+**Trigger proactively.** This OS is meant to be attached inside a user's workspace (e.g. Cowork). First run is defined by the file `Users/.active-user` being **absent** — not by placeholder presence (a configured user may keep placeholders). When it is absent, greet the user and offer onboarding before answering substantive work; do not wait for a trigger phrase. When it exists, do not offer onboarding. The phrases `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts to the same flow. On completion, write `Users/.active-user` (one line: the user's folder name under `Users/`).
 
 When onboarding runs:
 
@@ -15,10 +15,10 @@ When onboarding runs:
 3. **Branch by role in Phase 1B** — the interview is different for Performance Marketer, Content/SEO, Lifecycle Marketer, Website Owner, Analytics Lead, and Growth Lead.
 4. Confirm each phase's read-back before moving on. Do not batch-propose tasks or goals.
 5. Show the Phase 9 summary in full before asking for write approval.
-6. Write files one at a time in Phase 10, asking explicitly per file. "Sounds good" does not count — require an explicit "yes" per file.
+6. Write files in Phase 10 behind two explicit gates (user layer, then shared working files); write `Users/.active-user` last. "Sounds good" does not count — require an explicit "yes" per gate.
 7. On re-run, re-confirm role / KPIs / quality gates even if previously set.
 
-`CLAUDE.md` is the configuration file the onboarding workflow writes to. It is harness-neutral.
+Onboarding writes to the **user layer** (`Users/<name>/config.md`, memory, tasks, goals — see `Users/README.md`), never to `CLAUDE.md` or `AGENTS.md`. Template files are updated weekly from GitHub via `/os-update`; the user layer is gitignored and survives every update. On session start, resolve the active user via `Users/.active-user` and load `Users/<name>/config.md` + `Users/<name>/memory/MEMORY.md`. This contract is harness-neutral.
 
 ## Purpose
 

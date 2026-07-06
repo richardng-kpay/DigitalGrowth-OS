@@ -19,7 +19,7 @@ A role-adaptive operating system for digital growth teams. One folder, seven spe
 Computer, onboard me into this OS
 ```
 
-That's it. Claude will run an interactive session that captures:
+That's it. (If you just attached this folder, Claude offers onboarding on its own — no phrase needed.) Claude will run an interactive session that captures:
 
 - Your name, role, company, and reporting line
 - Channels you own and KPIs you track
@@ -27,7 +27,7 @@ That's it. Claude will run an interactive session that captures:
 - Your operating style (tone, detail level, pushback, decision style)
 - Thought frameworks (evidence standard, tradeoff priority, certainty bar)
 
-After reviewing a full summary, you confirm — then Claude writes your config files.
+After reviewing a full summary, you confirm — then Claude writes your personal config into `Users/<your-name>/` (gitignored — it never leaves your machine and is never touched by template updates).
 
 ---
 
@@ -47,11 +47,28 @@ After reviewing a full summary, you confirm — then Claude writes your config f
 | `/team-standup` | Team sync for shared OS installs: blockers, handoffs, decisions |
 | `/wiki-ingest` | Knowledge maintenance after useful Lark wiki searches |
 
+## The standing rhythm (what makes memory persist)
+
+| Command | When | What it does |
+|---------|------|--------------|
+| `/daily-sync` | Every morning | Consolidates your memory, refreshes your claude.ai project digest, hands off to `/today` |
+| `/eod` | End of day | Sweeps the day's decisions, corrections, and insights into `Users/<you>/memory/` |
+| `/os-update` | Weekly | Pulls the latest OS template from GitHub — your personal files are protected |
+| `/os-feedback` | Anytime | Tells the OS owner what's working and what isn't |
+
+Your Claude account may not retain memory between chats (3P gateway accounts usually don't).
+This OS works around that: **everything durable lives in files inside this folder**, loaded at
+every session start. `/eod` is the habit that makes it work.
+
 ---
 
 ## Privacy
 
-Before committing or sharing this folder, uncomment the relevant lines in `.gitignore` to exclude your personal config files (CLAUDE.md, GOALS.md, Tasks/, Knowledge/People/, Projects/).
+Your identity, style, memory, and feedback live in `Users/<your-name>/`, which is **gitignored
+by default** — it is never committed and never overwritten by updates. Because it's gitignored,
+back it up occasionally (re-cloning the repo would lose it). If you also personalise the shared
+working files (`GOALS.md`, `Tasks/`, `Knowledge/People/`, `Projects/`) and plan to push a fork,
+uncomment the matching lines in `.gitignore` first.
 
 ---
 

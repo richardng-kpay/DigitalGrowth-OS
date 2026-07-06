@@ -114,4 +114,4 @@
 
 ---
 
-*Before publishing, run `/brief-review [file]` and confirm `/audience-check`.*
+*Before publishing, run `/brief-review [file]` and ask the Creative Reviewer agent for an audience pass.*

@@ -1,6 +1,8 @@
 # DigitalGrowth-OS
 
-A downloadable multi-agent operating-system template for digital growth and marketing teams. It combines marketing templates, repeatable workflows, Claude/Codex skills, and a role-adaptive configuration layer so each team member can turn a fresh clone into a useful daily work system.
+A shared AI assistant setup for a digital growth team. Attach it to your Claude Cowork and it remembers your role, your channels, your KPIs, and your working style — so you're not re-explaining yourself every time you open a chat. It walks you through setup itself, gets smarter the more you use it, and receives improvements from the OS owner every week without ever touching your personal data.
+
+(For the technically inclined: a multi-agent operating-system template — marketing templates, repeatable workflows, Claude/Codex skills, a persistent per-user memory layer, and role-adaptive configuration.)
 
 **Roles supported:** Performance Marketing Manager · Content & SEO Lead · Lifecycle Marketing Manager · Website Product Owner · Analytics & Data Lead · Growth Lead
 
@@ -8,30 +10,48 @@ A downloadable multi-agent operating-system template for digital growth and mark
 
 ## Start here: first-run setup
 
-The OS is harness-neutral. Onboarding works in **Claude Code**, **Codex CLI**, and **Gemini CLI**.
+**Using Claude Cowork (most team members)?** Attach this folder inside your Cowork and say anything (even just `hi`) — on first run the OS offers to set itself up, whatever your first message is. That's the whole step 1; skip the table below, it's for command-line setups.
+
+The OS is harness-neutral. Onboarding also works in **Claude Code**, **Codex CLI**, and **Gemini CLI**:
 
 | Harness | Entry-point file | What you do |
 |---|---|---|
 | Claude Code | `CLAUDE.md` | Open the repo in Claude Code (CLI, desktop, or VS Code extension) |
 | Codex CLI | `AGENTS.md` | Run `codex` from the repo root |
+| Gemini CLI | `GEMINI.md` | Run `gemini` from the repo root |
 
-Then, in either harness:
+Then, in any harness:
 
-1. Run:
+1. Say anything — on a fresh copy the OS offers onboarding by itself. The explicit trigger also works:
    ```text
    Computer, onboard me into this OS.
    ```
 
 2. Answer the setup interview. You will be asked your **role on the growth team** first — the rest of the interview branches based on that answer. A Performance Marketer gets different questions from a Lifecycle Marketer.
 
-3. Review the proposed file edits before approving. The workflow shows a full summary before writing anything. Per-file confirmation is required — "sounds good" does not count.
+3. Review the proposed file edits before approving. The workflow shows a full summary before writing anything, then confirms the writes in two explicit gates (your personal layer, then the shared working files) — "sounds good" does not count as approval.
 
 4. After setup, start your first session:
    ```text
    /today
    ```
 
-**Expected first-run outcome:** `CLAUDE.md` configured with your role, channels, KPIs, and agent routing. `GOALS.md` with your 30-60-90 marketing goals. `Tasks/active.md` with this week's priorities. Stakeholder stubs in `Knowledge/People/`.
+**Expected first-run outcome:** your personal layer created at `Users/<you>/` — `config.md` with your role, channels, KPIs, operating style, and agent routing, plus a seeded memory index. `GOALS.md` with your 30-60-90 marketing goals. `Tasks/active.md` with this week's priorities. Stakeholder stubs in `Knowledge/People/`. `CLAUDE.md` itself is never personalized — it stays template-only so weekly updates never conflict with your data.
+
+> **One thing to do after onboarding:** your personal layer (`Users/<you>/`) exists only on your machine. Copy that folder somewhere safe occasionally — if the OS folder is ever deleted or re-created from GitHub, that backup is what restores your memory.
+
+---
+
+## The two layers: how updates and personal data coexist
+
+Two kinds of files, two rules:
+
+- **Shared template** — rules, agents, skills, workflows, templates. Updated weekly from this repo via `/os-update`. (In git terms: tracked.)
+- **Your personal layer** — `Users/<you>/`: identity, operating style, memory, feedback. Updates never touch it, and it is never committed to the team repo. (In git terms: gitignored.)
+
+Claude doesn't reliably remember you between chats — most team accounts run through a gateway that keeps little or no chat memory. So **this folder does the remembering instead**: anything durable (your role, preferences, decisions, corrections) is saved as a file in `Users/<you>/memory/` and reloaded at every session start. You don't have to manage it — `/eod` saves the day's learnings automatically, and a compact digest (`claude-project-digest.md`) can be re-uploaded to your claude.ai Project knowledge so chats outside this folder know you too.
+
+See `Users/README.md` for the full layer contract.
 
 ---
 
@@ -55,7 +75,8 @@ A single AI assistant with one long prompt can't handle this well. It conflates 
 **This OS solves that** with a multi-agent architecture where:
 - Each agent owns a specific marketing domain
 - Agents coordinate through a shared file system (not direct calls)
-- Each team member's configuration is set by their role at onboarding
+- Each team member's configuration and memory live in their own user layer
+- The assistant gets more accurate with use — corrections are written to memory so wrong answers don't repeat, and every claim is grounded in wiki sources or labeled as conjecture
 - A Creative Reviewer gate enforces quality before any external artifact ships
 
 For how a typical growth team week runs through the system, see `HOW-IT-WORKS.md`.
@@ -104,7 +125,9 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 
 ## Skills (slash commands)
 
-11 slash commands ship with the OS. Available immediately after onboarding.
+15 slash commands ship with the OS. Available immediately after onboarding.
+
+**Daily work:**
 
 | Skill | What it does |
 |---|---|
@@ -120,11 +143,20 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 | `/team-standup` | Weekly team sync — blockers, handoffs, decisions across members |
 | `/wiki-ingest` | Knowledge maintenance — promotes Lark findings into durable Knowledge files |
 
+**OS rhythm (memory, updates, feedback):**
+
+| Skill | When | What it does for you |
+|---|---|---|
+| `/daily-sync` | Morning | Consolidates memory, refreshes the claude.ai project digest, hands off to `/today` |
+| `/eod` | End of day | Saves the day's decisions, corrections, and insights so tomorrow starts smarter |
+| `/os-update` | Weekly | Pulls the latest template improvements; your personal files always win on conflict |
+| `/os-feedback` | Anytime | Rates the OS and routes feedback to the OS owner (local log + shared Lark base) |
+
 ---
 
 ## Templates
 
-9 marketing-native templates in `Templates/`:
+10 templates in `Templates/` — 9 marketing documents plus the reviewer-verdict schema:
 
 | Template | Use for |
 |---|---|
@@ -137,6 +169,7 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 | `competitor-snapshot.md` | Paid, organic, and email competitive intelligence |
 | `channel-review.md` | Post-period channel retrospective |
 | `decision.md` | Channel decisions: options, reasoning, reversal conditions |
+| `reviewer-verdict-schema.md` | Verdict format used by the review gates (pass / changes / revise) |
 
 ---
 
@@ -156,19 +189,18 @@ Verdict: **Pass** / **Pass with changes** / **Revise and resubmit**. No exceptio
 
 ```
 DigitalGrowth-OS/
-├── CLAUDE.md                         ← Identity, role, routing, KPIs, operating contract
+├── CLAUDE.md                         ← Team-wide rules: routing, gates, Lark protocol (never personalized)
+├── CHANGELOG.md                      ← Versioned template releases, newest first
 ├── GOALS.md                          ← 30-60-90 goals, KPI targets, stakeholders
+│
+├── Users/                            ← THE USER LAYER (personal, stays on your machine)
+│   ├── .active-user                  ← Names the active user; absence = first run
+│   ├── _template/                    ← Blank scaffold copied at onboarding
+│   └── <you>/                        ← config.md · memory/ · feedback-log.md · usage-log.md
 │
 ├── Agents/
 │   ├── README.md                     ← Agent overview and routing table
 │   └── GrowthTeam/                   ← 7 marketing role agents
-│       ├── growth-lead.md
-│       ├── performance-marketer.md
-│       ├── content-strategist.md
-│       ├── lifecycle-marketer.md
-│       ├── website-owner.md
-│       ├── data-analyst.md
-│       └── creative-reviewer.md
 │
 ├── Tasks/
 │   ├── active.md                     ← Current priorities (#p0/#p1/#p2)
@@ -185,36 +217,39 @@ DigitalGrowth-OS/
 │   ├── Hypotheses/                   ← Experiment results: proposed → confirmed/rejected
 │   ├── Decisions/                    ← Channel decisions with reversal conditions
 │   └── Reference/
-│       └── company.md                ← Company and brand context
+│       ├── company.md                ← Company and brand context
+│       ├── provenance-tags.md        ← Evidence-tag rules and decay windows
+│       └── lark-wiki-index.md        ← Lark wiki doc index (populated after connecting)
 │
-├── Templates/                        ← 9 marketing document templates
+├── Templates/                        ← 10 document templates
 ├── Workflows/
 │   ├── interactive-onboarding.md     ← Role-adaptive setup interview (11 phases)
 │   └── lark-setup.md                 ← Lark MCP credential setup + troubleshooting
 ├── Evals/                            ← Onboarding and synthesis eval suites
 ├── Meetings/                         ← Meeting notes
 └── .claude/
-    └── skills/                       ← 11 slash commands
-        ├── today/
-        ├── todo/
-        ├── weekly-performance-report/
-        ├── campaign-brief/
-        ├── experiment-brief/
-        ├── brief-review/
-        ├── channel-review/
-        ├── email-brief/
-        ├── content-brief/
-        ├── team-standup/
-        └── wiki-ingest/
+    └── skills/                       ← 15 slash commands (mirrored in .agents/skills/)
 ```
+
+---
+
+## Staying up to date
+
+The OS owner ships template improvements through this repo — new skills, better workflows, fixes. Each release bumps the `OS-Version` marker in `CLAUDE.md` and adds a `CHANGELOG.md` entry.
+
+Run `/os-update` weekly (or schedule it). It fetches the latest template, shows what changed in plain language, and merges with a hard guarantee: **your personal files always win on conflict**. `GOALS.md`, `Tasks/`, `Knowledge/People/`, `Projects/`, and everything in `Users/` survive every update.
+
+Have opinions about the OS? `/os-feedback` sends them to the OS owner — rating, friction points, and a wish for the next release.
 
 ---
 
 ## Privacy and GitHub
 
-Before pushing a personalised copy:
-- Remove or anonymise: stakeholder names, company strategy, budget figures, customer data
-- The `.gitignore` includes commented-out entries for `CLAUDE.md`, `GOALS.md`, `Tasks/`, `Knowledge/People/`, and `Projects/` — uncomment these if you've filled in real personal context and want to share only the template shell
+**Know what is and isn't committed by default:**
+
+- **Only `Users/<you>/` is excluded from git by default.** Your identity, memory, and feedback never reach the team repo — but they also exist only on your machine, so back that folder up occasionally.
+- **`GOALS.md`, `Tasks/`, `Knowledge/People/`, and `Projects/` are tracked.** If you fill them with real budgets, stakeholder names, or campaign data and then commit and push, that data ships to the repo. The real protection for team members is simple: **never commit or push — `/os-update` only pulls.**
+- **Forking or pushing a personalised copy (OS owner territory):** uncommenting the `.gitignore` entries for those files is **not enough on its own** — git keeps tracking files it already knows about. You must also run `git rm --cached <file>` to untrack each one, and remove or anonymise stakeholder names, company strategy, budget figures, and customer data before pushing.
 
 This repo is safe to push as-is while placeholders are still in place.
 
@@ -232,4 +267,3 @@ Four default principles, configurable during onboarding:
 ---
 
 Built on Claude Code and Codex CLI. Designed as a configurable, role-adaptive operating-system template for digital growth teams.
-# DigitalGrowth-OS
