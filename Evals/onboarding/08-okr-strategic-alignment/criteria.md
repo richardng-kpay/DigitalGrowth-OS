@@ -1,6 +1,6 @@
 # Eval 08 — OKR strategic alignment captured
 
-**Failure mode:** Phase 5 OKR follow-up questions were skipped, or the `GOALS.md` "Strategic alignment" section still contains bracketed template placeholders after onboarding.
+**Failure mode:** Phase 6 OKR follow-up questions were skipped, or the `GOALS.md` "Strategic alignment" section still contains bracketed template placeholders after onboarding.
 
 ## Why this matters
 
@@ -25,6 +25,6 @@ Grade each criterion ✅ / ❌ / ⚠ partial.
 
 ## Introspection prompt for ❌
 
-> "Why did the runner skip or fail this question? Was it: (a) Phase 5 ended before the follow-up batch was asked, (b) the assistant filled in a placeholder without asking, (c) the user skipped and the assistant silently accepted the template default?"
+> "Why did the runner skip or fail this question? Was it: (a) Phase 6 ended before the follow-up batch was asked, (b) the assistant filled in a placeholder without asking, (c) the user skipped and the assistant silently accepted the template default?"
 
 Capture the answer — it is the harness bug report.

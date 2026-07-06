@@ -4,9 +4,9 @@ Based on the Jordan Lee fixture (complete onboarding, no deferrals). Graders use
 
 ---
 
-## CLAUDE.md — passes C1
+## Users/<name>/config.md — passes C1
 
-All identity and operating style fields filled with Jordan Lee's specific values:
+(Since OS 1.1.0 these fields live in `Users/<name>/config.md`; a personalized `CLAUDE.md` is an eval-15 failure.) All identity and operating style fields filled with Jordan Lee's specific values:
 
 ```markdown
 **[YOUR_NAME]** → Jordan Lee
@@ -17,7 +17,7 @@ All identity and operating style fields filled with Jordan Lee's specific values
 **[HEAD_OF_DEPT]** → (not provided — preserved as [HEAD_OF_DEPT] with user-note "not yet known")
 ```
 
-`grep '[YOUR_' CLAUDE.md` returns one line: the `[HEAD_OF_DEPT]` field with an adjacent note `# user said: not yet known`. That is a documented deferral, not a silent placeholder.
+`grep '[YOUR_' Users/<name>/config.md` returns one line: the `[HEAD_OF_DEPT]` field with an adjacent note `# user said: not yet known`. That is a documented deferral, not a silent placeholder.
 
 ---
 
@@ -50,7 +50,7 @@ No `[Task description]`, `[Sprint N]`, or `[Start Date]` brackets in any populat
 
 ## Deferred field handling — passes C5
 
-`[HEAD_OF_DEPT]` in CLAUDE.md is preserved because the user said "I don't know yet." The field reads:
+`[HEAD_OF_DEPT]` in `Users/<name>/config.md` is preserved because the user said "I don't know yet." The field reads:
 
 ```markdown
 **[HEAD_OF_DEPT]** — [HEAD_OF_DEPT] # user said: not yet known — follow-up in Tasks/follow-ups.md

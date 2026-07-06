@@ -1,6 +1,6 @@
 # Eval 09 — Thought frameworks captured
 
-**Failure mode:** Phase 5B was skipped, or all four `Thought frameworks` fields in `CLAUDE.md` are still bracketed defaults after onboarding.
+**Failure mode:** Phase 4 was skipped, or all four `Thought frameworks` fields in `Users/<name>/config.md` are still bracketed defaults after onboarding.
 
 ## Why this matters
 
@@ -12,7 +12,7 @@ Grade each criterion ✅ / ❌ / ⚠ partial.
 
 | # | Criterion | How to check |
 |---|---|---|
-| 1 | `CLAUDE.md` has a `Thought frameworks` section with all four fields | `grep -n "Thought frameworks" CLAUDE.md` returns a result; all four fields (`Tradeoff priority`, `Evidence standard`, `Decision certainty bar`, `Acceptable failure`) are present below it |
+| 1 | `Users/<name>/config.md` has a `Thought frameworks` section with all four fields | `grep -n "Thought frameworks" Users/<name>/config.md` returns a result; all four fields (`Tradeoff priority`, `Evidence standard`, `Decision certainty bar`, `Acceptable failure`) are present below it |
 | 2 | At least 3 of 4 fields are filled with user-specific content | Fields containing `[` brackets (other than as part of an example list) count as unfilled. "Not specified" (meaning the user explicitly skipped) is a valid filled state. |
 | 3 | No field is copied verbatim from the workflow's example list | The examples in the workflow are "e.g." prompts — user words must differ. If `Tradeoff priority` literally reads "e.g., quality > speed > learning" unchanged, that's a fail. |
 | 4 | `Acceptable failure` distinguishes two categories | Must name what IS acceptable (a learning) vs. what IS NOT (avoidable). A single-sided answer ("failed experiments are OK") only partially passes — grade ⚠. |
@@ -25,6 +25,6 @@ Grade each criterion ✅ / ❌ / ⚠ partial.
 
 ## Introspection prompt for ❌
 
-> "Why did the runner skip or fail Phase 5B? Was it: (a) the phase was omitted entirely from the session, (b) the assistant filled in example text without asking, (c) the user skipped all four and the assistant silently accepted the bracketed defaults?"
+> "Why did the runner skip or fail Phase 4? Was it: (a) the phase was omitted entirely from the session, (b) the assistant filled in example text without asking, (c) the user skipped all four and the assistant silently accepted the bracketed defaults?"
 
 Capture the answer — it is the harness bug report.

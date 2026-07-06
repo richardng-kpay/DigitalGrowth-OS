@@ -6,33 +6,42 @@ Modeled on the `generate-synthetic-data` skill from `hamelsmu/evals-skills`. Ins
 
 | # | Dimension | Values | Why it matters |
 |---|---|---|---|
-| D1 | Persona | Batman / Executive operator / Researcher / Coach / Builder / Minimalist / Custom | Different routing, different quality gates, different default tones. The single biggest behavior-changing input. |
+| D1 | Growth role | Performance Marketing Manager / Content & SEO Lead / Lifecycle Marketing Manager / Website Product Owner / Analytics & Data Lead / Growth Lead / Custom | Different Phase 1B branch, different agents, area tags, KPIs, gates, and starter commands. The single biggest behavior-changing input. (Legacy fixtures carry pre-migration PM personas — Batman, Executive operator, Researcher, Builder — kept only for historical comparison; they do not count toward D1 coverage.) |
 | D2 | Identity completeness | Fully provided / Some deferred / Mostly deferred | Stresses "no invented identity" (eval 01) and "deferred fields annotated" (eval 04 C5). |
-| D3 | OKR alignment provided | Provided / Skipped by user / User unsure | Stresses Phase 5 (eval 08). |
-| D4 | Thought-framework answers | Provided / Skipped / Partial | Stresses Phase 5B (eval 09). |
+| D3 | OKR alignment provided | Provided / Skipped by user / User unsure | Stresses Phase 6 (eval 08). |
+| D4 | Thought-framework answers | Provided / Skipped / Partial | Stresses Phase 4 (eval 09). |
 | D5 | Taste preferences | Provided / "I don't know yet" / Contradictory across phases | Stresses Phase 2 (eval 10). |
-| D6 | Quality-gate selection | Persona-default / Explicit override / Ambiguous | Stresses eval 06; especially adversarial when persona defaults differ from explicit choice. |
+| D6 | Quality-gate selection | Role-default / Explicit override / Ambiguous | Stresses eval 06; especially adversarial when role defaults differ from explicit choice. |
 | D7 | Privacy boundaries | None set / Standard / Sensitive domain (legal, health, comp) | Stresses eval 11. |
-| D8 | Anchor project | Named real project / "Not sure yet" / Multiple candidates | Stresses brief-creation guardrail and routing. |
-| D9 | Re-run behavior | First run / Re-run with same persona / Re-run with new persona | Catches silent persona preservation (eval 03, observed failure mode #12). |
-| D10 | Polite-but-non-explicit acknowledgements | None / Mid-flow / At Phase 8 | Stresses confirmation gates (eval 02, criterion 5 — "polite acks ≠ authorization"). |
+| D8 | Anchor campaign/project | Named real project / "Not sure yet" / Multiple candidates | Stresses brief-creation guardrail and routing. |
+| D9 | Re-run behavior | First run / Re-run with same role / Re-run with new role | Catches silent role preservation (eval 03, observed failure mode #12). |
+| D10 | Polite-but-non-explicit acknowledgements | None / Mid-flow / At Phase 9–10 gates | Stresses confirmation gates (eval 02, criterion 5 — "polite acks ≠ authorization"). |
+| D11 | Run completion (v1.1.0) | Completes cleanly / Aborted before Phase 10 Gate 1 / Aborted mid-Gate-1 (before `config.md` + memory finish) / Lark connection fails | Stresses the v1.1.0 write mechanics (eval 15): `Users/.active-user` written last — an aborted run must NOT leave the clone marked configured; a Lark failure must surface an explicit skip option, not strand the user. |
 
 ## Coverage map — current fixtures
 
-| Fixture | D1 | D2 | D3 | D4 | D5 | D6 | D7 | D8 | D9 | D10 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| `jordan-lee-profile.md` | Executive | Full | Provided | Provided | Provided | Default | None | Real | First run | None |
-| `sam-okafor-batman-variant.md` | Batman | Full | Provided | Provided | Provided | Default | Standard | Real | First run | None |
-| `riley-park-minimalist.md` | Minimalist | Mostly deferred | Skipped | Skipped | "Don't know" | Default | None | Not sure | First run | None |
-| `morgan-chen-custom-persona.md` | Custom | Full | Provided | Provided | Provided | Explicit override | Sensitive | Real | First run | None |
-| `dev-rerun-persona-switch.md` | Executive → Batman | Full | Provided | Provided | Provided | Default → Default | Standard | Real | Re-run new persona | None |
-| `taylor-polite-acks.md` | Builder | Full | Provided | Provided | Provided | Default | Standard | Real | First run | At Phase 8+9 |
-| `wei-ambiguous-anchor.md` | Researcher | Full | Provided | Provided | Provided | Ambiguous | Standard | Multiple candidates | First run | None |
+All nine fixtures in `inputs/` are mapped. Rows marked *(legacy PM)* predate the growth-role migration — their D1 value is a retired PM persona; they run only for historical comparison and do not close D1 gaps.
+
+| Fixture | D1 | D2 | D3 | D4 | D5 | D6 | D7 | D8 | D9 | D10 | D11 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `mardiana-content-seo.md` | Content & SEO Lead | Full | Provided | Provided | Provided | Role-default | Standard | Real | First run | None | Completes |
+| `devi-performance-marketing-manager.md` | Performance Marketing Manager | Full | Provided | Provided | Provided | Role-default | Standard | Real | First run | None | Completes |
+| `riley-park-minimalist.md` | *(none — deferral profile)* | Mostly deferred | Skipped | Skipped | "Don't know" | Role-default | None | Not sure | First run | None | Completes |
+| `morgan-chen-custom-persona.md` | Custom | Full | Provided | Provided | Provided | Explicit override | Sensitive | Real | First run | None | Completes |
+| `taylor-polite-acks.md` | *(legacy PM: Builder)* | Full | Provided | Provided | Provided | Role-default | Standard | Real | First run | At Phase 9–10 gates | Completes |
+| `jordan-lee-profile.md` | *(legacy PM: Executive)* | Full | Provided | Provided | Provided | Role-default | None | Real | First run | None | Completes |
+| `sam-okafor-batman-variant.md` | *(legacy PM: Batman)* | Full | Provided | Provided | Provided | Role-default | Standard | Real | First run | None | Completes |
+| `dev-rerun-persona-switch.md` | *(legacy PM: Executive → Batman)* | Full | Provided | Provided | Provided | Role-default | Standard | Real | Re-run new persona | None | Completes |
+| `wei-ambiguous-anchor.md` | *(legacy PM: Researcher)* | Full | Provided | Provided | Provided | Ambiguous | Standard | Multiple candidates | First run | None | Completes |
 
 ## Visible gaps (parking lot, ordered by leverage)
 
-1. **D2 = Mostly deferred + D1 = Batman.** No fixture stresses Batman defaults *under deferral pressure* — does the assistant fall back to Batman or actually preserve the user's deferrals?
-2. **D7 = Sensitive domain + Batman.** Only the custom persona stresses sensitive boundaries. Does Batman voice respect privacy boundaries, or does its tone override them?
+1. **D1 = Lifecycle / Website / Analytics / Growth Lead.** Four of the seven growth roles have no current fixture — Phase 1B branches C–F have never been exercised by this suite. Highest-leverage additions.
+2. **D11 = Aborted run.** No fixture simulates an abort after Phase 9 approval but before Gate 1 completes — the exact scenario the `.active-user`-written-last rule exists for (eval 15 C5 can currently only be graded from write ordering, not from a real abort).
+3. **D11 = Lark connection fails.** No fixture scripts a failed Phase 0B connection test, so eval 15 C2 (explicit skip option via `AskUserQuestion`) is graded only when it happens to occur.
+4. **D2 = Mostly deferred + a named growth role.** Riley Park defers most fields but carries no role; no fixture stresses role defaults *under deferral pressure* — does the assistant fall back to role-branch defaults or preserve the deferrals?
+5. **D7 = Sensitive domain + a named growth role.** Only the custom-persona fixture stresses sensitive boundaries; no growth-role fixture (e.g. Performance + budget confidentiality) does.
+6. **D10 = At the taste/thought-framework phases** (currently only at the write gates), and **taylor-polite-acks refresh** — the fixture's profile is still a PM persona; a growth-role remake would let it count toward D1 too.
 
 ## Previously addressed (closed gaps)
 
@@ -53,6 +62,6 @@ Modeled on the `generate-synthetic-data` skill from `hamelsmu/evals-skills`. Ins
 
 When the matrix grows large, do not exhaustively enumerate. Sample by:
 
-1. Always cover **every value of D1** (persona) at least once — it's the dominant variable.
+1. Always cover **every value of D1** (growth role) at least once — it's the dominant variable.
 2. Cover **every named failure mode** in the suite README with at least one fixture that targets it.
 3. Beyond that, prefer **tuples that combine two adversarial dimensions** (e.g., Batman + deferred fields; Custom + sensitive privacy). Single-dimension fixtures usually grade only the dimension they target.

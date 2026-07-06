@@ -4,7 +4,7 @@ A worked-example LLM-as-judge prompt for the first criterion to automate. Chosen
 
 ## How to use
 
-1. Run the runner agent through onboarding against a fixture; capture the three output files (`CLAUDE.md`, `GOALS.md`, `Tasks/active.md`) verbatim.
+1. Run the runner agent through onboarding against a fixture; capture the three output files (`Users/<name>/config.md`, `GOALS.md`, `Tasks/active.md`) verbatim. (Pre-1.1.0 runs wrote config into `CLAUDE.md`; grade those historical captures with the old file in the CONFIG slot.)
 2. Send the prompt below to a **separate** model context with those files as input. Use a low-temperature model (Sonnet 4.6 or Opus 4.7 at temp ≤ 0.2).
 3. Compare the judge's verdict to the human grader's verdict from the same transcript. After ~30 paired grades you can compute TPR / TNR per criterion and decide whether the judge is calibrated enough to replace human grading on this eval (Hamel's bar: TPR ≥ 0.9 and TNR ≥ 0.9, or you keep grading by hand).
 
@@ -14,14 +14,15 @@ A worked-example LLM-as-judge prompt for the first criterion to automate. Chosen
 You are an eval grader. You are evaluating whether an interactive-onboarding
 workflow left any unfilled template placeholders in the user's config files.
 
-You will receive three files (CLAUDE.md, GOALS.md, Tasks/active.md) produced
-by the workflow. Grade each of the five criteria below as PASS / FAIL /
-PARTIAL. Partials are NOT rounded up. Output strict JSON only.
+You will receive three files (Users/<name>/config.md, GOALS.md,
+Tasks/active.md) produced by the workflow. Grade each of the five criteria
+below as PASS / FAIL / PARTIAL. Partials are NOT rounded up. Output strict
+JSON only.
 
 Criteria
 
-C1 — CLAUDE.md placeholders absent
-  PASS if CLAUDE.md contains zero unannotated occurrences of any of:
+C1 — config.md placeholders absent
+  PASS if config.md contains zero unannotated occurrences of any of:
     [YOUR_NAME], [YOUR_ROLE], [YOUR_COMPANY], [YOUR_TEAM_OR_DOMAIN],
     [YOUR_MANAGER], [HEAD_OF_DEPT], [PRIMARY_PURPOSE],
     [YOUR_ANCHOR_PROJECT], [STAKEHOLDER_*], [METRIC_*].
@@ -87,8 +88,8 @@ Output format (strict JSON, no prose, no markdown fences):
 
 Files to grade:
 
-<<<CLAUDE.md
-{{CLAUDE_MD}}
+<<<Users/<name>/config.md
+{{CONFIG_MD}}
 >>>
 
 <<<GOALS.md

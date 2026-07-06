@@ -4,10 +4,10 @@ Based on the Jordan Lee fixture. Graders use this as the anchor for correctly ca
 
 ---
 
-## CLAUDE.md taste fields — passes all 3 criteria
+## Users/<name>/config.md taste fields — passes all 3 criteria
 
 ```markdown
-## User-configured operating style
+## Operating style
 
 - **Turn-offs:** Sycophantic openers ("Great question!", "Certainly!"); long preambles before getting to the point; bullet-pointing everything including things that should be prose
 - **Ideal response feel:** Gets to the recommendation in the first sentence. Shows the tradeoff. Assumes I know PM basics and doesn't over-explain.

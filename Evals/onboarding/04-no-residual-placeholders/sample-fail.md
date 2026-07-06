@@ -4,14 +4,14 @@ Examples of each failure mode. Graders use these as anchors.
 
 ---
 
-## C1 fails — brackets remain in CLAUDE.md
+## C1 fails — brackets remain in Users/<name>/config.md
 
 ```markdown
-- **Company / organization:** [YOUR_COMPANY]
-- **Manager or primary sponsor:** [YOUR_MANAGER] → [HEAD_OF_DEPT]
+- **Company:** [YOUR_COMPANY]
+- **Manager / primary sponsor:** [YOUR_MANAGER] → [HEAD_OF_DEPT]
 ```
 
-Jordan Lee gave their company (Acme AI) and manager (Priya Shah) during Phase 0. These fields were filled in conversation but the assistant did not write them to `CLAUDE.md`. Brackets remain.
+Jordan Lee gave their company (Acme AI) and manager (Priya Shah) during Phase 0. These fields were filled in conversation but the assistant did not write them to `Users/<name>/config.md`. Brackets remain.
 
 ---
 

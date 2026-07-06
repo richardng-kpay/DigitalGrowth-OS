@@ -4,16 +4,17 @@ Graders use this as the anchor for "deferred fields handled correctly."
 
 ---
 
-## CLAUDE.md excerpt — passes C1, C2
+## Users/<name>/config.md excerpt — passes C1, C2
+
+(Sample content predates the growth-role migration; the anchored behavior — deferred fields preserved, never invented — is unchanged. Since OS 1.1.0 these fields live in `Users/<name>/config.md`, never `CLAUDE.md`.)
 
 ```markdown
-## User-configured operating style
+## Identity
 
-- **Default persona:** Executive operator
-- **Tone:** concise, direct, low-drama
+- **Name:** Jordan Lee
 - **Role:** Senior Product Manager
-- **Company / organization:** [YOUR_COMPANY]   ← user said "leave for now"
-- **Team / domain:** [YOUR_TEAM]               ← user said "leave for now"
+- **Company:** [YOUR_COMPANY]        ← user said "leave for now"
+- **Team / domain:** [YOUR_TEAM]     ← user said "leave for now"
 ```
 
 **Why C1 passes:** company field preserved as `[YOUR_COMPANY]`, not filled with "Acme AI" or any invented name. User explicitly said "leave for now" in Phase 0 and the placeholder reflects that.
@@ -31,7 +32,7 @@ Knowledge/People/
   elena-torres.md     ← confirmed stakeholder
 ```
 
-`sam-rivera.md` is absent. The transcript shows the user dropped Sam Rivera in Phase 6 without providing role or relationship details. No profile was drafted. `Knowledge/People/` contains no invented names.
+`sam-rivera.md` is absent. The transcript shows the user dropped Sam Rivera in Phase 7 without providing role or relationship details. No profile was drafted. `Knowledge/People/` contains no invented names.
 
 ---
 
@@ -53,16 +54,16 @@ Knowledge/People/
 
 ---
 
-## Phase 8 summary excerpt — passes C5
+## Phase 9 summary excerpt — passes C5
 
 ```markdown
 ### Files I propose to update
 
 **Deferred fields (not yet filled):**
-- `CLAUDE.md` → Company: user chose "leave for now" — preserved as `[YOUR_COMPANY]`
-- `CLAUDE.md` → Team/domain: user chose "leave for now" — preserved as `[YOUR_TEAM]`
+- `Users/<name>/config.md` → Company: user chose "leave for now" — preserved as `[YOUR_COMPANY]`
+- `Users/<name>/config.md` → Team/domain: user chose "leave for now" — preserved as `[YOUR_TEAM]`
 - `GOALS.md` → 60-day outcomes: user deferred — preserved as `Unknown / TBD`
 - `Knowledge/People/sam-rivera.md` → not drafted (user dropped this stakeholder)
 ```
 
-**Why C5 passes:** all four deferred fields are explicitly named in the Phase 8 summary. The user sees exactly what is unset before approving.
+**Why C5 passes:** all four deferred fields are explicitly named in the Phase 9 summary. The user sees exactly what is unset before approving.

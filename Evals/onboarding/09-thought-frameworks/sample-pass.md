@@ -4,7 +4,7 @@ Based on the Jordan Lee fixture. Graders use this as the anchor for a correctly 
 
 ---
 
-## CLAUDE.md Thought frameworks section — passes all 4 criteria
+## Users/<name>/config.md Thought frameworks section — passes all 4 criteria
 
 ```markdown
 ## Thought frameworks

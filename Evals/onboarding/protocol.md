@@ -30,7 +30,8 @@ Evals/onboarding/results/transcripts/YYYY-MM-DD_<fixture>_<model>.md
 The transcript must include:
 
 - Every assistant question and every user reply, in order.
-- The order and granularity of file-write operations (one row per write, with filename).
+- The order and granularity of file-write operations (one row per write, with filename). This must cover the user-layer writes — `Users/<name>/` scaffold, `Users/<name>/config.md`, `Users/<name>/memory/*` — and the exact position of the `Users/.active-user` write, which must come **after** `config.md` and the memory seeds (graded by eval 15).
+- Which Phase 10 gate (Gate 1 — user layer, Gate 2 — shared working files) each write happened under, and the user reply that opened each gate (graded by evals 07 and 15).
 - The Phase 11 verification ✅/❌ row results.
 - Any place the user replied with a polite-but-non-explicit acknowledgement (so eval 07 criterion 5 can be graded).
 
@@ -54,11 +55,11 @@ Capture the answer — it is the harness bug report.
 
 ## 4. Aggregate across fixtures
 
-A single fixture is a data point, not a signal. Run every eval against **all three fixtures**:
+A single fixture is a data point, not a signal. Run every eval against **all applicable fixtures** per the fixture table in `README.md`. `inputs/` currently holds nine fixtures; they are not all equal:
 
-- `inputs/jordan-lee-profile.md` (Executive operator)
-- `inputs/mardiana-content-seo.md` (Content & SEO Lead, seamless-start coverage)
-- `inputs/riley-park-minimalist.md` (Minimalist, with many deferred fields)
+- **Core growth-role fixtures (every run):** `inputs/mardiana-content-seo.md` (Content & SEO Lead, seamless-start coverage), `inputs/devi-performance-marketing-manager.md` (Performance Marketing Manager), `inputs/riley-park-minimalist.md` (minimalist, with many deferred fields).
+- **Targeted fixtures (when a criterion requires them):** `inputs/morgan-chen-custom-persona.md` (custom role + sensitive privacy, evals 11/12), `inputs/taylor-polite-acks.md` (polite-ack gates, evals 02/07).
+- **Legacy PM-OS fixtures (historical comparison only, never for new pass rates):** `inputs/jordan-lee-profile.md`, `inputs/sam-okafor-batman-variant.md`, `inputs/dev-rerun-persona-switch.md`, `inputs/wei-ambiguous-anchor.md`.
 
 Report per-fixture results and a per-eval pass rate. Compute a 95% confidence interval where N ≥ 30; below that, report the raw count and flag low statistical power.
 
@@ -78,7 +79,7 @@ Write `Evals/onboarding/results/YYYY-MM-DD_<model>.md` with:
 If the run log does not include:
 
 - Captured transcript with author/grader separation
-- Per-fixture results across all three fixtures
+- Per-fixture results across all applicable fixtures (three core fixtures minimum)
 - Introspection findings for failures
 - Model and commit SHA pinned
 
@@ -86,7 +87,8 @@ If the run log does not include:
 
 ## Anti-patterns to avoid
 
-- **Cherry-picking the best fixture.** All three fixtures or none.
+- **Cherry-picking the best fixture.** All applicable fixtures or none.
+- **Citing a legacy PM-OS fixture as current coverage.** Jordan Lee / Sam Okafor / Alex Reyes / Wei Zhang runs predate the growth-role migration and the v1.1.0 user layer; they compare against history, they do not certify the current workflow.
 - **Grading from memory.** The grader must work from the captured transcript only.
 - **Skipping introspection.** A ❌ without a "why" is half a result.
 - **Calling a 7/7 result "validated."** A single run on a single model is a baseline, not validation. Re-run on model upgrades.

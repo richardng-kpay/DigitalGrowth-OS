@@ -2,6 +2,16 @@
 
 Based on the Jordan Lee fixture (Executive operator persona). Graders use this as the anchor for correct non-Batman persona handling.
 
+> **Legacy anchor (pre-growth-migration, pre-OS-1.1.0).** This sample predates both the
+> growth-role rewrite of eval 03's criteria and the v1.1.0 user layer — its excerpts show
+> `CLAUDE.md`, PM personas (Executive operator / Batman), and Gotham agents that no longer
+> exist in this OS. Use it **only** when grading legacy fixture runs against historical
+> results. For current runs, grade directly against `criteria.md`: role/agent/tags land in
+> `Users/<name>/config.md`, routing goes to `Agents/GrowthTeam/`, and the anchored behavior
+> to transfer is the *shape* — the selected option is respected, alternatives stay available
+> opt-in, and no unselected persona's defaults leak in. A current-fixture replacement anchor
+> (e.g. from a Mardiana or Devi transcript) is still to be authored.
+
 ---
 
 ## CLAUDE.md excerpt — passes C1, C2, C4

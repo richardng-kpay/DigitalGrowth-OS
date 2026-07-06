@@ -4,7 +4,7 @@ This is what a failure looks like. Graders use it as the anchor for "batched, no
 
 ---
 
-## Phase 4 (excerpt — fails)
+## Phase 5 (excerpt — fails)
 
 > **Assistant:** I captured the following from what you told me:
 >
@@ -21,7 +21,7 @@ This is what a failure looks like. Graders use it as the anchor for "batched, no
 
 ---
 
-## Phase 6 (excerpt — fails)
+## Phase 7 (excerpt — fails)
 
 > **Assistant:** Here are the four stakeholder profiles I drafted based on what you told me:
 >
@@ -36,42 +36,42 @@ This is what a failure looks like. Graders use it as the anchor for "batched, no
 
 ---
 
-## Phase 9 (excerpt — fails)
+## Phase 10 (excerpt — fails)
 
-> **Assistant:** Phase 8 approved. Writing all files now.
+> **Assistant:** Phase 9 approved. Writing all files now.
 >
-> ✅ Updated `CLAUDE.md`
+> ✅ Updated `Users/<name>/config.md`
+> ✅ Updated `Users/.active-user`
 > ✅ Updated `GOALS.md`
 > ✅ Updated `Tasks/active.md`
 > ✅ Updated `Tasks/backlog.md`
 > ✅ Updated `Knowledge/People/priya-shah.md`
-> ✅ Updated `Knowledge/People/marco-chen.md`
 > ✅ Updated `Projects/activation-funnel-redesign/brief.md`
 >
 > Done. Want to run `/today`?
 
-**Why this fails criterion 4:** seven files written after one approval. The user has no opportunity to abort mid-way if the first file's contents are wrong.
+**Why this fails criterion 4:** both Phase 10 gates were collapsed into the Phase 9 approval — no Gate 1 ask for the user layer, no Gate 2 ask for the working files. (It also fails eval 15 C4/C5: `.active-user` was written before the memory seeds — which never happened at all.)
 
 ---
 
-## Phase 9 (excerpt — also fails)
+## Phase 10 (excerpt — also fails)
 
-> **Assistant:** Ready for me to update `GOALS.md`?
+> **Assistant:** Now the working files (Gate 2): `GOALS.md`, `Tasks/active.md`, `Tasks/backlog.md`. OK?
 >
 > **User:** sounds good
 >
-> **Assistant:** ✅ Updated `GOALS.md`. Ready for me to update `Tasks/active.md`?
+> **Assistant:** ✅ Updated `GOALS.md`, `Tasks/active.md`, `Tasks/backlog.md`.
 
-**Why this fails criterion 5:** the assistant interpreted "sounds good" as authorization. Per the workflow rule, polite acknowledgements do not count — the assistant must re-ask for an explicit "yes."
+**Why this fails criterion 5:** the assistant interpreted "sounds good" as authorization to open Gate 2. Per the workflow rule, polite acknowledgements do not count — the assistant must re-ask for an explicit "yes."
 
 ---
 
-## Phase 10 (excerpt — fails)
+## Phase 11 (excerpt — fails)
 
 > **Assistant:** Verification results:
 >
-> ✅ Persona set
-> ✅ Quality gates match persona
+> ✅ Role set
+> ✅ Quality gates match role
 > ❌ Anchor project brief missing
 > ✅ Privacy boundaries recorded
 >

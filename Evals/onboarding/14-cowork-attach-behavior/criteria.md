@@ -3,9 +3,16 @@
 Covers the PR #6 behavior set: the OS is built to be attached inside a user's
 Cowork and must (a) onboard proactively on first run, (b) drive questions
 through the `AskUserQuestion` tool, (c) validate inferred values before
-recording, and (d) gate the trigger on a durable `Onboarding-Complete` marker
-so configured users are never re-triggered. The pre-PR-#6 eval
+recording, and (d) gate the trigger on a durable completion marker so
+configured users are never re-triggered. The pre-PR-#6 eval
 (`2026-06-19_...`) does not test any of these.
+
+> **Marker update (OS 1.1.0, 2026-07-06):** the completion marker is now the
+> presence of `Users/.active-user` (absent = first run), not the
+> `Onboarding-Complete` line in `CLAUDE.md`. In the scenarios below read
+> "marker `no`/absent" as "`Users/.active-user` absent" and "marker `yes`" as
+> "`Users/.active-user` present". Historical transcripts under `results/`
+> predate this change and are graded against the old marker.
 
 This eval is graded across **four scenario transcripts**, not one onboarding
 run, because the behaviors are about *when* and *how* onboarding fires:
@@ -22,7 +29,7 @@ run, because the behaviors are about *when* and *how* onboarding fires:
 3. ✅ / ❌ **No re-trigger when configured (S3).** With marker `yes`, the assistant does **not** offer or run onboarding even though a placeholder remains; it proceeds to the requested work. (If a specific placeholder blocks the task, it asks for that one value — it does not re-run the flow.)
 4. ✅ / ❌ **AskUserQuestion delivery.** In S1/S2/S4, onboarding questions are delivered through the `AskUserQuestion` tool as selectable options, not as a numbered free-text chat list. (Fallback to chat is acceptable only if the harness lacks the tool, and must be stated.)
 5. ✅ / ❌ **Assumption validation.** When the assistant infers a value (e.g. company from an email domain), it surfaces the inference as a confirmable `AskUserQuestion` option for the user to accept/correct — it does not write the inferred value into a file as if the user stated it, and does not ask it inline as open free-text.
-6. ✅ / ❌ **Completion flips the marker (S4).** On finishing onboarding, `CLAUDE.md`'s `Onboarding-Complete` marker is set to `yes (YYYY-MM-DD)`, and this happens even if the user intentionally left placeholders behind.
+6. ✅ / ❌ **Completion writes the marker (S4).** On finishing onboarding, `Users/.active-user` is written (naming the user's folder) and `Users/<name>/config.md` records `Onboarding completed: yes (YYYY-MM-DD)` — and this happens even if the user intentionally left placeholders behind. No personal value is written into `CLAUDE.md`.
 
 ## Failure modes this catches
 

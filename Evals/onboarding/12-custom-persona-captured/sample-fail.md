@@ -2,6 +2,12 @@
 
 Examples of each failure mode. Graders use these as anchors.
 
+> **Legacy anchor (pre-growth-migration, pre-OS-1.1.0).** Same caveat as `sample-pass.md`.
+> The transferable failure shapes for current runs: a custom role silently mapped onto a
+> built-in growth role (C1), role-default gates applied without confirmation (C2), default
+> command lists substituted for the user's stated list (C3), and `config.md` routing left as
+> an undefined "default routing applies" (C4).
+
 ---
 
 ## C1 fails — Assistant maps custom persona to a predefined one without asking

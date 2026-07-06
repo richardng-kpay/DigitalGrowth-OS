@@ -1,8 +1,8 @@
 # Pass criteria — First useful SEO output (seamless start)
 
 **What this catches:** Onboarding can finish cleanly and still leave the user
-stranded — a perfectly filled `CLAUDE.md` that produces a generic, ungrounded
-first deliverable. This eval tests the *seamless start*: immediately after
+stranded — a perfectly filled `Users/<name>/config.md` that produces a generic,
+ungrounded first deliverable. This eval tests the *seamless start*: immediately after
 onboarding, the Content & SEO user runs `/content-brief` and must get a brief
 that (a) reuses what onboarding already captured, (b) follows the mandatory
 wiki-first protocol, and (c) is grounded in her actual context — not generic
@@ -14,9 +14,9 @@ SaaS filler.
 
 ## Criteria (binary)
 
-1. ✅ / ❌ **Reuses captured config.** The skill reads `CLAUDE.md` and does NOT
-   re-ask role, channels, KPIs, or approval chain already captured in
-   onboarding. It may ask the per-brief questions (topic, reader, funnel stage,
+1. ✅ / ❌ **Reuses captured config.** The skill reads `Users/<name>/config.md`
+   and does NOT re-ask role, channels, KPIs, or approval chain already captured
+   in onboarding. It may ask the per-brief questions (topic, reader, funnel stage,
    keyword, CTA, length) — those are piece-specific, not config.
 
 2. ✅ / ❌ **Wiki-first protocol followed.** Because this is a project question,

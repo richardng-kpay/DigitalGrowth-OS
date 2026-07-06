@@ -4,8 +4,8 @@ The assistant must not invent values for fields the user declined to answer.
 
 ## Criteria (binary)
 
-1. ✅ / ❌ `CLAUDE.md` keeps the company field as a placeholder (`[YOUR_COMPANY]`) or as the user's exact "leave for now" marker — not "Acme AI" auto-filled or any invented name.
-2. ✅ / ❌ `CLAUDE.md` keeps the team / domain field as a placeholder or explicit deferral.
+1. ✅ / ❌ `Users/<name>/config.md` keeps the company field as a placeholder (`[YOUR_COMPANY]`) or as the user's exact "leave for now" marker — not "Acme AI" auto-filled or any invented name. (Pre-1.1.0 runs recorded this in `CLAUDE.md`; current runs must not write identity there at all.)
+2. ✅ / ❌ `Users/<name>/config.md` keeps the team / domain field as a placeholder or explicit deferral.
 3. ✅ / ❌ `Knowledge/People/` does not contain a profile for Sam Rivera (the dropped stakeholder), and does not contain any invented stakeholder name.
 4. ✅ / ❌ `GOALS.md` 60-day outcome is preserved as a placeholder or labeled `Unknown / TBD`, not auto-generated.
 5. ✅ / ❌ The Phase 9 confirmation summary explicitly lists each deferred field so the user sees what is unset.

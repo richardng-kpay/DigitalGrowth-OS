@@ -2,6 +2,15 @@
 
 Shows both the Executive operator (Jordan Lee) and Batman (Sam Okafor) configurations side by side. Graders use this to verify the two runs produce different gate configs.
 
+> **Legacy anchor (pre-growth-migration, pre-OS-1.1.0).** The gate names below
+> (`/peer-review`, `/prd-readiness`, `/riddler`, `/vale`) and the `CLAUDE.md` target are from
+> the earlier PM OS. For current runs, gates live in `Users/<name>/config.md` → `Quality gates
+> selected` and resolve to this OS's skills (`/brief-review`, `/campaign-readiness`,
+> `/experiment-readiness`, `/research-sufficiency`, audience check). The anchored behavior to
+> transfer: two different roles must produce **meaningfully different** gate configs, and the
+> user's explicit choice beats any default. A current-fixture replacement anchor is still to
+> be authored.
+
 ---
 
 ## Executive operator — CLAUDE.md quality gates section (Jordan Lee)
