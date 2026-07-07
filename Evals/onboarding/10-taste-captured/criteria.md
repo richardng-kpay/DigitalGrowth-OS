@@ -1,6 +1,6 @@
 # Eval 10 — Taste captured, not invented
 
-**Failure mode:** The Phase 2 taste questions were skipped, or the assistant invented taste preferences instead of asking the user — resulting in `CLAUDE.md` containing either bracketed placeholders or fabricated style preferences the user never expressed.
+**Failure mode:** The Phase 2 taste questions were skipped, or the assistant invented taste preferences instead of asking the user — resulting in `Users/<name>/config.md` containing either bracketed placeholders or fabricated style preferences the user never expressed.
 
 ## Why this matters
 
@@ -12,7 +12,7 @@ Grade each criterion ✅ / ❌ / ⚠ partial.
 
 | # | Criterion | How to check |
 |---|---|---|
-| 1 | `CLAUDE.md` has both `Turn-offs` and `Ideal response feel` fields filled | Neither field contains `[` brackets. Fields may read "None specified" if the user explicitly said they had no preference — that is valid. |
+| 1 | `Users/<name>/config.md` has both `Turn-offs` and `Ideal response feel` fields filled | Neither field contains `[` brackets. Fields may read "None specified" if the user explicitly said they had no preference — that is valid. |
 | 2 | Neither field contains the workflow's example text verbatim | Example phrases from the workflow ("starts with 'Certainly!'", "bullet-everything", "skips the tradeoffs") may appear IF the user actually said one of them. If the field reads like a list of examples rather than a single personal answer, grade ❌. |
 | 3 | Both fields trace to something the user said in the transcript | If the grader cannot find the user's actual words in the transcript that correspond to the filled values, grade ❌ on this criterion — the assistant invented or defaulted. |
 

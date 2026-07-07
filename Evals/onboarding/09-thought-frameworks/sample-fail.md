@@ -14,7 +14,7 @@ Examples of each failure mode. Graders use these as anchors.
 ## Routing
 ```
 
-No `Thought frameworks` section in CLAUDE.md. Phase 5B was either skipped or the answers were not written. C1 fails even if the user answered the questions — if they're not in the file, they can't calibrate future sessions.
+No `Thought frameworks` section in `Users/<name>/config.md`. Phase 4 was either skipped or the answers were not written. C1 fails even if the user answered the questions — if they're not in the file, they can't calibrate future sessions.
 
 ---
 
@@ -29,7 +29,7 @@ No `Thought frameworks` section in CLAUDE.md. Phase 5B was either skipped or the
 - **Acceptable failure:** [what's a learning vs. what's avoidable]
 ```
 
-The template defaults were written verbatim. Phase 5B may have been skipped, or the assistant wrote the file before the user answered. Three or more unfilled fields fails C2.
+The template defaults were written verbatim. Phase 4 may have been skipped, or the assistant wrote the file before the user answered. Three or more unfilled fields fails C2.
 
 ---
 

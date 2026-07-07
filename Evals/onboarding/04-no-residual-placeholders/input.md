@@ -2,7 +2,7 @@
 
 Run a full onboarding against `inputs/jordan-lee-profile.md`. Grade the final state of:
 
-- `CLAUDE.md`
+- `Users/<name>/config.md`
 - `GOALS.md`
 - `Tasks/active.md`
 - `Knowledge/People/priya-shah.md` (if created)

@@ -1,10 +1,15 @@
 # Sample passing transcript excerpt — eval 07 (per-step interactivity)
 
-This is what the Phase 4 / Phase 6 / Phase 8 / Phase 9 portions of the onboarding transcript should look like for Jordan Lee. Graders use it as the anchor for "interactive."
+This is what the Phase 5 / Phase 7 / Phase 9 / Phase 10 portions of the onboarding transcript should look like for Jordan Lee. Graders use it as the anchor for "interactive."
+
+> **Write-rule update (OS 1.1.0, 2026-07-06):** the Phase 10 excerpt below shows the
+> two-gate write flow, which replaced per-file confirmation. Historical transcripts
+> under `results/` show per-file asks — correct for their time, a C4 deviation now
+> unless the user asked for finer control.
 
 ---
 
-## Phase 4 (excerpt)
+## Phase 5 (excerpt)
 
 > **Assistant:** Here are the P0 tasks I captured from what you told me:
 > 1. Finish discovery readout draft
@@ -33,7 +38,7 @@ This is what the Phase 4 / Phase 6 / Phase 8 / Phase 9 portions of the onboardin
 
 ---
 
-## Phase 6 (excerpt)
+## Phase 7 (excerpt)
 
 > **Assistant:** Let's go through stakeholders one at a time. Starting with Priya Shah — what's her role and seniority?
 >
@@ -62,32 +67,28 @@ This is what the Phase 4 / Phase 6 / Phase 8 / Phase 9 portions of the onboardin
 
 ---
 
-## Phase 9 (excerpt)
+## Phase 10 (excerpt — two-gate writes)
 
-> **Assistant:** All Phase 8 files approved. Starting writes one at a time.
->
-> Ready for me to update `CLAUDE.md`?
+> **Assistant:** Phase 9 plan approved. Writing your personal layer now (Gate 1): `Users/<name>/` scaffold, `config.md`, memory seeds. OK?
 >
 > **User:** Yes.
 >
-> **Assistant:** Updated `CLAUDE.md`. Next: `GOALS.md`.
+> **Assistant:** ✅ `Users/<name>/` scaffold · ✅ `config.md` · ✅ `memory/2026-07-06-taste-recommendation-first.md` + index line · ✅ `Users/.active-user` (written last)
 >
-> Ready for me to update `GOALS.md`?
+> Now the working files (Gate 2): `GOALS.md`, `Tasks/active.md`, `Tasks/backlog.md`, `Knowledge/People/priya-shah.md`, `Knowledge/People/marco-chen.md`. OK?
 >
 > **User:** sounds good
 >
-> **Assistant:** Just to confirm — "sounds good" — does that mean yes, write `GOALS.md` now?
+> **Assistant:** Just to confirm — "sounds good" — does that mean yes, write the working files now?
 >
 > **User:** Yes.
 >
-> **Assistant:** Updated `GOALS.md`. Next: `Tasks/active.md`.
-
-(Continues per file.)
+> **Assistant:** ✅ `GOALS.md` · ✅ `Tasks/active.md` · ✅ `Tasks/backlog.md` · ✅ `Knowledge/People/priya-shah.md` · ✅ `Knowledge/People/marco-chen.md`
 
 ## Why this passes eval 07
 
-- Phase 4 read-back is separated by priority (P0 first, then P1, then would continue with P2 / blockers / follow-ups).
-- Phase 6 confirms role + reason + style **per stakeholder** before drafting any file.
-- Phase 9 asks "Ready for me to update [filename]?" before each write.
+- Phase 5 read-back is separated by priority (P0 first, then P1, then would continue with P2 / blockers / follow-ups).
+- Phase 7 confirms role + reason + style **per stakeholder** before drafting any file.
+- Phase 10 opens each of the two gates with its own explicit ask, and reports each file in one line — no per-file interrogation the user didn't request, no writes outside the authorizing gate.
 - The "sounds good" reply is **not** treated as approval — the assistant re-confirms explicitly.
-- No file is written before its individual confirmation.
+- `Users/.active-user` is written last within Gate 1, after `config.md` and the memory seeds succeed.

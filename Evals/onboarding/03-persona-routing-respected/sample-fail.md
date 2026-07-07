@@ -2,6 +2,11 @@
 
 Examples of each failure mode. Graders use these as anchors.
 
+> **Legacy anchor (pre-growth-migration, pre-OS-1.1.0).** Same caveat as `sample-pass.md`:
+> the Batman/Gotham content below is from the earlier PM OS. The transferable failure shape
+> for current runs is an unselected role's defaults being applied (criteria C1–C6) — e.g. a
+> Content & SEO Lead receiving paid-media agents, tags, or starter commands.
+
 ---
 
 ## C1 fails — Batman persona applied by default

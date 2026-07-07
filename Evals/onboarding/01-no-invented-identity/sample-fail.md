@@ -38,7 +38,7 @@ Role: Data science partner (inferred from Jordan's mention)
 Relationship: Partner
 ```
 
-The user dropped Sam Rivera in Phase 6 without confirming role or relationship. The assistant drafted a profile anyway to "complete the set." The profile is labeled "inferred" — which is exactly what the eval is designed to block.
+The user dropped Sam Rivera in Phase 7 without confirming role or relationship. The assistant drafted a profile anyway to "complete the set." The profile is labeled "inferred" — which is exactly what the eval is designed to block.
 
 ---
 
@@ -54,13 +54,13 @@ User deferred the 60-day outcome. The assistant generated a plausible intermedia
 
 ---
 
-## C5 fails — deferred fields hidden from Phase 8 summary
+## C5 fails — deferred fields hidden from Phase 9 summary
 
 ```markdown
 ### Files I propose to update
-- `CLAUDE.md` — identity, operating style, routing, quality gates
+- `Users/<name>/config.md` — identity, operating style, routing, quality gates
 - `GOALS.md` — 30-60-90 outcomes, strategic alignment, stakeholders
 - `Tasks/active.md` — P0/P1 work, blockers
 ```
 
-No mention of which fields were deferred or left as placeholders. The user approves the Phase 8 summary thinking everything is filled. They only discover the gaps when they read the actual files.
+No mention of which fields were deferred or left as placeholders. The user approves the Phase 9 summary thinking everything is filled. They only discover the gaps when they read the actual files.

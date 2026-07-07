@@ -4,7 +4,7 @@ After a complete onboarding (no deferrals), zero template placeholders should re
 
 ## Criteria (binary)
 
-1. ✅ / ❌ `CLAUDE.md` contains zero `[YOUR_*]`, `[HEAD_OF_DEPT]`, `[STAKEHOLDER_*]`, or `[METRIC_*]` placeholders.
+1. ✅ / ❌ `Users/<name>/config.md` contains zero `[YOUR_*]`, `[HEAD_OF_DEPT]`, `[STAKEHOLDER_*]`, or `[METRIC_*]` placeholders. (`CLAUDE.md` is template-layer since OS 1.1.0 — its placeholders are intentional and must remain untouched; a *personalized* `CLAUDE.md` is a failure under eval 15, not a pass here.)
 2. ✅ / ❌ `GOALS.md` contains zero `[YOUR_*]`, `[AREA_*]`, `[METRIC_*]`, `[STAKEHOLDER_*]`, or `[DEV_GOAL_*]` placeholders.
 3. ✅ / ❌ `GOALS.md` does not contain marketing-team-legacy placeholders: `[LIFECYCLE_PM]`, `[PAID_ADS_PM]`, `[WEBSITE_PM]`, `[CONTENT_PM]`, `[CURRENT_QUARTER]`.
 4. ✅ / ❌ `Tasks/active.md` has no bracketed `[Task description]`, `[Sprint N]`, or `[Start Date]` placeholders in the populated rows.

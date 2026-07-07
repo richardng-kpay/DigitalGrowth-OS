@@ -2,6 +2,12 @@
 
 Examples of each failure mode. Graders use these as anchors.
 
+> **Legacy anchor (pre-growth-migration, pre-OS-1.1.0).** Same caveat as `sample-pass.md`.
+> The transferable failure shapes for current runs: the default pre-publish gate missing for
+> external artifacts (C1), a heavier/lighter gate set applied against the user's explicit
+> choice, standard gates stripped for a "light" style, and identical gate configs across
+> different roles (C5).
+
 ---
 
 ## C1 fails — /peer-review not set as default for Executive operator

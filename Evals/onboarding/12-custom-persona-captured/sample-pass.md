@@ -2,6 +2,14 @@
 
 Based on the Morgan Chen fixture (custom persona: "Calm operator with clinical-safety rigor"). Graders use this as the anchor for correct custom-persona handling.
 
+> **Legacy anchor (pre-growth-migration, pre-OS-1.1.0).** The gate/agent names below
+> (`/peer-review`, `/prd-readiness`, Batman/Gotham routing) and the `CLAUDE.md` target are
+> from the earlier PM OS. For current runs, C4 grades `Users/<name>/config.md` → `Agent
+> routing`, and "routed by default vs available on request" refers to the GrowthTeam agents
+> (`Agents/GrowthTeam/`). The anchored behavior to transfer: the user's custom label is kept
+> verbatim, gates and commands are confirmed rather than inferred, and the routing written
+> down is specific enough for a future session to act on.
+
 ---
 
 ## C1 passes — Assistant accepts the custom persona name verbatim without rewriting it

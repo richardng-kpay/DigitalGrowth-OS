@@ -10,7 +10,7 @@ Review a channel's performance over a defined period. Identifies what worked, wh
 
 ## Steps
 
-1. Read `CLAUDE.md` — identify the user's role, channels, and KPI targets
+1. Read `Users/<active-user>/config.md` (resolve via `Users/.active-user`) — identify the user's role, channels, and KPI targets
 2. Read `GOALS.md` — pull the target metrics this channel should be hitting
 3. Read `Tasks/active.md` — check what campaigns or tests were running in this period
 4. Read `Projects/` — find any active campaign briefs for this channel and their stated KPI targets

@@ -9,7 +9,7 @@ Compile and draft the weekly performance report. Run every Friday or when a week
 
 ## Steps
 
-1. Read `CLAUDE.md` — identify the user's role, channels, and KPIs
+1. Read `Users/<active-user>/config.md` (resolve via `Users/.active-user`) — identify the user's role, channels, and KPIs
 2. Read `Tasks/active.md` — pull what was completed this week, what's in progress, and any blockers
 3. Read `GOALS.md` — check how this week's performance tracks against 30/60/90 goals and the proof metric
 4. Read `TEAM-GOALS.md` and `Projects/README.md` — build the team campaign view (see §Team view below)
@@ -51,7 +51,7 @@ After drafting, ask:
 
 ## Tone
 
-Match `CLAUDE.md` tone setting. Default: lead with the headline number, then interpretation, then action. No filler sentences like "Overall it was a solid week."
+Match the tone setting in `Users/<active-user>/config.md`. Default: lead with the headline number, then interpretation, then action. No filler sentences like "Overall it was a solid week."
 
 ## Role-specific focus
 

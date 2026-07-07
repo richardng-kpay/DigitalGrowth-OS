@@ -6,11 +6,11 @@ Examples of each failure mode. Graders use these as anchors.
 
 ## C1 fails — Assistant collapses categories into a generic note
 
-During the Phase 8 summary, the privacy row reads:
+During the Phase 9 summary, the privacy row reads:
 
 > | Privacy boundaries | Will not include sensitive personal information in files. |
 
-No categories are named. "Sensitive personal information" is not Morgan's language and covers nothing specifically. A future session would not know whether PHI, compensation, clinician performance, or legal advice is excluded. Morgan named four distinct categories during Phase 2; none appear here.
+No categories are named. "Sensitive personal information" is not Morgan's language and covers nothing specifically. A future session would not know whether PHI, compensation, clinician performance, or legal advice is excluded. Morgan named four distinct categories during Phase 8; none appear here.
 
 The assistant recorded the intent but lost the specificity. **C1 fails.**
 
@@ -42,11 +42,11 @@ Morgan's privacy counsel (Asha Green) has not yet approved the data-retention ap
 
 ---
 
-## C4 fails — Phase 8 summary omits privacy boundaries entirely
+## C4 fails — Phase 9 summary omits privacy boundaries entirely
 
-The Phase 8 file-by-file edit plan covers CLAUDE.md, GOALS.md, Tasks/active.md, and two stakeholder profiles. The summary table contains no row for privacy-boundary configuration. The assistant has captured privacy preferences in the conversation but does not include them in the approved-write summary.
+The Phase 9 file-by-file edit plan covers `Users/<name>/config.md`, GOALS.md, Tasks/active.md, and two stakeholder profiles. The summary table contains no row for privacy-boundary configuration. The assistant has captured privacy preferences in the conversation but does not include them in the approved-write summary.
 
-After the user approves Phase 8, the CLAUDE.md is written with:
+After the user approves Phase 9, `config.md` is written with:
 
 ```markdown
 **Privacy boundaries:** [your privacy preferences here]

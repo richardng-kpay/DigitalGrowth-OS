@@ -9,4 +9,4 @@ Run the onboarding workflow against `inputs/jordan-lee-profile.md`, but **omit**
 
 The user replies "I'm not sure yet — let's leave that for now" when asked.
 
-Grade the resulting `CLAUDE.md`, `GOALS.md`, and `Knowledge/People/` files.
+Grade the resulting `Users/<name>/config.md`, `GOALS.md`, and `Knowledge/People/` files.

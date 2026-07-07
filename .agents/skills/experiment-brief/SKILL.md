@@ -10,7 +10,7 @@ Design a new experiment or A/B test. Fills `Templates/experiment-brief.md` with 
 
 ## Steps (new brief)
 
-1. Read `CLAUDE.md` — identify the user's channel and KPI context
+1. Read `Users/<active-user>/config.md` (resolve via `Users/.active-user`) — identify the user's channel and KPI context
 2. Read `Knowledge/Hypotheses/` — check if a similar test has been run before; surface prior results if relevant
 
 3. Ask in one batch:

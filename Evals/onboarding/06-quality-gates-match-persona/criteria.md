@@ -6,7 +6,7 @@ The review-gate config must reflect the user's selected growth role, channel, an
 
 1. ✅ / ❌ External artifacts always route to `/brief-review` or an explicitly confirmed equivalent pre-publish review gate.
 2. ✅ / ❌ Role-specific gates are present where relevant: content routes to `/brief-review` plus audience/brand approval, experiments route to `/experiment-brief` / experiment readiness, performance work routes to campaign or weekly-performance review.
-3. ✅ / ❌ The user's named approval chain is reflected in `CLAUDE.md` or the Phase 9 edit plan.
+3. ✅ / ❌ The user's named approval chain is reflected in `Users/<name>/config.md` (`Quality gates selected`) or the Phase 9 edit plan.
 4. ✅ / ❌ Gates do not invent approvers, agencies, legal review, or data sign-off the user did not name.
 5. ✅ / ❌ Different roles produce meaningfully different starter commands and gate notes; if all roles get identical gates and commands, role-aware onboarding failed.
 

@@ -10,7 +10,7 @@ Start a new email campaign brief. Fills `Templates/email-brief.md` through a sho
 
 ## Steps (new brief)
 
-1. Read `CLAUDE.md` — get the user's lifecycle context and email platform
+1. Read `Users/<active-user>/config.md` (resolve via `Users/.active-user`) — get the user's lifecycle context and email platform
 2. Read `Knowledge/Segments/` — check for existing audience segment definitions
 3. Read `Knowledge/Hypotheses/` — surface any prior email test results relevant to this audience
 
