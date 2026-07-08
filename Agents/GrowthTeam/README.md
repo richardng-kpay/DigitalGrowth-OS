@@ -58,8 +58,8 @@ When you say **"Computer, [task]"**, the system routes to the right agent automa
 └─────────────────────────────────────────────────────┘
                        ↑
 ┌─────────────────────────────────────────────────────┐
-│  Layer 1 — KNOWLEDGE  (CLAUDE.md, GOALS.md,         │
-│  Knowledge/, Tasks/, Projects/)                     │
+│  Layer 1 — KNOWLEDGE  (Users/<you>/config.md,       │
+│  memory/, GOALS.md, Knowledge/, Tasks/, Projects/)  │
 │  Persistent context. The "memory" agents read       │
 │  before they answer.                                │
 └─────────────────────────────────────────────────────┘
@@ -67,14 +67,15 @@ When you say **"Computer, [task]"**, the system routes to the right agent automa
 
 ---
 
-## File ownership (no conflicts)
+## File ownership
 
-Each agent writes to its own files. No two agents write to the same file.
+Agents should avoid overlapping writes, but some shared working files are
+intentionally collaborative. Read before editing and keep changes scoped.
 
 | File / directory | Sole writer |
 |---|---|
 | Campaign briefs in `Projects/[campaign]/` | Performance Marketer (paid), Content Strategist (organic), Lifecycle Marketer (email) |
-| `Tasks/active.md` priorities | Initiating agent writes its own section |
+| `Tasks/active.md` priorities | Initiating agent writes confirmed task updates |
 | `Knowledge/Hypotheses/` results | Agent who ran the experiment |
 | `Knowledge/Decisions/` strategic calls | Growth Lead |
 | Weekly performance report | Data Analyst (metrics); each channel agent contributes its section |

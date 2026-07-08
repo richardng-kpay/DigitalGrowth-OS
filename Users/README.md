@@ -24,6 +24,8 @@ files would be overwritten. So the rule is simple:
 Users/
   .active-user              ← one line: the folder name of the person using this copy.
                               Written by onboarding. Its ABSENCE is the first-run signal.
+  .onboarding-skipped       ← one line: date the user picked "Skip for now". Downgrades the
+                              first-run offer to a one-line nudge. Deleted when onboarding completes.
   README.md                 ← this file (shared, part of the template)
   _template/                ← blank per-user scaffold, copied at onboarding (shared)
   <your-name>/              ← your personal layer (yours alone — never committed to git)

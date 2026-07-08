@@ -19,7 +19,7 @@ A role-adaptive operating system for digital growth teams. One folder, seven spe
 Computer, onboard me into this OS
 ```
 
-That's it. (If you just attached this folder, Claude offers onboarding on its own — no phrase needed.) Claude will run an interactive session that captures:
+That's it. (If you just attached this folder, Claude offers onboarding on its own — no phrase needed. Picking **Skip for now** is remembered: future sessions show a one-line reminder instead of the full offer, and the phrase above starts onboarding whenever you're ready.) Claude will run an interactive session that captures:
 
 - Your name, role, company, and reporting line
 - Channels you own and KPIs you track
@@ -44,6 +44,7 @@ After reviewing a full summary, you confirm — then Claude writes your personal
 | `/weekly-performance-report` | Weekly channel performance summary |
 | `/brief-review` | Pre-publish quality gate on any brief or copy |
 | `/channel-review` | Channel strategy health check |
+| `/synthesize-research` | Ground research notes in evidence and implications |
 | `/team-standup` | Team sync for shared OS installs: blockers, handoffs, decisions |
 | `/wiki-ingest` | Knowledge maintenance after useful Lark wiki searches |
 
@@ -55,6 +56,10 @@ After reviewing a full summary, you confirm — then Claude writes your personal
 | `/eod` | End of day | Sweeps the day's decisions, corrections, and insights into `Users/<you>/memory/` |
 | `/os-update` | Weekly | Pulls the latest OS template from GitHub — your personal files are protected |
 | `/os-feedback` | Anytime | Tells the OS owner what's working and what isn't |
+| `/wiki-maintain` | Weekly | Keeps the Knowledge index, provenance tags, and wiki links healthy |
+| `/os-contract-check` | Before releases | Checks that docs, skills, workflows, templates, and evals agree |
+| `/evals` | On changes | Runs eval suites with transcript capture and independent grading |
+| `/eval-review` | Before citing evals | Audits whether an eval result is citable |
 
 Your Claude account may not retain memory between chats (3P gateway accounts usually don't).
 This OS works around that: **everything durable lives in files inside this folder**, loaded at

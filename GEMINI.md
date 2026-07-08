@@ -16,7 +16,9 @@ This file is the entry point for **Gemini CLI**. The OS is harness-neutral — C
 
 ## Onboarding mode
 
-**Trigger proactively** on first run — defined by the file `Users/.active-user` being **absent** (NOT by placeholder presence; a configured user may keep placeholders). When absent, greet the user and offer onboarding before substantive work; do not wait for a trigger phrase. When it exists, do not offer. `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts. On completion, write `Users/.active-user` (one line: the user's folder name).
+**Trigger proactively** on first run — defined by the file `Users/.active-user` being **absent** (NOT by placeholder presence; a configured user may keep placeholders). When absent, greet the user and offer onboarding before substantive work; do not wait for a trigger phrase. When it exists, do not offer. `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts. On completion, write `Users/.active-user` (one line: the user's folder name) and delete `Users/.onboarding-skipped` if present.
+
+**Skip is durable.** A declined offer writes `Users/.onboarding-skipped` (one line: today's date); on later sessions give a one-line nudge instead of the blocking offer. A `.active-user` that is empty or names a missing folder is stale — tell the user and treat as first-run (offer, or nudge if the skip marker exists).
 
 1. Run `Workflows/interactive-onboarding.md` phase by phase. Use a structured question tool where available; validate inferred values with the user before recording them.
 2. Ask the user — never invent — for their role on the growth team, channels they own, KPIs, cadence, current tasks, goals, stakeholders, and privacy boundaries.
@@ -42,6 +44,6 @@ Once onboarded, `Users/<active-user>/config.md` is the source of truth for how t
 
 - `Computer, onboard me into this OS` → `Workflows/interactive-onboarding.md`
 - `Computer, what should I focus on today?` → daily brief workflow
-- `/today`, `/todo`, `/weekly-performance-report`, `/campaign-brief`, `/experiment-brief`, `/brief-review`, `/channel-review`, `/email-brief`, `/content-brief`, `/team-standup`, `/wiki-ingest`, `/daily-sync`, `/eod`, `/os-update`, `/os-feedback` → corresponding skill under `.claude/skills/`.
+- `/today`, `/todo`, `/weekly-performance-report`, `/campaign-brief`, `/experiment-brief`, `/brief-review`, `/channel-review`, `/email-brief`, `/content-brief`, `/synthesize-research`, `/team-standup`, `/wiki-ingest`, `/wiki-maintain`, `/daily-sync`, `/eod`, `/os-update`, `/os-feedback`, `/os-contract-check`, `/evals`, `/eval-review` → corresponding skill under `.claude/skills/`.
 
 Full routing table: `Agents/README.md`.

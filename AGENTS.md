@@ -6,7 +6,9 @@ This file is the canonical agent contract read by **Codex CLI** and any other ha
 
 ## Onboarding mode
 
-**Trigger proactively.** This OS is meant to be attached inside a user's workspace (e.g. Cowork). First run is defined by the file `Users/.active-user` being **absent** — not by placeholder presence (a configured user may keep placeholders). When it is absent, greet the user and offer onboarding before answering substantive work; do not wait for a trigger phrase. When it exists, do not offer onboarding. The phrases `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts to the same flow. On completion, write `Users/.active-user` (one line: the user's folder name under `Users/`).
+**Trigger proactively.** This OS is meant to be attached inside a user's workspace (e.g. Cowork). First run is defined by the file `Users/.active-user` being **absent** — not by placeholder presence (a configured user may keep placeholders). When it is absent, greet the user and offer onboarding before answering substantive work; do not wait for a trigger phrase. When it exists, do not offer onboarding. The phrases `Computer, onboard me into this OS`, `set up this template`, or similar are shortcuts to the same flow. On completion, write `Users/.active-user` (one line: the user's folder name under `Users/`) and delete `Users/.onboarding-skipped` if present.
+
+**Skip is durable.** If the user declines the offer, write `Users/.onboarding-skipped` (one line: today's date). On later sessions where `.active-user` is absent but the skip marker exists, do not repeat the blocking offer — give a one-line nudge ("Not onboarded yet — say `onboard me` anytime") and proceed with the user's request. If `.active-user` exists but is empty or names a folder missing under `Users/`, the marker is stale: tell the user and treat the session as first-run (offer, or nudge if the skip marker exists).
 
 When onboarding runs:
 

@@ -62,9 +62,9 @@ The more accurately `Users/<you>/config.md`, your memory files, and `GOALS.md` d
 | **Thu** — before anything ships | `/brief-review [file]` | Routes to Creative Reviewer for audience fit, message clarity, CTA check |
 | **Fri morning** — weekly report due | `/weekly-performance-report` | Reads channel data from `Tasks/active.md` and `Projects/`, drafts the weekly report in `Templates/weekly-performance-report.md` format |
 | **Fri** — channel not hitting target | `/channel-review [channel]` | Pulls this channel's performance, compares to target, surfaces what worked and what didn't, recommends next actions |
-| **Quarter end** | `/quarterly-marketing-planning` | Reviews OKR progress, drafts next quarter's channel priorities and experiment backlog |
+| **Quarter end** | `Workflows/quarterly-planning/workflow-spec.md` | Reviews OKR progress, drafts next quarter's channel priorities and experiment backlog |
 | **New campaign launch** | `new project [campaign name]` | Creates `Projects/[name]/` with campaign brief scaffolded from template |
-| **Post-campaign** | `/campaign-retrospective [project]` | Structured retro: performance vs. goal, creative learnings, budget efficiency, recommendations for next campaign |
+| **Post-campaign** | `/channel-review [project/channel]` | Structured retro: performance vs. goal, creative learnings, budget efficiency, recommendations for next campaign |
 
 What's left for the human? **The judgment.** Reviewing drafts, deciding the call, approving the brief, making the creative choice. The OS automates the structure — not the strategy.
 
@@ -107,6 +107,8 @@ This pattern repeats across the board. **Skills** are the trigger surface. **Age
 | **Performance reporting** | `/weekly-performance-report`, `Templates/weekly-performance-report.md` | Re-formatting the same numbers every week |
 | **Channel reviews** | `/channel-review`, `Templates/channel-review.md` | Inconsistent retrospective quality across channels |
 | **Pre-publish quality** | `/brief-review`, Creative Reviewer agent | Shipping copy that wasn't checked for audience fit |
+| **Research synthesis** | `/synthesize-research`, `Evals/research-synthesis/` | Generic themes, invented quotes, and lost conflicting signals |
+| **Wiki health** | `/wiki-ingest`, `/wiki-maintain` | Knowledge that goes stale or never gets indexed |
 | **Lifecycle design** | `Templates/lifecycle-stage-doc.md` | Undocumented lifecycle stages that only one person understands |
 | **Competitor intel** | `Templates/competitor-snapshot.md` | Competitive learnings lost in Slack or email |
 | **Decision records** | `Templates/decision.md`, `Knowledge/Decisions/` | Repeating past mistakes because decisions weren't documented |
@@ -144,6 +146,7 @@ Each team member who runs onboarding gets a tailored configuration based on thei
 2. **Fill `Knowledge/Segments/` with real audience profiles.** Every campaign brief, email brief, and content brief gets sharper when the segments are defined and current.
 3. **Record experiment results in `Knowledge/Hypotheses/`.** The learning library compounds. Future experiments build on past results instead of starting from zero.
 4. **Keep `Knowledge/Decisions/` updated.** Channel budget calls, attribution model choices, lifecycle strategy pivots — document them so the next person (or next session) knows why.
+5. **Run `/os-contract-check` before releases.** It catches command, template, Knowledge, and eval drift before users hit it.
 
 Done well, the work that *isn't* automated shrinks to:
 - Approving the draft

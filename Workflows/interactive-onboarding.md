@@ -6,6 +6,10 @@ This workflow is harness-neutral — it runs the same way in Claude Code, Codex 
 
 **When to run.** This workflow is designed for an OS attached inside a user's Cowork. Run it **proactively on first run** — defined by the file `Users/.active-user` being **absent**. When it is absent, greet the user and offer onboarding before answering substantive work. Do not wait for a trigger phrase; assume most users won't know one. **Do not use placeholder presence as the first-run signal** — a configured user may intentionally retain placeholders, and `.active-user` is the single source of truth. If it exists, only run this workflow when the user explicitly asks (a trigger phrase or a re-run request).
 
+**Skip is durable — never re-nag.** If the user answers the first-run offer with `Skip for now`, write `Users/.onboarding-skipped` (one line: today's date, e.g. `2026-07-07`) before continuing with their request. On any later session where `.active-user` is absent but `.onboarding-skipped` exists, do **not** repeat the blocking `AskUserQuestion` offer — open with a single line ("Not onboarded yet — say `onboard me` anytime") and get on with the user's work. Trigger phrases still start onboarding normally. Completing onboarding (Phase 10) deletes the skip marker.
+
+**Stale marker guard.** If `Users/.active-user` exists but is empty or names a folder that does not exist under `Users/`, treat the session as first-run: tell the user the marker is stale, then offer onboarding — or give only the one-line nudge if `.onboarding-skipped` exists (a stale marker never overrides a recorded skip). Overwrite the stale marker only at Phase 10 completion.
+
 Trigger phrases (shortcuts to the same flow):
 - `Computer, onboard me into this OS`
 - `Set up this OS for me`
@@ -158,7 +162,7 @@ This OS searches your team's Lark wiki to answer project questions. The Lark MCP
 > "Great — Lark MCP is connected under your account. Found [N] documents. The wiki is ready."
 Record `Lark connection: ✅ verified · N documents found` in setup capture.
 
-Then ask the user for the Lark domain and, if they know it, the wiki space / root node label — these are recorded in the setup capture and written to `Users/<name>/config.md` (under Role context) at Phase 10. If they do not know either value, record `Unknown / to confirm` in the setup capture and **queue** a dated follow-up for `Tasks/follow-ups.md` in the Phase 9 edit plan — no file is written before Phase 9 approval; do not leave silent bracket placeholders.
+Then ask the user for the Lark domain and, if they know it, the wiki space / root node label — these are recorded in the setup capture and written to `Users/<name>/config.md` (the dedicated **Lark** block — CLAUDE.md's search protocol builds source links from these values) at Phase 10. If they do not know either value, record `Unknown / to confirm` in the setup capture and **queue** a dated follow-up for `Tasks/follow-ups.md` in the Phase 9 edit plan — no file is written before Phase 9 approval; do not leave silent bracket placeholders.
 
 Proceed to Phase 1.
 
@@ -555,7 +559,7 @@ Before writing any files, show:
 - Ask before editing: ...
 
 ### File-by-file edit plan
-- `Users/<name>/`: copy the `_template` scaffold to the user's folder (no marker yet)
+- `Users/<name>/`: copy the `_template` scaffold to the user's folder (no marker yet). **If `Users/<name>/` already exists** (an earlier run aborted before writing `.active-user`), do NOT re-copy over it — read what's there, keep anything the user already confirmed, and fill only the gaps
 - `Users/<name>/config.md`: identity, role context, operating style, thought frameworks, agent routing, area tags, cadence, quality gates, privacy boundaries, OS version
 - `Users/<name>/memory/`: seed 1–3 memory files from the interview (e.g., strongest stated preference, anchor workstream context). **Use the file format documented in the comment block of `Users/_template/memory/MEMORY.md`** — frontmatter `name` / `description` / `type` / `date`, one fact per file, filename `YYYY-MM-DD-<slug>.md` — then add one index line per file in `MEMORY.md`
 - `Users/.active-user`: one line, the user's folder name — **written last, after `config.md` and memory succeed**. Its presence marks onboarding complete; writing it earlier would leave an aborted run permanently marked as configured
@@ -585,7 +589,7 @@ Only proceed after an explicit "yes." "Sounds good" or "ok" do not count — re-
 
 If the user wants finer control ("show me each file"), fall back to per-file confirmation. Either way, "sounds good" does not count as a gate approval — require an explicit yes.
 
-**Write the completion marker LAST.** Only after Gate 1's files are successfully written: write `Users/.active-user` containing exactly the user's folder name (one line), and set `Onboarding completed: yes (YYYY-MM-DD)` plus `OS version at onboarding` / `Last seen OS version` (from the `OS-Version` marker in `CLAUDE.md`) inside `config.md`. The presence of `.active-user` is what stops the OS from re-offering onboarding on every future session — never write it before `config.md` exists, and do write it even if the user intentionally left placeholders behind: completion is defined by the user finishing the flow, not by zero placeholders remaining.
+**Write the completion marker LAST.** Only after Gate 1's files are successfully written, in this order: (1) set `Onboarding completed: yes (YYYY-MM-DD)` plus `OS version at onboarding` / `Last seen OS version` (from the `OS-Version` marker in `CLAUDE.md`) inside `config.md`; (2) write `Users/.active-user` containing exactly the user's folder name (one line); (3) delete `Users/.onboarding-skipped` if present. The marker comes after the config fields so an interruption between the two can never leave a clone marked configured with an incomplete `config.md`. The presence of `.active-user` is what stops the OS from re-offering onboarding on every future session — never write it before `config.md` exists, and do write it even if the user intentionally left placeholders behind: completion is defined by the user finishing the flow, not by zero placeholders remaining.
 
 Only after every file is written:
 
@@ -626,6 +630,7 @@ Run this check before declaring onboarding finished.
 | **Privacy boundaries recorded** | `Users/<name>/config.md` → `Privacy boundaries` is not a bracketed placeholder. | Re-run Phase 8. |
 | **Quality gates resolve to real skills** | Every gate in `config.md` → `Quality gates selected` matches a skill that exists under `.claude/skills/`. | Replace with an existing gate (e.g. `/brief-review`) or note it as agent-routed. |
 | **Completion marker written** | `Users/.active-user` exists and names the user's folder; `config.md` shows `Onboarding completed: yes (YYYY-MM-DD)`. | Write it (Phase 10) — without `.active-user` the OS re-offers onboarding every session. |
+| **Skip marker cleared** | `Users/.onboarding-skipped` does not exist. | Delete it — a leftover skip marker would suppress future first-run offers on a fresh re-clone. |
 
 Report as a checklist (✅ / ❌) to the user.
 
@@ -688,6 +693,7 @@ Tighten before shipping if the assistant:
 - Writes files before confirmation.
 - Proposes writing personal values into `CLAUDE.md`, `AGENTS.md`, or any template-layer file.
 - Finishes without writing `Users/.active-user` or seeding `Users/<name>/memory/`.
+- Re-offers full onboarding to a user who previously picked `Skip for now` (the `.onboarding-skipped` marker must downgrade the offer to a one-line nudge).
 - Uses PM-specific terminology (PRD, roadmap, sprint, engineering handoff).
 - Produces generic goals that don't reflect the user's stated channels and KPIs.
 - Ignores privacy boundaries the user set.

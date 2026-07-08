@@ -73,11 +73,16 @@ For each new file created in Step 2:
 - Add a row to the relevant section in `Knowledge/index.md`
 - Set Lifecycle: `Candidate` and Last verified: today's date
 
+`Knowledge/index.md` is a per-user, gitignored file. If it is absent, create it with the
+section headers matching the `Knowledge/` folder layers (Hypotheses / Decisions / Segments /
+People / Reference) and columns `File · Summary · Lifecycle · Last verified`.
+
 ---
 
 ### Step 5 — Log and clean up
 
-Append to `Knowledge/log.md`:
+Append to `Knowledge/log.md` (per-user, gitignored — if absent, create it with a
+`| Date | Operation | Detail | Files touched |` table header):
 ```
 | [YYYY-MM-DD] | wiki-ingest | Promoted [N] files: [list of destinations] | [list of files created or updated] |
 ```

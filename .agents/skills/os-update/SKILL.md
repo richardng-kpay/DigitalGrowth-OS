@@ -10,13 +10,17 @@ user's personal files. Recommend running weekly (e.g., Monday before `/daily-syn
 3. Merges, keeping the LOCAL version of all user-owned files on any conflict
 4. Updates `Last seen OS version` in the user's `config.md`
 
-## User-owned files (local always wins)
+## User-owned files (local always wins) — canonical list
 
 `GOALS.md` · `Tasks/active.md` · `Tasks/backlog.md` · `Tasks/follow-ups.md` ·
-`Tasks/dayjob-active.md` · `Knowledge/People/**` · `Projects/**` ·
+`Tasks/dayjob-active.md` · `Tasks/team-board.md` · `Knowledge/People/**` · `Projects/**` ·
+`Knowledge/Reference/company.md` · `Knowledge/Reference/ground-truth.md` ·
 `Knowledge/Reference/lark-wiki-index.md` · `Knowledge/Reference/lark-wiki-*.md`
 
-(`Users/` is gitignored and can never conflict.)
+This list is the single source of truth — CLAUDE.md §two layers points here.
+(`Users/` is gitignored and can never conflict. `Knowledge/index.md`, `Knowledge/log.md`,
+and `Knowledge/Decisions/team-log.md` are gitignored per-user logs since 1.1.1 — they can
+never conflict either.)
 
 ## Steps
 
@@ -24,6 +28,13 @@ user's personal files. Recommend running weekly (e.g., Monday before `/daily-syn
    If the user has modified **template** files, warn: local template edits are unsupported and
    will conflict — ask whether to keep theirs (stash) or take upstream before continuing.
 2. `git fetch origin main`. If it fails (no network / no remote), report and stop — never guess.
+2b. **Untracked-collision check.** Compare untracked local paths against incoming upstream
+   paths (`git diff --name-only HEAD..origin/main`). A collision (e.g., the user created a
+   personal skill and upstream now ships one with the same name) would abort the merge with
+   "untracked working tree files would be overwritten." For each collision: move the local
+   file to `Users/<active-user>/backups/<original-path>` (create dirs as needed), tell the
+   user what was backed up, and after the merge show a diff between their version and the
+   shipped one so they can port their customizations to a new, uniquely-named copy.
 3. If `HEAD..origin/main` is empty: "You're on the latest version (X.Y.Z)." Stop.
 4. Show the delta BEFORE merging:
    - `git log HEAD..origin/main --oneline`
@@ -44,7 +55,10 @@ user's personal files. Recommend running weekly (e.g., Monday before `/daily-syn
 
 ## Hard rules
 
-- **Never** `git push`, `git reset --hard`, or delete files. This skill only pulls.
+- **Never** `git push`, `git reset --hard`, or delete files. This skill only pulls. (Moving an
+  untracked collision to `Users/<name>/backups/` is a move, not a delete — nothing is lost.)
+- **Personal extensions are safe by construction:** net-new, uniquely-named skills, workflows,
+  and templates the user created don't exist upstream, so the merge never touches them.
 - Never resolve a user-owned conflict in upstream's favor — the user's data always survives.
 - If the merge gets into a state you can't resolve cleanly, `git merge --abort`, restore the
   stash, report exactly what happened, and stop. A failed update must leave the OS as it was.
