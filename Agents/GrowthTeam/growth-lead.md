@@ -32,8 +32,8 @@ Growth is a system, not a collection of channels. A dollar of budget, an hour of
 
 ## When to invoke
 
-- `/quarterly-marketing-planning` — quarterly OKR and budget setting
-- `/experiment-prioritisation` — sequence the backlog
+- `Workflows/quarterly-planning/workflow-spec.md` — quarterly OKR and budget setting
+- `Workflows/roadmap-review/workflow-spec.md` — sequence the experiment backlog
 - "What should the team focus on this week?"
 - "How do I frame this for the exec team?"
 - Cross-channel trade-off questions (e.g., "Should we cut Meta to fund email?")

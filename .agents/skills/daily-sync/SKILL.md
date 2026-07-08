@@ -22,9 +22,16 @@ claude.ai project digest fresh. Pairs with `/eod` (evening writes, morning conso
    - Stale check: entries older than 90 days whose subject no longer appears in `Tasks/`,
      `GOALS.md`, or `Knowledge/` → ask the user (keep / archive / delete). Never silent-delete
      a correction (`type: feedback`) — those are standing instructions.
-4. **Digest refresh.** Regenerate `claude-project-digest.md` if priorities or memory changed
-   since the last refresh (same rules as `/eod` step 4).
-5. Report in 3 lines: memory health (files, merges, contradictions), digest status, then run
+4. **Index reconcile.** Cross-check `MEMORY.md` index lines against the actual files in
+   `memory/`: remove index lines whose file is gone, add a line for any un-indexed file
+   (read it for the description). Report what drifted.
+5. **Digest refresh.** Regenerate `claude-project-digest.md` if priorities or memory changed
+   since the `Last refreshed:` date in its header (same rules as `/eod` step 4); update that
+   date whenever you regenerate.
+6. **Learn → optimize.** Same rule as `/eod` step 6: if memory + `usage-log.md` show a pattern
+   recurring ≥3 times, propose one optimization (personal skill, workflow tweak, tag, or
+   config routing rule) with evidence. Propose-then-confirm; never auto-write.
+7. Report in 3 lines: memory health (files, merges, contradictions), digest status, then run
    `/today` for the daily brief unless the user declines.
 
 ## Rules

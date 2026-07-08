@@ -38,6 +38,8 @@ This suite tests both:
 18. Memory seeds missing or malformed — no frontmatter (`name`/`description`/`type`/`date`), multiple facts per file, or no `MEMORY.md` index line
 19. Phase 0 scripted orientation paragraph (user layer + memory value prop) skipped or buried
 20. Lark connection test fails and the user is stranded — no explicit pause/skip choice offered via `AskUserQuestion`
+21. "Skip for now" not persisted — the blocking onboarding offer re-fires every session (fixed in OS 1.1.1: `Users/.onboarding-skipped` downgrades it to a one-line nudge)
+22. Stale `.active-user` (empty or naming a missing folder) dead-ends the session — neither onboarded nor re-offered (fixed in OS 1.1.1: treated as first-run)
 
 ## Test fixtures
 
@@ -92,6 +94,7 @@ Target: no more than 2 failing evals per fixture on the current model. Onboardin
 | 13 | `first-useful-seo-output` | Content & SEO user cannot get a grounded first deliverable after onboarding | — |
 | 14 | `cowork-attach-behavior` | Onboarding fails to fire proactively on first run, re-triggers on configured users, or skips `AskUserQuestion` delivery | — |
 | 15 | `user-layer-write-mechanics` | v1.1.0 write mechanics broken: orientation skipped, Lark-fail strands the user, gates collapsed, memory seeds malformed, or `.active-user` written early | — |
+| 16 | durable-skip-and-stale-marker | Skip re-nag loop, stale marker dead-end, orphan folder clobber | — |
 
 ## Results
 

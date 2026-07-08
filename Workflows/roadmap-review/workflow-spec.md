@@ -59,7 +59,7 @@ For each item that is 🟡 or 🔴:
 If a weekly update or 1:1 is coming up:
 - Note 2–3 key updates to share
 - Flag any decisions you need from them
-- Draft using `Templates/weekly-update.md`
+- Draft using the relevant section of `Templates/weekly-performance-report.md`
 
 ---
 

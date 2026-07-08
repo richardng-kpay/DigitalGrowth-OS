@@ -29,6 +29,15 @@
 
 - **Primary agent:** [set from role at onboarding — Agents/GrowthTeam/...]
 - **Secondary agent:** [set at onboarding]
+- **Persistent routing rules:** [added over time — e.g., "weekly numbers → Analytics & Data Lead"]
+
+## Lark
+
+<!-- Written by onboarding Phase 0B. CLAUDE.md's Lark protocol reads these values —
+     source links are built from the domain below; never emit a literal placeholder in a link. -->
+- **Lark domain:** [e.g., yourcompany.larksuite.com]
+- **Wiki space:** [name] · Space ID: [id]
+- **Wiki root node:** [node token]
 
 ## Operating style
 

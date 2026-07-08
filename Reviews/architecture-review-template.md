@@ -54,7 +54,7 @@ What did you actually use this period?
 
 ## 3. Agent routing check
 
-- [ ] `CLAUDE.md` primary agent still matches actual role
+- [ ] `Users/<active-user>/config.md` primary agent still matches actual role
 - [ ] Area tags in `Tasks/active.md` match the channels currently being worked
 - [ ] `Agents/GrowthTeam/` agents are being routed to correctly (not bypassed)
 - [ ] Creative Reviewer gate is being run before external artifacts ship

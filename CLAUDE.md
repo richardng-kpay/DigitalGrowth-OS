@@ -1,5 +1,5 @@
-<!-- OS-Version: 1.1.0 -->
-<!-- First-run signal: the file `Users/.active-user`. If it is ABSENT, this clone is not onboarded — offer onboarding (see §Onboarding mode). If present, it names the active user's folder under `Users/`. The old `Onboarding-Complete` marker is retired: CLAUDE.md is template-layer only and is NEVER personalized. -->
+<!-- OS-Version: 1.1.1 -->
+<!-- First-run signal: the file `Users/.active-user`. If it is ABSENT, this clone is not onboarded — offer onboarding (see §Onboarding mode), unless `Users/.onboarding-skipped` exists (the user declined: one-line nudge only). If present, it names the active user's folder under `Users/`. The old `Onboarding-Complete` marker is retired: CLAUDE.md is template-layer only and is NEVER personalized. -->
 
 # CLAUDE.md — Digital Growth OS (team template)
 
@@ -11,7 +11,9 @@ This file holds **team-wide rules only**. All personal configuration lives in th
 
 - **Template layer** (git-tracked, updated weekly from GitHub via `/os-update`): this file, `AGENTS.md`, `Workflows/`, `Templates/`, `Agents/`, skills, `Evals/`, team file structure. **Never personalized.**
 - **User layer** (`Users/<name>/`, gitignored, never touched by updates): `config.md`, `memory/`, `feedback-log.md`, `usage-log.md`.
-- **User-owned working files** (tracked as blank templates, personalized after onboarding, frozen upstream): `GOALS.md`, `Tasks/active.md`, `Tasks/backlog.md`, `Tasks/follow-ups.md`, `Knowledge/People/`, `Projects/`, `Knowledge/Reference/lark-wiki-index.md`. `/os-update` keeps the local version on any conflict in these paths.
+- **User-owned working files** (tracked as blank templates, personalized after onboarding, frozen upstream): `GOALS.md`, `Tasks/active.md`, `Tasks/backlog.md`, `Tasks/follow-ups.md`, `Tasks/dayjob-active.md`, `Tasks/team-board.md`, `Knowledge/People/`, `Projects/`, `Knowledge/Reference/company.md`, `Knowledge/Reference/ground-truth.md`, `Knowledge/Reference/lark-wiki-*.md`. `/os-update` keeps the local version on any conflict in these paths — the canonical protected list lives in `.claude/skills/os-update/SKILL.md`.
+- **Per-user knowledge logs** (gitignored, created on first use): `Knowledge/index.md`, `Knowledge/log.md`, `Knowledge/Decisions/team-log.md`. Never shipped by updates; if absent, create from the format documented in the writing skill.
+- **Personal extensions**: net-new, uniquely-named skills, workflows, templates, and area tags you create are user-owned and survive `/os-update` (they don't exist upstream). Never edit a shipped skill/workflow — copy it to a new name and customize the copy.
 
 If a personal value you need is a placeholder, ask the user for that one value — do not invent it, and do not re-run onboarding unless `Users/.active-user` is absent.
 
@@ -19,10 +21,12 @@ If a personal value you need is a placeholder, ask the user for that one value �
 
 **Trigger proactively — do not wait for a magic phrase.** First-run signal = `Users/.active-user` is **absent**. When absent, on the user's first message **greet them and offer onboarding before doing anything else**, via `AskUserQuestion` (`Start onboarding now` / `Tell me what this OS does first` / `Skip for now`). Explicit phrases (`onboard me`, `set up this template`) are shortcuts to the same flow. **If `.active-user` exists, do NOT offer onboarding** — remaining placeholders never re-trigger it.
 
+**Skip is durable.** If the user picks `Skip for now`, write `Users/.onboarding-skipped` (one line: today's date). On later sessions where `.active-user` is absent but `.onboarding-skipped` exists, do NOT repeat the blocking offer — open with one line ("Not onboarded yet — say `onboard me` anytime") and proceed with the user's request. Completing onboarding deletes the skip marker (after `.active-user` is written).
+
 When onboarding starts: run `Workflows/interactive-onboarding.md` phase by phase. Ask through `AskUserQuestion`, validate inferences instead of adopting them, summarize proposed edits, and only write files after explicit confirmation. Onboarding writes to the **user layer and user-owned files only** — never to template files.
 
 ## On Session Start
-1. **First-run check (before your first reply).** If `Users/.active-user` is absent → your first response MUST be the onboarding offer, regardless of the user's message. If present → continue.
+1. **First-run check (before your first reply).** If `Users/.active-user` is absent → your first response MUST be the onboarding offer (or the one-line nudge if `Users/.onboarding-skipped` exists), regardless of the user's message. If `.active-user` exists but is **empty or names a folder missing under `Users/`**, the marker is stale — tell the user and treat this as first-run (offer onboarding, or the one-line nudge if `.onboarding-skipped` exists). Otherwise → continue.
 2. Read `Users/<active-user>/config.md` (identity, style, routing) and `Users/<active-user>/memory/MEMORY.md` (memory index).
 3. **Update greeting:** if `config.md → Last seen OS version` ≠ the OS-Version at the top of this file, read the top entry of `CHANGELOG.md`, mention what's new in one line, and update `Last seen OS version`.
 4. `Tasks/active.md` — current campaign and task focus. `GOALS.md` — 30-60-90 goals and KPIs.
@@ -49,6 +53,7 @@ Team members run Claude through a 3P gateway account — account-level memory is
 
 - **`/os-feedback`** — collects a rating + comments, appends to `Users/<name>/feedback-log.md`, and posts to the team's shared Lark feedback base when the write scope is enabled (see the skill). Prompt for it sparingly: after a user's first full week, and when they express delight or frustration with the OS itself.
 - `/eod` appends one line per day to `usage-log.md` (skills used) — adoption signal for the OS owner, shared only via `/os-feedback`.
+- **Learn → optimize:** `/eod` and `/daily-sync` scan memory + `usage-log.md` for patterns that recur ≥3 times (repeated manual sequence, correction class, tag gap) and **propose** an optimization — a personal skill, workflow tweak, new tag, or config routing rule. Propose-then-confirm; never auto-write.
 
 ## Team context
 - Team roster: `TEAM.md` — channel ownership map, OKR owners, Lark handles
@@ -71,7 +76,7 @@ Default to the persona in the user's `config.md`. If none is set yet, use a neut
 
 **Operations layer** — current tasks, weekly reports, stakeholder updates, launches, experiment tracking, risk flags → skills, templates, and project files.
 
-If a request could go either way, ask once and update the routing convention if it should persist.
+If a request could go either way, ask once; if the answer should persist, record it in the user's `config.md` (routing/agent fields) — the quick-map below is template-layer and is never edited locally.
 
 ### Growth team agent quick-map (`Agents/GrowthTeam/`)
 
@@ -116,7 +121,7 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 - Headers in sentence case. Bold the 1–3 critical facts per section, never full sentences.
 
 ## DO NOT
-- Commit, push, or delete files without approval — and **never commit `Users/`** (it is gitignored by design)
+- Commit, push, or delete files without approval — and **never commit `Users/<name>/` personal folders** (gitignored by design; `Users/README.md` and `Users/_template/**` are tracked template files)
 - Write setup files during onboarding before the user confirms the summary
 - Personalize template-layer files — personal values go in `Users/<name>/` or user-owned files only
 - Replace placeholders with invented values — ask the user
@@ -135,8 +140,7 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 
 **Every time a user asks a question about the project, search the Lark wiki first before answering.**
 
-- **Wiki space:** [YOUR_TEAM_NAME] · Space ID `[YOUR_SPACE_ID]` · Root node: `[YOUR_WIKI_ROOT_NODE]`
-- **Lark domain:** `[YOUR_LARK_DOMAIN]` (e.g. `yourcompany.larksuite.com` or `yourcompany.feishu.cn`)
+- **Wiki space, space ID, root node, Lark domain:** live in the user's `config.md → Lark` block (written during onboarding Phase 0B). This template file keeps no real values — **never emit a literal `[YOUR_*]` placeholder in a link**; if the config values are unset, ask the user for them.
 - **Full wiki index:** `Knowledge/Reference/lark-wiki-index.md`
 - **Shared Lark app:** `cli_a944aca53c381ed3` — same App ID + Secret for everyone, configured in each user's local `~/.claude.json`.
 - **Auth model (per-user OAuth):** `--token-mode user_access_token`. Each user OAuth-logs-in with their own Lark account; **results are scoped to what that user's identity can access**. If a doc isn't showing up, the user lacks Lark access to it.
@@ -146,9 +150,9 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 ### Search protocol (mandatory on every project question)
 1. Call `mcp__lark-mcp__docx_builtin_search` with the topic as `search_key`
 2. Pull content with `mcp__lark-mcp__docx_v1_document_rawContent` if needed
-3. **Always include the source link**: docs `https://[YOUR_LARK_DOMAIN]/docx/{token}` · sheets `/sheets/{token}` · bitable `/base/{token}` · wiki `/wiki/{node_token}`
+3. **Always include the source link**, built from the Lark domain in the user's `config.md`: docs `https://<lark-domain>/docx/{token}` · sheets `/sheets/{token}` · bitable `/base/{token}` · wiki `/wiki/{node_token}`
 4. If nothing relevant is found or the call errors, say so plainly and do not fabricate a source. Not connected → `Workflows/lark-setup.md`. Weak results → say the wiki had no useful hit and continue from clearly labeled non-wiki evidence.
-5. **After every useful search — persist:** new doc → `lark-wiki-index.md` row · key finding → `Knowledge/Ingestion/[topic]-[YYYY-MM-DD].md` with `[doc-research]` · testable belief → `Knowledge/Hypotheses/candidate/` · stakeholder insight → `Knowledge/People/[name].md` · one row to `Knowledge/log.md` (date · search_key · docs found · files touched). Full promotion: `/wiki-ingest`.
+5. **After every useful search — persist:** new doc → `lark-wiki-index.md` row · key finding → `Knowledge/Ingestion/[topic]-[YYYY-MM-DD].md` with `[doc-research]` · testable belief → `Knowledge/Hypotheses/candidate/` · stakeholder insight → `Knowledge/People/[name].md` · one row to `Knowledge/log.md` (date · search_key · docs found · files touched; create the file with that header if absent — it is per-user, gitignored). Full promotion: `/wiki-ingest`.
 6. No useful result → still log one row to `Knowledge/log.md` (`0 useful docs · no files touched`).
 
 ### DO NOT

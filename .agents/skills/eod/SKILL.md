@@ -29,11 +29,19 @@ in a file, it didn't happen.
    surface anything that became a blocker.
 4. **Digest refresh.** Regenerate `claude-project-digest.md` (identity + style from `config.md`,
    top priorities from `Tasks/active.md`, highest-value memory entries, privacy boundaries).
-   Keep it under ~120 lines. If it changed materially, remind the user: "digest updated —
-   re-upload it to your claude.ai Project knowledge when you get a chance."
+   Keep it under ~120 lines and set `Last refreshed: YYYY-MM-DD` in its header. If it changed
+   materially, remind the user: "digest updated — re-upload it to your claude.ai Project
+   knowledge when you get a chance."
 5. **Usage log.** Append one line to `usage-log.md`:
    `YYYY-MM-DD · skills used: /x, /y · sessions: N · OS-Version: <from CLAUDE.md>`
-6. Close with a 3-line summary: memories written (count + names), tasks updated, digest status.
+6. **Learn → optimize.** Scan memory and `usage-log.md` for patterns that have now recurred
+   **≥3 times**: the same manual step sequence, the same correction class, a recurring topic
+   with no matching area tag, or a routing choice made repeatedly. If found, **propose** one
+   optimization — a personal skill (net-new, uniquely named — survives `/os-update`), a
+   workflow tweak, a new tag, or a `config.md` routing rule — with the evidence ("you've done
+   X manually 3 times"). Offer to scaffold it; never auto-write. At most one proposal per
+   sweep, and drop a proposal the user has declined before (check `config.md` notes).
+7. Close with a 3-line summary: memories written (count + names), tasks updated, digest status.
 
 ## Rules
 

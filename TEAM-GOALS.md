@@ -41,7 +41,7 @@
 
 - **Weekly:** Growth Lead reviews KR status via `/weekly-performance-report` (team view)
 - **Monthly:** Full OKR review with team — update Current column above
-- **Quarterly:** Retro (`/retro`) + new OKR planning session
+- **Quarterly:** Retro plus new OKR planning session using `Workflows/quarterly-planning/workflow-spec.md`
 
 ---
 

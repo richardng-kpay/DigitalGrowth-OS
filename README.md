@@ -125,7 +125,7 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 
 ## Skills (slash commands)
 
-15 slash commands ship with the OS. Available immediately after onboarding.
+20 slash commands ship with the OS. Available immediately after onboarding.
 
 **Daily work:**
 
@@ -140,6 +140,7 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 | `/channel-review` | Channel retrospective — vs. target, what worked, recommendations |
 | `/email-brief` | Email campaign brief with UTMs and QA checklist |
 | `/content-brief` | Content and SEO brief — keyword, intent, audience, outline |
+| `/synthesize-research` | Turns research notes into grounded themes, pain points, implications |
 | `/team-standup` | Weekly team sync — blockers, handoffs, decisions across members |
 | `/wiki-ingest` | Knowledge maintenance — promotes Lark findings into durable Knowledge files |
 
@@ -151,12 +152,16 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 | `/eod` | End of day | Saves the day's decisions, corrections, and insights so tomorrow starts smarter |
 | `/os-update` | Weekly | Pulls the latest template improvements; your personal files always win on conflict |
 | `/os-feedback` | Anytime | Rates the OS and routes feedback to the OS owner (local log + shared Lark base) |
+| `/wiki-maintain` | Weekly | Checks Knowledge index drift, stale evidence, and orphan pages |
+| `/os-contract-check` | Before releases | Confirms docs, skills, workflows, templates, and evals still line up |
+| `/evals` | Before model/workflow changes | Runs eval suites with transcript capture and independent grading |
+| `/eval-review` | Before citing evals | Audits whether an eval result is citable |
 
 ---
 
 ## Templates
 
-10 templates in `Templates/` — 9 marketing documents plus the reviewer-verdict schema:
+12 templates in `Templates/` — marketing docs, Knowledge scaffolds, and the reviewer-verdict schema:
 
 | Template | Use for |
 |---|---|
@@ -169,6 +174,8 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 | `competitor-snapshot.md` | Paid, organic, and email competitive intelligence |
 | `channel-review.md` | Post-period channel retrospective |
 | `decision.md` | Channel decisions: options, reasoning, reversal conditions |
+| `hypothesis.md` | Hypothesis candidates and experiment learnings |
+| `segment-profile.md` | Audience segment profiles used by briefs and review gates |
 | `reviewer-verdict-schema.md` | Verdict format used by the review gates (pass / changes / revise) |
 
 ---
@@ -200,7 +207,7 @@ DigitalGrowth-OS/
 │
 ├── Agents/
 │   ├── README.md                     ← Agent overview and routing table
-│   └── GrowthTeam/                   ← 7 marketing role agents
+│   └── GrowthTeam/                   ← 7 marketing role agents + team-lead view
 │
 ├── Tasks/
 │   ├── active.md                     ← Current priorities (#p0/#p1/#p2)
@@ -221,14 +228,14 @@ DigitalGrowth-OS/
 │       ├── provenance-tags.md        ← Evidence-tag rules and decay windows
 │       └── lark-wiki-index.md        ← Lark wiki doc index (populated after connecting)
 │
-├── Templates/                        ← 10 document templates
+├── Templates/                        ← 12 document templates
 ├── Workflows/
 │   ├── interactive-onboarding.md     ← Role-adaptive setup interview (11 phases)
 │   └── lark-setup.md                 ← Lark MCP credential setup + troubleshooting
 ├── Evals/                            ← Onboarding and synthesis eval suites
 ├── Meetings/                         ← Meeting notes
 └── .claude/
-    └── skills/                       ← 15 slash commands (mirrored in .agents/skills/)
+    └── skills/                       ← 20 slash commands (mirrored in .agents/skills/)
 ```
 
 ---

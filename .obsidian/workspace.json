@@ -11,10 +11,14 @@
             "id": "7d0062049820df4d",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "Workflows/lark-setup.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "lark-setup"
             }
           }
         ]
@@ -176,6 +180,29 @@
       "bases:Create new base": false
     }
   },
-  "active": "7d0062049820df4d",
-  "lastOpenFiles": []
+  "active": "ea8796be58f624e3",
+  "lastOpenFiles": [
+    "Evals/onboarding/16-durable-skip-and-stale-marker/criteria.md",
+    "Evals/onboarding/16-durable-skip-and-stale-marker",
+    "Users/_template/usage-log.md",
+    "Users/_template/feedback-log.md",
+    "Workflows/interactive-onboarding.md.tmp.3702.88f835c2f56c",
+    "Evals/research-synthesis/results/transcripts",
+    "Evals/research-synthesis/results",
+    "Templates/hypothesis.md",
+    "Templates/segment-profile.md",
+    "Knowledge/Segments/README.md",
+    "Knowledge/Segments",
+    "Workflows/interactive-onboarding.md",
+    "Workflows/github-account-switch.md",
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "HOW-IT-WORKS.md",
+    "ONBOARDING.md",
+    "README.md",
+    "TEAM.md",
+    "TEAM-GOALS.md"
+  ]
 }
