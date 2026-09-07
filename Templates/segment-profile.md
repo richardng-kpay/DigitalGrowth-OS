@@ -1,8 +1,8 @@
 # [SEGMENT_NAME] — Segment Profile
 
-**Lifecycle stage:** [Awareness / Consideration / Activation / Retention / Win-back]  
-**Primary channel fit:** [Paid / SEO / Email / Website / Mixed]  
-**Last verified:** [YYYY-MM-DD]  
+**Lifecycle stage:** [Awareness / Consideration / Activation / Retention / Win-back]<br>
+**Primary channel fit:** [Paid / SEO / Email / Website / Mixed]<br>
+**Last verified:** [YYYY-MM-DD]<br>
 **Confidence:** Low / Medium / High
 
 ---
@@ -38,7 +38,7 @@ exclude them.]
 
 ## Metrics
 
-**Primary KPI:** [Metric + target]  
+**Primary KPI:** [Metric + target]<br>
 **Guardrail:** [Metric + threshold]
 
 ## Open questions

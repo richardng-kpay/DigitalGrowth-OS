@@ -24,7 +24,7 @@ architecture change.
 6. User-layer contract: `.gitignore` keeps `Users/*` ignored while allowing
    `Users/README.md` and `Users/_template/**`, and ignores the per-user
    knowledge logs (`Knowledge/index.md`, `Knowledge/log.md`,
-   `Knowledge/Decisions/team-log.md`), `.obsidian/workspace.json`, and
+   `Knowledge/Decisions/team-log.md`), `.obsidian/`, and
    `.claude/settings.local.json`. `git ls-files Users` must return only the
    README and `_template/**`.
 7. Protected-list parity: the user-owned file list in `CLAUDE.md` §two layers

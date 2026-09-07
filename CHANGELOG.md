@@ -9,7 +9,17 @@ fixes and copy.
 
 ## 1.2.0 — 2026-09-07
 
-**Claude-only, self-updating, self-healing.**
+**Claude-only, self-updating, self-healing — and a 4-minute Quick onboarding path.**
+
+- **Quick vs Full setup.** Onboarding Phase 0 now asks upfront: Quick setup (~3–4 min — role,
+  top KPI, tone, one priority; everything else deferred) or Full interview. Quick lands a working
+  config in about 8 question rounds and queues one `Tasks/follow-ups.md` row — say
+  `finish my setup` anytime to pick up cadence, thought frameworks, goals, stakeholders, and
+  privacy. Skipped phases are skipped outright, never asked-then-discarded.
+- **Full path is shorter too.** Dropped the unused "first 3 commands" question; thought
+  frameworks are opt-in; task read-back is one combined confirmation; OKR ladder-up and kill
+  condition are asked only for Growth Lead / manager-facing roles; per-stakeholder interview is
+  one question each, capped at the top 3; the privacy scan is a single batch.
 
 - **Claude only.** `AGENTS.md` (Codex CLI), `GEMINI.md` (Gemini CLI), and the mirrored
   `.agents/skills/` tree are gone. One skill tree, one entry point (`CLAUDE.md`), one contract.
@@ -27,9 +37,11 @@ fixes and copy.
 - **Self-heal on load.** The hook reports memory-index drift (unindexed files, dangling index
   lines), a missing index, or a stale `.active-user`; `/daily-sync` repairs them and recreates
   any missing scaffold or per-user knowledge-log files, with a size guard on the memory index.
-- Fixes: `.obsidian/workspace.json` and `.claude/settings.local.json` are no longer tracked
-  (opening the vault in Obsidian used to dirty a template file and trip the update warning);
-  `/os-contract-check` gains sync-surface and version-parity checks.
+- Fixes: `.obsidian/` editor state and `.claude/settings.local.json` are no longer tracked
+  (opening the vault in Obsidian used to dirty template files and trip the update warning);
+  `/os-contract-check` gains sync-surface and version-parity checks; trailing-whitespace line
+  breaks in `Templates/hypothesis.md` and `Templates/segment-profile.md` replaced with `<br>`;
+  `README.md`'s Lark section now matches the real pause-or-skip behaviour.
 - **Migration:** none for users. Start one fresh session after `/os-update` so the hook and
   `/os-publish` register.
 

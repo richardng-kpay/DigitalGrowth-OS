@@ -1,8 +1,8 @@
 # [YYYY-MM-DD] — [HYPOTHESIS_NAME]
 
-**State:** candidate / proposed / confirmed / rejected  
-**Owner:** [Name]  
-**Channel / surface:** [Paid / SEO / Email / Website / Analytics / Mixed]  
+**State:** candidate / proposed / confirmed / rejected<br>
+**Owner:** [Name]<br>
+**Channel / surface:** [Paid / SEO / Email / Website / Analytics / Mixed]<br>
 **Last updated:** [YYYY-MM-DD]
 
 ---
@@ -20,10 +20,10 @@ because [reason].
 
 ## Test plan
 
-**Primary metric:** [Metric]  
-**Expected direction:** Increase / decrease / no change  
-**Minimum detectable effect:** [Target]  
-**Read date:** [YYYY-MM-DD]  
+**Primary metric:** [Metric]<br>
+**Expected direction:** Increase / decrease / no change<br>
+**Minimum detectable effect:** [Target]<br>
+**Read date:** [YYYY-MM-DD]<br>
 **Guardrail metric:** [Metric + stop condition]
 
 ## Result
