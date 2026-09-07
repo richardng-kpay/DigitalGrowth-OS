@@ -5,12 +5,12 @@ Cowork (or opens it in a supported CLI): identity, operating style, persistent m
 feedback history.
 
 **If you're a team member, you don't need to read past this paragraph.** Onboarding creates
-your folder here automatically, the assistant maintains it for you, and the one thing to
-remember is: **copy your `Users/<your-name>/` folder somewhere safe now and then** — it lives
-only on your machine, and if this whole folder is ever deleted or set up again from scratch,
-that copy is what brings your memory back (if you're ever unsure whether that's about to
-happen to you, ask before it does). Everything below is reference for the curious and for the
-OS owner.
+your folder here automatically, the assistant maintains it for you, and `/eod` mirrors it to
+`~/.digitalgrowth-os-backup/<your-name>/` outside this folder — so if the OS folder is ever
+deleted or set up again from scratch, the first session offers **Restore my previous setup**
+and brings your memory back. Run `/eod` at least weekly to keep that copy fresh (the session
+start check reminds you when it is older than 7 days). Everything below is reference for the
+curious and for the OS owner.
 
 **Why this layer exists.** The rest of the OS (rules, skills, templates) receives improvements
 from the OS owner once a week via `/os-update`. Anything personal that lived in those shared
@@ -44,8 +44,10 @@ Users/
    so your memory, identity, and feedback stay on your machine and never reach the team repo.
 2. **One real user per copy.** Each team member attaches their own copy of the OS to their own
    Cowork. `Users/.active-user` names the single active user directory.
-3. **Back it up.** Because this layer is never committed anywhere, the only copy is on your
-   machine. Re-creating the OS folder from GitHub does not restore it — your saved copy does.
+3. **Backed up automatically, off-repo.** `/eod` (and `/daily-sync` when the copy is >7 days
+   old) mirrors this folder to `~/.digitalgrowth-os-backup/<your-name>/`. Re-creating the OS
+   folder from GitHub does not restore it — the first session detects the backup and offers a
+   restore. Moving to a new machine? Copy that backup folder across first.
 4. **Memory format.** One fact per file with a `name`, `description`, and `type`
    (user / feedback / project / reference) header, indexed by one line in `MEMORY.md`.
    See `_template/memory/MEMORY.md` for the canonical format.
@@ -58,6 +60,8 @@ Users/
   state gets written to memory immediately. Corrections matter most — they stop the same wrong
   answer from ever coming back.
 - **`/eod` (end of day):** sweeps the day's conversation for durable facts, updates memory,
-  refreshes `claude-project-digest.md`, and logs which skills you used.
-- **`/daily-sync` (morning):** consolidates yesterday's memory, prunes duplicates, refreshes
-  the digest, then hands off to `/today`.
+  refreshes `claude-project-digest.md`, logs which skills you used, and refreshes the off-repo backup.
+- **`/daily-sync` (morning):** consolidates yesterday's memory, prunes duplicates, repairs index
+  drift and missing scaffold files, refreshes the digest, then hands off to `/today`.
+- **Every session start:** a small check compares your copy with the team repo and your memory
+  index with its files. It only speaks up when there is an update to pull or something to repair.

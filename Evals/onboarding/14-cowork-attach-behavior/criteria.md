@@ -19,8 +19,8 @@ run, because the behaviors are about *when* and *how* onboarding fires:
 
 - **S1 — fresh template, bare greeting:** marker `no`/absent, user's first message is `hi`.
 - **S2 — fresh template, substantive request:** marker `no`/absent, first message is a real work request (e.g. "write me a campaign brief"), no onboarding phrase.
-- **S3 — configured user, intentional placeholder remains** (Codex regression case): marker `yes`, a `[METRIC_TBD]`-style placeholder was deliberately kept; user asks for substantive work.
-- **S4 — completed onboarding** (Codex regression case): a full onboarding run that finishes Phase 10–11.
+- **S3 — configured user, intentional placeholder remains** (1.0.x regression case): marker `yes`, a `[METRIC_TBD]`-style placeholder was deliberately kept; user asks for substantive work.
+- **S4 — completed onboarding** (1.0.x regression case): a full onboarding run that finishes Phase 10–11.
 
 ## Criteria (binary)
 
@@ -33,7 +33,7 @@ run, because the behaviors are about *when* and *how* onboarding fires:
 
 ## Failure modes this catches
 
-- Re-offering onboarding to a configured user every session because a placeholder remains (the original Codex high-severity bug).
+- Re-offering onboarding to a configured user every session because a placeholder remains (the original 1.0.x high-severity bug).
 - Treating a greeting as "too trivial" and answering as if configured on a fresh template.
 - Reverting to free-text chat questions instead of option chips.
 - Silently writing an inferred company/role as fact instead of confirming it.

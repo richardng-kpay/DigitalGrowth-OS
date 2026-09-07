@@ -1,7 +1,10 @@
 # /os-update — weekly template update from GitHub
 
 Pulls the latest OS template from the team GitHub repo, shows what changed, and protects the
-user's personal files. Recommend running weekly (e.g., Monday before `/daily-sync`).
+user's personal files. Recommend running weekly (e.g., Monday before `/daily-sync`) — and
+whenever the session-start check says **OS update available** (a tracked hook,
+`.claude/hooks/os-update-check.sh`, compares this clone with `origin/main` once per session).
+Releases are cut by the OS owner with `/os-publish`.
 
 ## What this does
 
@@ -36,6 +39,7 @@ never conflict either.)
    user what was backed up, and after the merge show a diff between their version and the
    shipped one so they can port their customizations to a new, uniquely-named copy.
 3. If `HEAD..origin/main` is empty: "You're on the latest version (X.Y.Z)." Stop.
+   Otherwise record `OLD=$(git rev-parse HEAD)` — step 6 diffs against it.
 4. Show the delta BEFORE merging:
    - `git log HEAD..origin/main --oneline`
    - New `CHANGELOG.md` entries between the user's version and upstream's top version
@@ -50,7 +54,14 @@ never conflict either.)
       files (their working state wins over both)
 6. Post-update: read the new `OS-Version` from `CLAUDE.md` and the top `CHANGELOG.md` entry.
    Summarize what's new in 2–4 bullets, in the user's language (skills they can use, not commit
-   hashes). Flag any entry marked **Migration** and offer to run it now.
+   hashes). Flag any entry marked **Migration** and offer to run it now. Then **name what
+   arrived**, from `git diff --name-status $OLD..HEAD -- .claude/skills Agents Workflows Templates`:
+   - new skills (`A .claude/skills/<name>/SKILL.md`) → "new: `/<name>`", changed → "updated: `/<name>`"
+   - new or changed agents under `Agents/GrowthTeam/` by role name; new workflows and templates by file
+   - if `.claude/settings.json` or `.claude/hooks/` changed → "session hooks updated"
+   Add: "New skills and hook changes load in your **next** session — start a fresh one when convenient."
+   If any local personal extension (a skill/workflow you created) shares a name with something that
+   just arrived, step 2b already backed it up — remind the user where.
 7. Update `Users/<active-user>/config.md → Last seen OS version` to the new version.
 
 ## Hard rules

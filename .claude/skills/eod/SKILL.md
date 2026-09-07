@@ -10,6 +10,7 @@ in a file, it didn't happen.
 2. Updates task state in `Tasks/active.md`
 3. Refreshes `Users/<active-user>/memory/claude-project-digest.md`
 4. Appends today's usage line to `Users/<active-user>/usage-log.md`
+5. Mirrors `Users/<active-user>/` to an off-repo backup so a re-clone can never lose memory
 
 ## Steps
 
@@ -41,7 +42,12 @@ in a file, it didn't happen.
    workflow tweak, a new tag, or a `config.md` routing rule — with the evidence ("you've done
    X manually 3 times"). Offer to scaffold it; never auto-write. At most one proposal per
    sweep, and drop a proposal the user has declined before (check `config.md` notes).
-7. Close with a 3-line summary: memories written (count + names), tasks updated, digest status.
+7. **Backup (self-heal).** Mirror the user layer outside the repo so deleting or re-cloning the
+   OS folder cannot lose it:
+   `mkdir -p ~/.digitalgrowth-os-backup/<user> && rsync -a --delete Users/<user>/ ~/.digitalgrowth-os-backup/<user>/ && date > ~/.digitalgrowth-os-backup/<user>/.last-backup`
+   The session-start hook warns when this stamp is older than 7 days or absent. On first-run
+   with no `.active-user`, CLAUDE.md offers a restore from this path before onboarding.
+8. Close with a 3-line summary: memories written (count + names), tasks updated, digest + backup status.
 
 ## Rules
 

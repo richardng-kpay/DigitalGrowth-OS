@@ -7,6 +7,44 @@ fixes and copy.
 
 ---
 
+## 1.2.0 — 2026-09-07
+
+**Claude-only, self-updating, self-healing — and a 4-minute Quick onboarding path.**
+
+- **Quick vs Full setup.** Onboarding Phase 0 now asks upfront: Quick setup (~3–4 min — role,
+  top KPI, tone, one priority; everything else deferred) or Full interview. Quick lands a working
+  config in about 8 question rounds and queues one `Tasks/follow-ups.md` row — say
+  `finish my setup` anytime to pick up cadence, thought frameworks, goals, stakeholders, and
+  privacy. Skipped phases are skipped outright, never asked-then-discarded.
+- **Full path is shorter too.** Dropped the unused "first 3 commands" question; thought
+  frameworks are opt-in; task read-back is one combined confirmation; OKR ladder-up and kill
+  condition are asked only for Growth Lead / manager-facing roles; per-stakeholder interview is
+  one question each, capped at the top 3; the privacy scan is a single batch.
+
+- **Claude only.** `AGENTS.md` (Codex CLI), `GEMINI.md` (Gemini CLI), and the mirrored
+  `.agents/skills/` tree are gone. One skill tree, one entry point (`CLAUDE.md`), one contract.
+  `/os-contract-check` now flags any multi-harness residue instead of enforcing tree parity.
+- **You're told when an update exists.** A tracked session-start hook
+  (`.claude/settings.json` → `.claude/hooks/os-update-check.sh`) compares your copy with the
+  team repo once per session and says **OS update available** when you're behind. Report-only,
+  silent offline. `/os-update` now names every skill, agent, workflow, and template that arrived.
+- **New `/os-publish`** (OS owner only) — the single sanctioned push path: contract check,
+  secret + personal-data scan, change-acceptance criteria (moved here from the retired
+  `AGENTS.md`), version bump, changelog entry, then commit + push behind an explicit gate.
+- **Memory survives a re-clone.** `/eod` mirrors `Users/<you>/` to
+  `~/.digitalgrowth-os-backup/<you>/` (off-repo). A fresh clone that finds that backup offers
+  **Restore my previous setup** before onboarding. The hook warns when the backup is >7 days old.
+- **Self-heal on load.** The hook reports memory-index drift (unindexed files, dangling index
+  lines), a missing index, or a stale `.active-user`; `/daily-sync` repairs them and recreates
+  any missing scaffold or per-user knowledge-log files, with a size guard on the memory index.
+- Fixes: `.obsidian/` editor state and `.claude/settings.local.json` are no longer tracked
+  (opening the vault in Obsidian used to dirty template files and trip the update warning);
+  `/os-contract-check` gains sync-surface and version-parity checks; trailing-whitespace line
+  breaks in `Templates/hypothesis.md` and `Templates/segment-profile.md` replaced with `<br>`;
+  `README.md`'s Lark section now matches the real pause-or-skip behaviour.
+- **Migration:** none for users. Start one fresh session after `/os-update` so the hook and
+  `/os-publish` register.
+
 ## 1.1.1 — 2026-07-07
 
 **Fail-loop and onboarding hardening + the learn→optimize loop.**
