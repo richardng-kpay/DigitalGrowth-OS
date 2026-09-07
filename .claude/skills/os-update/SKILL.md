@@ -21,8 +21,9 @@ Releases are cut by the OS owner with `/os-publish`.
 `Knowledge/Reference/lark-wiki-index.md` · `Knowledge/Reference/lark-wiki-*.md`
 
 This list is the single source of truth — CLAUDE.md §two layers points here.
-(`Users/` is gitignored and can never conflict. `Knowledge/index.md`, `Knowledge/log.md`,
-and `Knowledge/Decisions/team-log.md` are gitignored per-user logs since 1.1.1 — they can
+(`Users/` is gitignored and can never conflict. `Knowledge/index.md`, `Knowledge/overview.md`,
+`Knowledge/log.md`, and `Knowledge/Decisions/team-log.md` are gitignored per-user spines since
+1.1.1 (`overview.md` since 1.3.0), seeded from the tracked `Knowledge/_seeds/` — they can
 never conflict either.)
 
 ## Steps

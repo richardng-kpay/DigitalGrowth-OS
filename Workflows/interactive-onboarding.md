@@ -153,7 +153,7 @@ This is the OS's core value proposition — the user should hear it in plain ter
 
 **Run this phase immediately after Phase 0, before any role branching.**
 
-This OS searches your team's Lark wiki to answer project questions. The Lark MCP uses the shared team app (`cli_a944aca53c381ed3`) with per-user OAuth — each user logs in with their own Lark account and sees only what they have access to. Each user must have the `lark-mcp` server configured in their own `~/.claude.json` with the App Secret pasted locally (see `Workflows/lark-setup.md`).
+This OS searches your team's Lark wiki to answer project questions. The Lark MCP uses the shared team app (`cli_a944aca53c381ed3`) with per-user OAuth — each user logs in with their own Lark account and sees only what they have access to. The server itself ships in the repo's `.mcp.json`, so **no user hand-edits any JSON and no secret is ever pasted into a config file**: each user exports the App Secret as `LARK_APP_SECRET` in their own shell and approves the project MCP server on first open (see `Workflows/lark-setup.md`).
 
 ### Connection test
 
@@ -621,6 +621,8 @@ Only proceed after an explicit "yes." "Sounds good" or "ok" do not count — re-
 1. **Gate 1 — user layer:** "Writing your personal layer now: `Users/<name>/` scaffold, `config.md`, memory seeds. OK?" On explicit yes → write all three in that order, then a one-line report per file.
 2. **Gate 2 — shared working files:** "Now the working files: `GOALS.md`, `Tasks/active.md`, `Tasks/backlog.md`[, `Tasks/follow-ups.md`, `Knowledge/People/<name>.md`, `Projects/.../brief.md` as applicable]. OK?" On explicit yes → write them, one-line report per file.
 
+**Knowledge spines — seed silently inside Gate 2, no separate prompt.** For each pair, copy only if the destination is absent; never overwrite: `Knowledge/_seeds/index.md` → `Knowledge/index.md` · `overview.md` → `Knowledge/overview.md` · `log.md` → `Knowledge/log.md` · `decisions-team-log.md` → `Knowledge/Decisions/team-log.md`. These four are gitignored, so a fresh clone has none of them and every teammate must start from the same skeleton. Report as one line: "Knowledge wiki seeded (4 files)." Do not improvise the structure and do not ask the user to design it.
+
 If the user wants finer control ("show me each file"), fall back to per-file confirmation. Either way, "sounds good" does not count as a gate approval — require an explicit yes.
 
 **Write the completion marker LAST.** Only after Gate 1's files are successfully written, in this order: (1) set `Onboarding completed: yes (YYYY-MM-DD)` plus `OS version at onboarding` / `Last seen OS version` (from the `OS-Version` marker in `CLAUDE.md`) inside `config.md`; (2) write `Users/.active-user` containing exactly the user's folder name (one line); (3) delete `Users/.onboarding-skipped` if present. The marker comes after the config fields so an interruption between the two can never leave a clone marked configured with an incomplete `config.md`. The presence of `.active-user` is what stops the OS from re-offering onboarding on every future session — never write it before `config.md` exists, and do write it even if the user intentionally left placeholders behind: completion is defined by the user finishing the flow, not by zero placeholders remaining.
@@ -659,6 +661,7 @@ Run this check before declaring onboarding finished.
 | **Area tags match role** | `config.md` → `Area tags` match the role's configured tag set. | Re-run Phase 1B. |
 | **Primary agent set** | `config.md` → `Primary agent` is not placeholder text. | Re-run Phase 1B. |
 | **Memory seeded** | `Users/<name>/memory/MEMORY.md` index has ≥1 entry. | Seed from interview capture (Phase 10 edit plan). |
+| **Knowledge spines seeded** | `Knowledge/index.md`, `Knowledge/overview.md`, `Knowledge/log.md`, `Knowledge/Decisions/team-log.md` all exist. | Copy the missing ones from `Knowledge/_seeds/` (Phase 10, Gate 2). |
 | **Template layer untouched** | `git status` shows no modifications to `CLAUDE.md`, `Workflows/`, or skills. | Revert the personal edit and move the value into `config.md`. |
 | **KPIs specific** | Each KPI in `GOALS.md` names an actual metric and target, not just a category. | Re-run Phase 6. |
 | **Active tasks present** | `Tasks/active.md` has ≥1 P0 or P1 item that is not a template placeholder. | Re-run Phase 5. |

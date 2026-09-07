@@ -23,7 +23,7 @@ architecture change.
    run instructions, and a `results/` location when the suite claims one.
 6. User-layer contract: `.gitignore` keeps `Users/*` ignored while allowing
    `Users/README.md` and `Users/_template/**`, and ignores the per-user
-   knowledge logs (`Knowledge/index.md`, `Knowledge/log.md`,
+   knowledge spines (`Knowledge/index.md`, `Knowledge/overview.md`, `Knowledge/log.md`,
    `Knowledge/Decisions/team-log.md`), `.obsidian/`, and
    `.claude/settings.local.json`. `git ls-files Users` must return only the
    README and `_template/**`.

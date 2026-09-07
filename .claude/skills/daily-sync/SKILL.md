@@ -28,12 +28,14 @@ claude.ai project digest fresh. Pairs with `/eod` (evening writes, morning conso
    this step is where it gets repaired.
 4b. **Structure heal.** Recreate anything missing from the scaffold without asking: an absent
    `memory/MEMORY.md` (from `Users/_template/memory/MEMORY.md`, then re-index), absent
-   `feedback-log.md` / `usage-log.md` (from `Users/_template/`), and the per-user knowledge logs
-   `Knowledge/index.md`, `Knowledge/log.md`, `Knowledge/Decisions/team-log.md` (headers per the
-   writing skill). Size guard: if `MEMORY.md` exceeds ~150 index lines, propose merging the
-   weakest `type: project`/`reference` entries — never trim `type: feedback`.
+   `feedback-log.md` / `usage-log.md` (from `Users/_template/`), and the per-user knowledge
+   spines `Knowledge/index.md`, `Knowledge/overview.md`, `Knowledge/log.md`,
+   `Knowledge/Decisions/team-log.md` — **copy each missing one from `Knowledge/_seeds/`**
+   (`decisions-team-log.md` → `Decisions/team-log.md`); never overwrite one that exists, and
+   never improvise the structure. Size guard: if `MEMORY.md` exceeds ~150 index lines, propose
+   merging the weakest `type: project`/`reference` entries — never trim `type: feedback`.
 4c. **Backup check.** If `~/.digitalgrowth-os-backup/<user>/.last-backup` is absent or older
-   than 7 days, run the `/eod` step-7 mirror now (rsync, then refresh the stamp).
+   than 7 days, run the `/eod` step-7 mirror now (user layer **and** the four Knowledge spines, then refresh the stamp).
 5. **Digest refresh.** Regenerate `claude-project-digest.md` if priorities or memory changed
    since the `Last refreshed:` date in its header (same rules as `/eod` step 4); update that
    date whenever you regenerate.

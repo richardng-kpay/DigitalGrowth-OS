@@ -51,12 +51,14 @@ See `Users/README.md` for the full layer contract.
 
 ## Lark wiki integration
 
-This OS reads your team's Lark wiki to answer project questions — strategy docs, experiment notes, vendor evaluations, stakeholder interviews. Search happens under **your personal Lark credentials**, not a shared account, so each team member must connect their own Lark MCP once before the wiki features work.
+This OS reads your team's Lark wiki to answer project questions — strategy docs, experiment notes, vendor evaluations, stakeholder interviews. Search happens under **your personal Lark credentials**, not a shared account, so each team member must connect their own Lark MCP once before the wiki features work. (An **MCP** is just a small connector that lets Claude reach an outside tool.)
 
 **Onboarding (Phase 0B) runs a connection test automatically.** If the test fails, it offers to pause while you connect Lark (`Workflows/lark-setup.md`, then resume), or skip and continue — everything except wiki search works without it.
 
 - **Setup guide:** `Workflows/lark-setup.md`
-- **Full doc index:** `Knowledge/Reference/lark-wiki-index.md` (populate after connecting)
+- **Full doc index:** `Knowledge/Reference/lark-wiki-index.md` — ships pre-filled for the KPay team; `lark-wiki-performance-marketing.md` alongside it is still placeholdered
+
+**A second connector ships alongside it.** `.mcp.json` also lists `fathippo` — an optional service that copies your memory to a hosted server, so Claude chats outside this folder can use it too. **No memory leaves your machine unless you add a setup code called `FATHIPPO_API_KEY`.** Leave it unset and everything still runs off the files in `Users/<you>/memory/` — the version this OS always trusts, whether or not you turn fathippo on. Same setup guide as Lark.
 
 ---
 
@@ -156,7 +158,7 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 
 ## Templates
 
-12 templates in `Templates/` — marketing docs, Knowledge scaffolds, and the reviewer-verdict schema:
+11 templates in `Templates/` — marketing docs and Knowledge scaffolds:
 
 | Template | Use for |
 |---|---|
@@ -171,7 +173,6 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 | `decision.md` | Channel decisions: options, reasoning, reversal conditions |
 | `hypothesis.md` | Hypothesis candidates and experiment learnings |
 | `segment-profile.md` | Audience segment profiles used by briefs and review gates |
-| `reviewer-verdict-schema.md` | Verdict format used by the review gates (pass / changes / revise) |
 
 ---
 
@@ -193,6 +194,7 @@ Verdict: **Pass** / **Pass with changes** / **Revise and resubmit**. No exceptio
 DigitalGrowth-OS/
 ├── CLAUDE.md                         ← Team-wide rules: routing, gates, Lark protocol (never personalized)
 ├── CHANGELOG.md                      ← Versioned template releases, newest first
+├── .mcp.json                         ← The two connectors: Lark wiki + fathippo memory
 ├── GOALS.md                          ← 30-60-90 goals, KPI targets, stakeholders
 │
 ├── Users/                            ← THE USER LAYER (personal, stays on your machine)
@@ -214,20 +216,24 @@ DigitalGrowth-OS/
 │       └── brief.md                  ← Campaign brief (from template)
 │
 ├── Knowledge/
-│   ├── People/                       ← Stakeholder profiles
-│   ├── Segments/                     ← Audience segment profiles
-│   ├── Hypotheses/                   ← Experiment results: proposed → confirmed/rejected
-│   ├── Decisions/                    ← Channel decisions with reversal conditions
+│   ├── index.md · overview.md · log.md     ← Auto-created: what you know, open
+│   │                                          contradictions, search history
+│   ├── _seeds/                             ← Templates for those files — don't edit
+│   ├── Concepts/                           ← Reusable ideas and metric definitions
+│   ├── People/ · Segments/                 ← Stakeholder and audience profiles
+│   ├── Hypotheses/ · Decisions/            ← Experiment results and channel decisions
+│   ├── Research/                           ← Multi-source synthesis output
+│   ├── Ingestion/ · Source/ · Maintenance/ ← Intake: staging, untouched originals, sweeps
 │   └── Reference/
 │       ├── company.md                ← Company and brand context
 │       ├── provenance-tags.md        ← Evidence-tag rules and decay windows
-│       └── lark-wiki-index.md        ← Lark wiki doc index (populated after connecting)
+│       └── lark-wiki-index.md        ← Lark wiki doc index (ships pre-filled)
 │
-├── Templates/                        ← 12 document templates
+├── Templates/                        ← 11 document templates
 ├── Workflows/
-│   ├── interactive-onboarding.md     ← Role-adaptive setup interview (11 phases)
-│   └── lark-setup.md                 ← Lark MCP credential setup + troubleshooting
-├── Evals/                            ← Onboarding and synthesis eval suites
+│   ├── interactive-onboarding.md     ← Role-adaptive setup interview (Phases 0–11)
+│   └── lark-setup.md                 ← Connector setup (Lark wiki + fathippo) + troubleshooting
+├── Evals/                            ← Eval suites (16 onboarding cases + synthesis)
 ├── Meetings/                         ← Meeting notes
 └── .claude/
     ├── settings.json                 ← Session-start hook registration (tracked)
@@ -253,11 +259,14 @@ Have opinions about the OS? `/os-feedback` sends them to the OS owner — rating
 
 **Know what is and isn't committed by default:**
 
-- **Only `Users/<you>/` is excluded from git by default.** Your identity, memory, and feedback never reach the team repo — but they also exist only on your machine, so back that folder up occasionally.
+- **`Users/<you>/` and your personal Knowledge files are excluded from git by default** — that second group is `Knowledge/index.md`, `overview.md`, `log.md`, and `Decisions/team-log.md`. Your identity, memory, feedback, and accumulated wiki knowledge never reach the team repo. Since they live in neither git nor the template, **`/eod` is what protects them** — it mirrors both groups to `~/.digitalgrowth-os-backup/`, and a fresh clone offers to restore from there. Skip `/eod` for a month and a re-clone loses that month.
 - **`GOALS.md`, `Tasks/`, `Knowledge/People/`, and `Projects/` are tracked.** If you fill them with real budgets, stakeholder names, or campaign data and then commit and push, that data ships to the repo. The real protection for team members is simple: **never commit or push — `/os-update` only pulls.**
+- **Turning on `fathippo` sends memory off your machine.** Committing to git isn't the only way this data could leave. With `FATHIPPO_API_KEY` set, durable facts you save are stored on a third-party hosted service so other Claude chats can recall them. Leave the key unset and the OS runs on local files alone.
 - **Forking or pushing a personalised copy (OS owner territory):** uncommenting the `.gitignore` entries for those files is **not enough on its own** — git keeps tracking files it already knows about. You must also run `git rm --cached <file>` to untrack each one, and remove or anonymise stakeholder names, company strategy, budget figures, and customer data before pushing.
 
-This repo is safe to push as-is while placeholders are still in place.
+**If you fork or publish this repo** — most team members never push, see above — check the two Lark wiki files first. `Knowledge/Reference/lark-wiki-index.md` and `lark-wiki-performance-marketing.md` are **tracked by default** and hold your team's internal wiki structure: space IDs, your Lark domain, document tokens. They aren't credentials, but they are internal identifiers. To stop future commits, uncomment their entries in `.gitignore` **and** run `git rm --cached` on each — uncommenting alone does nothing to a file git already tracks. Note that `lark-wiki-index.md` already carries the KPay team's space ID and domain in this repo's history, so untracking prevents new commits but does not unpublish what is already there; a public fork needs the file scrubbed and the existing history accepted as-is.
+
+Everything else in this repo is safe to push while placeholders are still in place.
 
 ---
 

@@ -16,6 +16,18 @@
         "APP_ID": "cli_a944aca53c381ed3",
         "APP_SECRET": "${LARK_APP_SECRET}"
       }
+    },
+    "fathippo": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "--yes",
+        "@fathippo/mcp-server"
+      ],
+      "env": {
+        "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin",
+        "FATHIPPO_API_KEY": "${FATHIPPO_API_KEY}"
+      }
     }
   }
 }
