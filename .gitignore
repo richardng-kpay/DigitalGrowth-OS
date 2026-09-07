@@ -31,6 +31,7 @@ Knowledge/Decisions/team-log.md
 # Editor
 .vscode/
 .idea/
+.obsidian/
 *.swp
 *.swo
 

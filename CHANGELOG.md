@@ -7,6 +7,26 @@ fixes and copy.
 
 ---
 
+## 1.2.0 — 2026-07-09
+
+**Quick onboarding path — a full interview used to be ~14 question-rounds; it didn't need to be.**
+
+- **Quick vs Full setup.** Phase 0 now asks upfront: Quick setup (~3-4 min — role, top KPI, tone,
+  one priority; everything else deferred) or Full interview (the thorough version). Quick lands
+  a working config in about 8 rounds, with a single `Tasks/follow-ups.md` row pointing at
+  `finish my setup` to pick up cadence, thought frameworks, goals, stakeholders, and privacy
+  later — those phases are skipped outright, not asked-then-discarded.
+- **Full path got shorter too.** Dropped Phase 3's "first 3 commands" question — Phase 10 already
+  recommends commands by role and never read the answer. Phase 4 (thought frameworks) is now
+  opt-in instead of "ask 4, skip any." Phase 5's three-separate-level read-back is one combined
+  confirmation. Phase 6's OKR-ladder-up and kill-condition questions are asked only for Growth
+  Lead / manager-facing roles. Phase 7's per-stakeholder interview collapsed from 3 questions per
+  person to 1, capped at the top 3 named. Phase 8's privacy checklist and boundary questions merged
+  into a single batch.
+- Fixes: trailing whitespace in `Templates/hypothesis.md` and `Templates/segment-profile.md`;
+  `README.md`'s Lark section now matches the actual pause-or-skip onboarding behavior; `.obsidian/`
+  editor state is no longer tracked in the repo.
+
 ## 1.1.1 — 2026-07-07
 
 **Fail-loop and onboarding hardening + the learn→optimize loop.**

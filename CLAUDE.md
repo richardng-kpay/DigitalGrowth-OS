@@ -1,4 +1,4 @@
-<!-- OS-Version: 1.1.1 -->
+<!-- OS-Version: 1.2.0 -->
 <!-- First-run signal: the file `Users/.active-user`. If it is ABSENT, this clone is not onboarded — offer onboarding (see §Onboarding mode), unless `Users/.onboarding-skipped` exists (the user declined: one-line nudge only). If present, it names the active user's folder under `Users/`. The old `Onboarding-Complete` marker is retired: CLAUDE.md is template-layer only and is NEVER personalized. -->
 
 # CLAUDE.md — Digital Growth OS (team template)

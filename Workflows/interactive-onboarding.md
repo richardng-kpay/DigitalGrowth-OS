@@ -15,6 +15,7 @@ Trigger phrases (shortcuts to the same flow):
 - `Set up this OS for me`
 - `Help me configure my growth OS`
 - `Start onboarding`
+- `Finish my setup` — for a user who already completed the Quick path and wants to pick up the deferred phases (see **Re-running onboarding** below)
 
 ## Operating rules
 
@@ -67,6 +68,7 @@ Maintain this working schema during the interview. Preserve placeholders or mark
 - Company / organization:
 - Team / domain:
 - Manager or primary sponsor:
+- Setup depth: [quick / full]
 
 ### Role context (filled in Phase 1B based on role selected)
 - Channels / areas owned:
@@ -133,11 +135,12 @@ Ask (via `AskUserQuestion` — see **Question mechanism**):
 
 1. **Purpose** — Is this OS for your day-to-day growth-team work, a side project, learning, or a mix?
 2. **Identity** — What name, role, and company should the OS use? (e.g., "Sarah, Performance Marketing Manager at Acme")
-3. **Placeholders** — Any sections you want to leave as placeholders for now rather than fill today?
+3. **Setup depth** — Quick setup (~3-4 min, essentials only — role, top KPI, tone, this week's priority; everything else defaults to placeholders you can fill later by saying "finish my setup") or Full interview (~10 min, the thorough version below)?
+4. **Placeholders** (Full path only — quick path answers this implicitly by choosing Quick) — Any sections you want to leave as placeholders for now rather than fill today?
 
-**Worked example (Claude Code):** call `AskUserQuestion` with — Q1 `header: "Purpose"`, options `Day-to-day work` / `Side project` / `Learning` / `Mix`; Q2 `header: "Identity"`, options seeded from any name/role you already know plus `Other` for free text; Q3 `header: "Placeholders"`, options `Fill everything now` / `Leave some as placeholders`. The user selects or types "Other". Do not paste these as a numbered chat list unless the tool is unavailable.
+**Worked example (Claude Code):** call `AskUserQuestion` with — Q1 `header: "Purpose"`, options `Day-to-day work` / `Side project` / `Learning` / `Mix`; Q2 `header: "Identity"`, options seeded from any name/role you already know plus `Other` for free text; Q3 `header: "Setup depth"`, options `Quick setup (recommended)` / `Full interview`; Q4 `header: "Placeholders"` only if Q3 = Full, options `Fill everything now` / `Leave some as placeholders` (skip this question outright on the Quick path — don't spend a round confirming something the depth choice already implies). The user selects or types "Other" on any question. Do not paste these as a numbered chat list unless the tool is unavailable.
 
-Record identity in the setup capture.
+Record identity and setup depth in the setup capture. **From here on, `(Quick)` and `(Full)` markers on a phase or question tell you whether to run it for that path — unmarked phases and questions run for both.**
 
 **Then give the one-paragraph orientation (scripted — do not skip or bury it):**
 > "Quick orientation before we go on: everything personal you tell me lands in your own folder, `Users/<your-name>/` — it stays on your machine, never goes to the team repo, and weekly template updates never touch it. That folder is also my memory: Claude doesn't remember chats by itself here, so durable facts get saved as files and reloaded every session. `/eod` at the end of each day is what does the saving."
@@ -186,7 +189,9 @@ Record `Lark connection: ⏭ skipped by user`. Continue to Phase 0C. **Queue** a
 
 This phase determines whether this OS is a personal install or a shared team OS, and populates `TEAM.md` and `TEAM-GOALS.md` if it's shared.
 
-Ask:
+**(Quick)** Default to personal — skip the question below entirely. Record `OS mode: personal` and note in the setup capture: "Team setup skipped (quick path) — say 'set up team mode' anytime to add it." Only ask the question below on the Quick path if the user has already mentioned a team, teammates, or shared use in their own words.
+
+**(Full)** Ask:
 
 > "Is this OS being set up for you individually, or are you setting it up as a shared OS for your whole growth team?"
 
@@ -256,6 +261,10 @@ After the user confirms their role, proceed to **Phase 1B** for that role.
 ## Phase 1B — Role-specific channel and KPI capture
 
 Run the sub-phase that matches the user's role. If the user selected Custom, ask the equivalent questions in free-form.
+
+**(Quick)** Ask only the **first 2 questions** listed in the matched sub-phase (channels/areas owned + primary KPIs — these are the highest-signal fields and drive agent routing and area tags). Skip the remaining questions in that sub-phase; record their fields as `Unspecified — confirm later` in the setup capture rather than leaving them blank or guessing.
+
+**(Full)** Ask all questions listed in the matched sub-phase.
 
 ### 1B-A: Performance Marketing Manager
 
@@ -379,7 +388,9 @@ Configure:
 
 ## Phase 2 — Operating style
 
-Ask in one batch:
+**(Quick)** Ask **Tone only**: "What voice should the assistant use? (data-first and concise / strategic and direct / creative and engaging / custom)" Default the rest and say so in the Phase 9 summary: `Detail level: standard depth`, `Pushback level: on high-stakes calls only`, `Turn-offs: Not specified`, `Ideal response feel: Not specified` — these are defaults, not user-stated values, and the user can change any of them later via `config.md` or `finish my setup`.
+
+**(Full)** Ask in one batch:
 
 > "Four quick questions about how you like to work:
 > 1. **Tone:** What voice should the assistant use? (data-first and concise / strategic and direct / creative and engaging / custom)
@@ -396,20 +407,25 @@ Record as `Tone`, `Detail level`, `Pushback level`, `Turn-offs`, and `Ideal resp
 
 ## Phase 3 — Operating cadence
 
-Ask:
+**(Quick)** Skip this phase entirely — leave cadence fields as template placeholders, deferred to `finish my setup`. Still mention the standing rhythm skills in one line during Phase 10: `/daily-sync` each morning, `/eod` at close of day, `/os-update` weekly.
+
+**(Full)** Ask:
 
 1. What day does your work week start?
 2. What is your planning rhythm? (Weekly / campaign sprint / monthly / ad hoc)
 3. What recurring meetings or reviews should the OS prepare you for? (e.g., weekly channel review, Monday standup, monthly exec update)
-4. What are the first 3 commands you'd want to use in this OS?
 
 Reflect the cadence in `Users/<name>/config.md` and recurring workflow suggestions. Mention the standing rhythm skills here: `/daily-sync` each morning (memory consolidation → `/today`), `/eod` at close of day (memory sweep), `/os-update` weekly (pull template updates).
 
+Do not ask which commands the user wants to use first — Phase 10 already recommends the first three commands from the confirmed role, so a separate question here would go unused.
+
 ---
 
-## Phase 4 — How you think (optional, skip any)
+## Phase 4 — How you think (optional)
 
-Ask in one batch:
+**(Quick)** Skip this phase entirely. Mark `Thought frameworks: Not specified` — do not invent defaults.
+
+**(Full)** This phase is opt-in — don't spend a round on the 4 sub-questions unless the user actually wants them. First ask one question: "Want to go deeper on how you make decisions? (optional, ~2 min, covers tradeoffs, evidence standards, and what failure is OK)" Only on yes, ask the batch below.
 
 > "Four quick questions about how you make marketing decisions — skip any you want:
 > 1. **Tradeoff hierarchy:** When performance, brand quality, and speed are in tension, what's your usual order?
@@ -417,22 +433,24 @@ Ask in one batch:
 > 3. **Decision bar:** Can you move forward with 70% confidence, or do you typically need 90%+?
 > 4. **Acceptable failure:** What kind of failure is OK (a learning experiment), vs. what kind is not OK (an avoidable mistake)?"
 
-Record in `Thought frameworks`. If skipped, mark `Not specified` — do not invent defaults.
+Record in `Thought frameworks`. If the user opted out at the gate question or skipped any sub-question, mark `Not specified` — do not invent defaults.
 
 ---
 
 ## Phase 5 — Active tasks
 
-Ask:
+**(Quick)** Ask one question: "What's the ONE thing you need this OS to help with this week?" Record it as the sole P0 in `Tasks/active.md`. Leave P1/P2/blockers as template placeholders — note in the setup capture that they're deferred to `finish my setup`.
+
+**(Full)** Ask:
 
 1. What are your top 1–3 priorities this week? (P0 — must happen)
 2. What should happen soon but isn't urgent? (P1 — this week or next)
 3. Any backlog items worth capturing? (P2)
 4. Any blockers right now — things waiting on someone else?
 
-**Read-back rule:** After capture, read each priority level back separately and confirm before moving to the next. Do not batch-confirm all levels in one ask.
+**Read-back rule:** After capture, show P0/P1/P2/blockers together in one combined summary and confirm once — do not confirm each level in a separate back-and-forth turn.
 
-After user confirms all levels, propose updates to:
+After user confirms, propose updates to:
 - `Tasks/active.md`
 - `Tasks/backlog.md`
 
@@ -440,58 +458,68 @@ After user confirms all levels, propose updates to:
 
 ## Phase 6 — Goals and metrics
 
-Ask:
+**(Quick)** Skip this phase entirely. Pre-populate `GOALS.md` with KPI placeholder labels relevant to the user's role (from Phase 1B) and mark the 30/60/90-day fields, `OKR ladder-up`, and `Goal 1 kill condition` as deferred to `finish my setup`.
+
+**(Full)** Ask:
 
 1. What do you want to have achieved in the next 30 days? (Campaign launched, metric improved, team process established — be specific)
 2. 60 days?
 3. 90 days?
 
-Then three focused follow-ups:
+Then ask the single highest-value follow-up for everyone:
 
-> "Three more:
-> 1. Which team or company OKR does your 90-day goal ladder up to? ('Unknown / not set yet' is fine.)
-> 2. If you had to name ONE metric that, if it moves, proves your quarter was a success — what is it and what's the target?
-> 3. What specific thing would force you to abandon or pivot your top goal?"
+> "If you had to name ONE metric that, if it moves, proves your quarter was a success — what is it and what's the target?"
 
-Record as `OKR ladder-up`, `Single proof metric`, and `Goal 1 kill condition`. Pre-populate `GOALS.md` with KPI placeholder labels relevant to the user's role (from Phase 1B configuration).
+Record as `Single proof metric`.
+
+**Role-conditional (Growth Lead and any manager-facing role only):** also ask —
+
+> "Two more, since you're accountable across the team: which team or company OKR does your 90-day goal ladder up to? ('Unknown / not set yet' is fine.) And what specific thing would force you to abandon or pivot your top goal?"
+
+Record as `OKR ladder-up` and `Goal 1 kill condition`. For every other role, default both to `Not specified` — these are strategy-layer fields most individual contributors don't have a firm answer for yet, and can be added later.
+
+Pre-populate `GOALS.md` with KPI placeholder labels relevant to the user's role (from Phase 1B configuration).
 
 ---
 
 ## Phase 7 — Stakeholders
 
-Ask:
+**(Quick)** Skip this phase entirely. Note in the setup capture that stakeholder profiles are deferred to `finish my setup`.
+
+**(Full)** Ask:
 
 1. Who are the 3–6 people the OS should know first? (Manager, direct collaborators, agency contacts, exec stakeholders)
 2. Who approves, blocks, or influences your work?
 3. What decisions are currently open on your primary campaign, project, or workstream?
 4. What risks are already visible?
 
-**Per-stakeholder rule:** For each person named, ask in conversation before drafting any file:
-1. "[Name] — what's their role and seniority?"
-2. "Why do they matter — approver, collaborator, agency partner, exec stakeholder?"
-3. "Anything about their working style I should know?"
+**Per-stakeholder rule:** Take the **top 3** people named in question 1 (if the user named more, ask once: "Want to add the rest now, or later?" — proceed with 3 if they say later). For each of those, ask **one combined question**, not three separate ones:
 
-Only after those three fields are confirmed, propose a `Knowledge/People/[name].md` stub. Confirm per person before moving to the next.
+> "[Name] — role/seniority, why they matter (approver / collaborator / agency partner / exec stakeholder), and anything about their working style, in a line or two. Or say skip."
+
+Only after that single answer, propose a `Knowledge/People/[name].md` stub. Confirm per person before moving to the next — this is still one confirmation per person, just one question instead of three.
 
 ---
 
 ## Phase 8 — Privacy boundaries
 
-Run a guided privacy scan:
+**(Quick)** Skip this phase entirely. Default `Never write to files: Not specified`, `May edit without asking: Not specified`, `Requires confirmation: Not specified` — deferred to `finish my setup`. Do not infer or invent privacy boundaries.
 
-> "Quick privacy check — which of these should stay out of all files?
+**(Full)** Ask as a single 4-question batch (the privacy scan as one `multiSelect` question plus the three boundary questions — this replaces what used to be two separate rounds):
+
+> "Quick privacy check — which of these should stay out of all files? (select all that apply)
 > - Budget numbers or spend data
 > - Customer names or customer data
 > - Competitive intelligence (pricing, strategy, M&A)
 > - Agency fees or contract terms
 > - HR or performance feedback
 > - Health or family information
-> - Anything else specific to your situation?"
-
-Then ask:
-1. Which files may the assistant edit without asking each time?
-2. Which files require confirmation before edits?
-3. Is this repo private, shared internally, or intended as a sanitized template?
+> - Anything else specific to your situation?
+>
+> And three more in the same batch:
+> 1. Which files may the assistant edit without asking each time?
+> 2. Which files require confirmation before edits?
+> 3. Is this repo private, shared internally, or intended as a sanitized template?"
 
 ---
 
@@ -509,6 +537,10 @@ Before writing any files, show:
 - Name: ...
 - Role: ...
 - Company: ...
+- Setup depth: Quick / Full
+
+### Deferred to "finish my setup" (Quick path only — omit this section on Full)
+- Cadence, thought frameworks, 30/60/90 goals, stakeholders, privacy boundaries, and any Phase 1B / Phase 2 fields answered with defaults — all left as placeholders, listed here so the user sees exactly what's still open.
 
 ### Role configuration
 - Primary channels / areas: ...
@@ -553,6 +585,7 @@ Before writing any files, show:
 - `Tasks/backlog.md`
 - `Knowledge/People/...`
 - `Projects/.../brief.md` if the user named a primary campaign/project that needs a dedicated brief
+- `Tasks/follow-ups.md`: one row — "Finish full onboarding (cadence, goals, stakeholders, privacy) — say `finish my setup` anytime." (Quick path only)
 
 ### Boundaries
 - Never write: ...
@@ -568,6 +601,7 @@ Before writing any files, show:
 - `Tasks/backlog.md`: P2 work and future candidates
 - `Knowledge/People/...`: confirmed stakeholder profiles only
 - `Projects/.../brief.md`: primary campaign/project context, open decisions, risks, if the user explicitly wants a dedicated project file
+- `Tasks/follow-ups.md` (Quick path only): the single "finish my setup" row described above, dated today
 
 **Note:** `CLAUDE.md` is NOT in this list — it is template-layer and never personalized.
 ```
@@ -611,6 +645,8 @@ Only after every file is written:
 
 Run this check before declaring onboarding finished.
 
+**Quick path note:** goals, stakeholders, privacy boundaries, and cadence rows will legitimately show ❌ on a Quick-path run — that's expected, not a defect. Resolve them with **(b) Defer with a follow-up**, which the Phase 9/10 edit plan already queued as one `Tasks/follow-ups.md` row. Do not push a Quick-path user through those phases just to turn the checklist green; the row's existence is the resolution.
+
 | Check | How to verify | If it fails |
 |---|---|---|
 | **Lark connected** | Setup capture shows `✅ verified`, or user explicitly skipped with a follow-up logged. | Re-run Phase 0B, or open `Workflows/lark-setup.md`. |
@@ -652,11 +688,13 @@ The user can re-run at any time by saying `Computer, onboard me into this OS` ag
 3. For non-critical fields, ask which sections the user wants to update rather than restarting from scratch.
 4. Do not silently carry over role, KPIs, or quality gates — confirm each explicitly in this run.
 
+**`finish my setup` (Quick-path graduation).** A user who ran the Quick path can say this phrase (or the equivalent) anytime to pick up the phases they deferred. Do not restart from Phase 0 — jump straight to Phase 3 (cadence), then run Phase 4 (opt-in), Phase 6 (goals), Phase 7 (stakeholders), and Phase 8 (privacy) in order, using whatever the user already confirmed (identity, role, tone, first task) as-is. Delete the `Tasks/follow-ups.md` "finish full onboarding" row once Phase 9/10 write successfully.
+
 ---
 
 ## Dry-run acceptance test
 
-Use this test before shipping onboarding changes.
+Use this test before shipping onboarding changes. Run both variants — Quick and Full — against the same profile.
 
 ### Test profile
 
@@ -672,7 +710,7 @@ Use this test before shipping onboarding changes.
 - Privacy boundaries: no budget numbers, no customer names, no agency fees
 ```
 
-### Pass criteria
+### Pass criteria — Full path
 
 The dry run passes only if the assistant:
 
@@ -683,6 +721,22 @@ The dry run passes only if the assistant:
 5. Does not write any files until Phase 9 summary is shown and explicitly approved.
 6. Produces a Phase 9 summary with role-specific agent routing, area tags, and file-by-file edit plan.
 7. Recommends the first three commands for the confirmed role. For this Performance Marketing Manager test profile: `/today`, `/weekly-performance-report`, and `/campaign-brief [name]`.
+8. Never asks the user to name their first 3 desired commands (Phase 3) — that field was removed as redundant with criterion 7.
+9. Asks the Phase 4 opt-in gate question before running the 4-question thought-frameworks batch, not the batch directly.
+
+### Pass criteria — Quick path
+
+The dry run passes only if the assistant:
+
+1. Offers the Quick/Full choice in the Phase 0 batch and honors "Quick setup."
+2. Completes the whole interview, including both Phase 10 write gates, in **8 or fewer** `AskUserQuestion` rounds (excluding the conditional Lark domain question and the conditional pause/skip question).
+3. Asks only channels + KPIs in Phase 1B (skips tools, cadence, budget/approval-chain questions for this role).
+4. Asks Tone only in Phase 2; the Phase 9 summary shows Detail level, Pushback level, and Turn-offs as defaults, explicitly labeled as defaults rather than user-stated.
+5. Skips Phase 3, Phase 4, Phase 6, Phase 7, and Phase 8 outright — no questions asked for any of them.
+6. Phase 5 asks exactly one question ("the ONE thing you need help with this week") and writes it as the sole P0.
+7. The Phase 9 summary includes a "Deferred to finish my setup" section listing what was skipped.
+8. Writes exactly one `Tasks/follow-ups.md` row ("Finish full onboarding... say `finish my setup`") as part of the Phase 10 write.
+9. Phase 11's checklist shows the deferred rows as ❌ resolved via **(b) Defer with a follow-up**, and the assistant still says "Onboarding complete" — a Quick-path run is not held to the Full path's fill-everything bar.
 
 ### Fail signals
 
@@ -697,3 +751,6 @@ Tighten before shipping if the assistant:
 - Uses PM-specific terminology (PRD, roadmap, sprint, engineering handoff).
 - Produces generic goals that don't reflect the user's stated channels and KPIs.
 - Ignores privacy boundaries the user set.
+- Asks the removed "first 3 commands" question in Phase 3, or runs the Phase 4 batch without first asking the opt-in gate question.
+- Runs Phase 3, 4, 6, 7, or 8 in full on a Quick-path user instead of skipping them.
+- Silently invents a value for a deferred Quick-path field instead of marking it `Not specified` / `Unspecified — confirm later`.
