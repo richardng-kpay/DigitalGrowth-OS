@@ -9,10 +9,11 @@ Users/*
 !Users/_template/
 !Users/_template/**
 
-# Per-user knowledge logs — appended to by the Lark search protocol, /wiki-ingest, and
+# Per-user knowledge spines — written by the Lark search protocol, /wiki-ingest, and
 # /wiki-maintain. Gitignored so /os-update can never clobber accumulated user knowledge.
-# Skills create them from their documented format on first use.
+# Seeded from the tracked skeletons in Knowledge/_seeds/ on first use (never overwritten).
 Knowledge/index.md
+Knowledge/overview.md
 Knowledge/log.md
 Knowledge/Decisions/team-log.md
 

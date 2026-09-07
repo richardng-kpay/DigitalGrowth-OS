@@ -6,17 +6,35 @@ Promotes raw Lark wiki findings from `Knowledge/Ingestion/` to their permanent K
 
 ## What this does
 
-1. Reads all `.md` files in `Knowledge/Ingestion/` (excluding `README.md`)
-2. For each file, determines the correct promotion target based on the "Promotion candidates" checklist
-3. Routes each finding to the right layer — hypothesis, decision, person, or reference
-4. Updates `Knowledge/index.md` with any new entries
-5. Updates `Knowledge/Reference/lark-wiki-index.md` with newly discovered doc tokens
-6. Appends a row to `Knowledge/log.md`
-7. Deletes the ingestion file once promoted (or archives if it spans multiple layers)
+1. Seeds any missing knowledge spine from `Knowledge/_seeds/`
+2. Reads all `.md` files in `Knowledge/Ingestion/` (excluding `README.md`)
+3. For each file, determines the correct promotion target based on the "Promotion candidates" checklist
+4. Routes each finding to the right layer — hypothesis, decision, concept, person, or reference
+5. Updates `Knowledge/index.md` with any new entries, and `Knowledge/overview.md` if the standing picture changed
+6. Updates `Knowledge/Reference/lark-wiki-index.md` with newly discovered doc tokens
+7. Appends a row to `Knowledge/log.md`
+8. Deletes the ingestion file once promoted (or archives if it spans multiple layers)
 
 ---
 
 ## Steps
+
+### Step 0 — Seed the spines if missing
+
+`Knowledge/index.md`, `Knowledge/overview.md`, `Knowledge/log.md`, and
+`Knowledge/Decisions/team-log.md` are per-user and gitignored, so a fresh clone has none of them.
+**Copy any missing one from `Knowledge/_seeds/` — never improvise the structure**, or two teammates
+end up with wikis neither can read. If a destination already exists, leave it untouched.
+
+```bash
+for pair in "index.md:index.md" "log.md:log.md" "overview.md:overview.md" \
+            "decisions-team-log.md:Decisions/team-log.md"; do
+  src="Knowledge/_seeds/${pair%%:*}"; dst="Knowledge/${pair##*:}"
+  [ -f "$dst" ] || { cp "$src" "$dst" && echo "seeded $dst"; }
+done
+```
+
+---
 
 ### Step 1 — Inventory
 
@@ -52,6 +70,16 @@ If the file contains a vendor evaluation finding:
 2. If yes: add the finding as an evidence row
 3. If no: create `Knowledge/Decisions/pending/[YYYY-MM-DD]-[tool-slug].md` from `Templates/decision.md`
 
+#### Concept / mechanic / metric definition
+If the finding explains a **reusable idea** rather than reporting a result — how attribution windows
+work, what the team means by "activated", why creative fatigue shows up as CTR decay:
+1. Check `Knowledge/Concepts/[slug].md` — does a page for this concept already exist?
+2. If yes: **rewrite the page in place** to incorporate the new understanding. Do not append a
+   contradicting paragraph and leave both standing. If the change reverses a previous claim, log the
+   reversal in the *Superseded* table of `Knowledge/overview.md`.
+3. If no: create it — definition, why it matters for our channels, how we measure it, provenance tag,
+   and links to the pages that depend on it.
+
 #### Reference / channel intel
 If the finding is a benchmark, process doc, or channel insight with no hypothesis or decision angle:
 1. Add to `Knowledge/Reference/` as a new file, or append to an existing relevant reference file
@@ -67,22 +95,24 @@ For every doc token found in ingestion files, check `Knowledge/Reference/lark-wi
 
 ---
 
-### Step 4 — Update Knowledge/index.md
+### Step 4 — Update Knowledge/index.md and overview.md
 
 For each new file created in Step 2:
-- Add a row to the relevant section in `Knowledge/index.md`
+- Add a row to the relevant section in `Knowledge/index.md` (People / Reference / Concepts /
+  Research / Segments / Hypotheses / Decisions)
 - Set Lifecycle: `Candidate` and Last verified: today's date
 
-`Knowledge/index.md` is a per-user, gitignored file. If it is absent, create it with the
-section headers matching the `Knowledge/` folder layers (Hypotheses / Decisions / Segments /
-People / Reference) and columns `File · Summary · Lifecycle · Last verified`.
+Then ask whether this ingest **changes the standing picture**. If it does, edit
+`Knowledge/overview.md`: update the affected claim in *What's working* / *What's not working*, add a
+row to *Open contradictions* if it conflicts with an existing claim, and move any reversed belief to
+*Superseded* with today's date. If nothing shifted, say so and leave `overview.md` alone — do not
+manufacture a synthesis edit per ingest.
 
 ---
 
 ### Step 5 — Log and clean up
 
-Append to `Knowledge/log.md` (per-user, gitignored — if absent, create it with a
-`| Date | Operation | Detail | Files touched |` table header):
+Append to `Knowledge/log.md` (per-user, gitignored — seed from `Knowledge/_seeds/log.md` if absent):
 ```
 | [YYYY-MM-DD] | wiki-ingest | Promoted [N] files: [list of destinations] | [list of files created or updated] |
 ```
@@ -100,6 +130,7 @@ Then delete each processed ingestion file. If a single ingestion file spawned en
 **Promoted to:**
 - Hypotheses/candidate/: [N] new files
 - Decisions/pending/: [N] new or updated
+- Concepts/: [N] pages created or rewritten
 - People/: [N] profiles updated
 - Reference/: [N] entries added
 - lark-wiki-index.md: [N] new rows
@@ -107,6 +138,7 @@ Then delete each processed ingestion file. If a single ingestion file spawned en
 **Flagged for review:**
 - [file] — [reason, e.g. "spans 3 layers, archived not deleted"]
 
+**Knowledge/overview.md:** [updated — what shifted | unchanged, nothing shifted]
 **Knowledge/log.md:** updated
 ```
 
@@ -127,3 +159,5 @@ Then delete each processed ingestion file. If a single ingestion file spawned en
 - `Knowledge/Hypotheses/README.md` — hypothesis lifecycle
 - `Knowledge/Decisions/README.md` — decision lifecycle
 - `Knowledge/log.md` — operation log
+- `Knowledge/_seeds/` — tracked skeletons for the gitignored spines
+- `Knowledge/overview.md` — synthesis layer (contradictions, superseded beliefs)

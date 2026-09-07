@@ -1,6 +1,11 @@
-# Workflow: Lark MCP Setup
+# Workflow: MCP Setup (Lark + fathippo)
 
-Use this guide when the Lark MCP connection test fails during onboarding, or when you're setting up the Digital Growth OS for the first time on a new machine.
+Use this guide when an MCP connection test fails during onboarding, or when you're setting up the
+Digital Growth OS for the first time on a new machine.
+
+The repo ships **two** MCP servers in `.mcp.json` — `lark-mcp` (the live team wiki) and `fathippo`
+(portable memory). Neither contains a credential: each reads one environment variable you export
+yourself. Lark is covered first and in full; fathippo is at the end and takes about a minute.
 
 ---
 
@@ -57,7 +62,7 @@ export LARK_APP_SECRET="paste-the-secret-here"
 - Put it in your **own** shell env (`LARK_APP_SECRET`) only — never in `.mcp.json`, Slack, email, or any commit.
 - If it leaks, it gets rotated in the Lark dev console and everyone re-exports.
 
-> Prefer the old global-config method? You can still define the same server under `"mcpServers"` in your `~/.claude.json` with the secret pasted inline — but the `.mcp.json` + env-var path above is the supported handoff flow.
+> **Don't paste the secret into a config file.** Older setup notes described defining the server under `"mcpServers"` in `~/.claude.json` with the secret inline. That still technically works, but it writes a live credential to disk in plain text where a backup, sync client, or screen-share can pick it up. The `.mcp.json` + env-var path above is the only supported route.
 
 **Access model — per-user OAuth.** The MCP runs in `--token-mode user_access_token`. On first use, you'll be prompted to **log in with your own Lark account** via an OAuth flow. The app credentials just identify which Lark app brokers the auth — **your results are scoped to what your own Lark account can access.** If a doc doesn't show up, you need access to it in Lark under your own account, not the bot's.
 
@@ -65,7 +70,8 @@ export LARK_APP_SECRET="paste-the-secret-here"
 
 ### Step 3 — Restart Claude Code
 
-After editing `settings.json`, fully quit and reopen Claude Code (or run `/restart` if available). The `lark-mcp` server must load fresh.
+After exporting the env var, fully quit and reopen Claude Code (the variable is read at launch, so a
+running session will not pick it up). Both `.mcp.json` servers must load fresh.
 
 ---
 
@@ -84,7 +90,7 @@ Ask the assistant:
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| `lark-mcp` tools not available in the assistant | Server not in `~/.claude/settings.json` | Re-do Step 2 and restart Claude Code |
+| `lark-mcp` tools not available in the assistant | Project MCP server not approved, or `LARK_APP_SECRET` unset in the shell that launched Claude Code | Re-do Step 2, `echo $LARK_APP_SECRET` to confirm it's set, then fully restart Claude Code |
 | Tools available but 0 results returned | Wrong `LARK_DOMAIN` or app credentials | Double-check the domain and app ID/secret |
 | Error: `Unauthorized` or `token invalid` | Token expired or wrong | Re-generate the UAT or get fresh app credentials |
 | Results returned but missing specific docs | Your Lark account doesn't have access to those docs | Ask the doc owner or wiki admin to share them with your Lark account |
@@ -103,14 +109,20 @@ If a document exists in the wiki but doesn't appear in your search results:
 
 ---
 
-## After connecting — update your CLAUDE.md
+## After connecting — record the values in your own config
 
-Once your Lark MCP is working, fill in the Lark Wiki section in `CLAUDE.md` with your team's details:
+Once your Lark MCP is working, fill in the **Lark** block of `Users/<your-name>/config.md`:
 
 ```markdown
-- **Wiki space:** [YOUR_TEAM_NAME] · Space ID `[YOUR_SPACE_ID]` · Root node: `[YOUR_WIKI_ROOT_NODE]`
-- **Lark domain:** `[YOUR_LARK_DOMAIN]`
+## Lark
+- Lark domain: `your-org.larksuite.com`
+- Wiki space ID: `...`
+- Wiki root node: `...`
 ```
+
+> **Never put these in `CLAUDE.md`.** That file is template-layer — shared by the whole team and
+> overwritten by `/os-update`. Personal and org-specific values live in your user layer only.
+> Onboarding Phase 0B writes this block for you; this section is for fixing it up later.
 
 You can find your Space ID and root node by running:
 ```
@@ -122,7 +134,7 @@ mcp__lark-mcp__wiki_v2_space_getNode
 
 ## Team distribution — shared app, per-user access
 
-The team shares one Lark app (`cli_a944aca53c381ed3`). The app is the auth broker — each user logs in with their own Lark account via OAuth and sees only what their account can access. What is **not** shared in git is the App Secret — each person pastes it into their own machine's `~/.claude.json`.
+The team shares one Lark app (`cli_a944aca53c381ed3`). The app is the auth broker — each user logs in with their own Lark account via OAuth and sees only what their account can access. What is **not** shared in git is the App Secret — each person exports it as `LARK_APP_SECRET` in their own shell.
 
 Why this matters:
 - The App ID is the same for everyone and is safe to keep in the repo.
@@ -137,8 +149,46 @@ Why this matters:
 4. They set it as an env var: `export LARK_APP_SECRET="…"` in their `~/.zshrc`, then restart their shell.
 5. They open the folder in Claude Code, approve the project MCP server, and on first use log in with their own Lark account via OAuth.
 6. They run the connection test, then trigger `Computer, onboard me into this OS` — Phase 0B verifies the connection.
+7. Optionally, send them a **fathippo** API key too (see the fathippo section below) — memory works without it, just not across non-Cowork sessions.
 
 The only credential they share back with you is their **Lark handle** (for `TEAM.md`).
+
+---
+
+## fathippo — portable memory
+
+`fathippo` is hosted memory that follows you across Claude sessions, including ones outside this
+Cowork folder. It is **optional but recommended**, and it is a *complement* to the OS's file-based
+memory, not a replacement.
+
+**Precedence — this matters.** `Users/<you>/memory/` in this repo stays canonical. fathippo is a
+projection of it for sessions that can't see these files. If fathippo recall ever disagrees with a
+workspace file, **the file wins** — see §Memory & persistence in `CLAUDE.md`.
+
+### Setup
+
+1. Get your API key from your fathippo account (or ask Richard if the team is on a shared plan).
+2. Export it in your shell, exactly like the Lark secret:
+
+```bash
+# add to your ~/.zshrc (or ~/.bashrc), then restart your shell
+export FATHIPPO_API_KEY="paste-the-key-here"
+```
+
+3. Fully restart Claude Code and approve the project MCP server if prompted.
+
+### Verify
+
+Ask the assistant: *"What do you remember about me?"* — with the key set, it can call fathippo's
+recall tools. Without the key the server still starts (approving it runs `npx @fathippo/mcp-server` either
+way) but has no credential, so **no memory is sent anywhere** and its tools fail closed. The OS
+keeps working on file memory alone and will say so once rather than failing.
+
+### Secret handling
+
+Same non-negotiables as the Lark secret: the key goes in **your own shell env only**. Never in
+`.mcp.json`, never in a commit, never in Slack or email. `.mcp.json` references it as
+`${FATHIPPO_API_KEY}` precisely so the repo can be pushed to GitHub without carrying anyone's key.
 
 ---
 

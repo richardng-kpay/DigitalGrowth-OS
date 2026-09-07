@@ -1,4 +1,4 @@
-<!-- OS-Version: 1.2.0 -->
+<!-- OS-Version: 1.3.0 -->
 <!-- First-run signal: the file `Users/.active-user`. If it is ABSENT, this clone is not onboarded — offer onboarding (see §Onboarding mode), unless `Users/.onboarding-skipped` exists (the user declined: one-line nudge only). If present, it names the active user's folder under `Users/`. The old `Onboarding-Complete` marker is retired: CLAUDE.md is template-layer only and is NEVER personalized. -->
 
 # CLAUDE.md — Digital Growth OS (team template)
@@ -12,7 +12,7 @@ This file holds **team-wide rules only**. All personal configuration lives in th
 - **Template layer** (git-tracked, updated weekly from GitHub via `/os-update`): this file, `Workflows/`, `Templates/`, `Agents/`, skills, `Evals/`, team file structure. **Never personalized.**
 - **User layer** (`Users/<name>/`, gitignored, never touched by updates): `config.md`, `memory/`, `feedback-log.md`, `usage-log.md`.
 - **User-owned working files** (tracked as blank templates, personalized after onboarding, frozen upstream): `GOALS.md`, `Tasks/active.md`, `Tasks/backlog.md`, `Tasks/follow-ups.md`, `Tasks/dayjob-active.md`, `Tasks/team-board.md`, `Knowledge/People/`, `Projects/`, `Knowledge/Reference/company.md`, `Knowledge/Reference/ground-truth.md`, `Knowledge/Reference/lark-wiki-*.md`. `/os-update` keeps the local version on any conflict in these paths — the canonical protected list lives in `.claude/skills/os-update/SKILL.md`.
-- **Per-user knowledge logs** (gitignored, created on first use): `Knowledge/index.md`, `Knowledge/log.md`, `Knowledge/Decisions/team-log.md`. Never shipped by updates; if absent, create from the format documented in the writing skill.
+- **Per-user knowledge spines** (gitignored, seeded on first use): `Knowledge/index.md`, `Knowledge/overview.md`, `Knowledge/log.md`, `Knowledge/Decisions/team-log.md`. Never shipped by updates. **If one is absent, copy it from `Knowledge/_seeds/` — never improvise the structure**, or two teammates end up with wikis neither can read. Destination exists → leave it alone. Seed map and rules: `Knowledge/_seeds/` (tracked; `decisions-team-log.md` → `Knowledge/Decisions/team-log.md`, the rest same-name). Improving the structure for everyone = edit the seed and `/os-publish`; recording your own knowledge = edit the live file.
 - **Personal extensions**: net-new, uniquely-named skills, workflows, templates, and area tags you create are user-owned and survive `/os-update` (they don't exist upstream). Never edit a shipped skill/workflow — copy it to a new name and customize the copy.
 
 If a personal value you need is a placeholder, ask the user for that one value — do not invent it, and do not re-run onboarding unless `Users/.active-user` is absent.
@@ -26,10 +26,10 @@ If a personal value you need is a placeholder, ask the user for that one value �
 When onboarding starts: run `Workflows/interactive-onboarding.md` phase by phase. Ask through `AskUserQuestion`, validate inferences instead of adopting them, summarize proposed edits, and only write files after explicit confirmation. Onboarding writes to the **user layer and user-owned files only** — never to template files.
 
 ## On Session Start
-1. **First-run check (before your first reply).** If `Users/.active-user` is absent → your first response MUST be the onboarding offer (or the one-line nudge if `Users/.onboarding-skipped` exists), regardless of the user's message. **Restore first:** if `~/.digitalgrowth-os-backup/<name>/config.md` exists (the session-start hook reports this), add `Restore my previous setup` as the first option — on yes, copy that folder back to `Users/<name>/`, write `.active-user`, delete any skip marker, and skip onboarding. If `.active-user` exists but is **empty or names a folder missing under `Users/`**, the marker is stale — tell the user and treat this as first-run (offer onboarding, or the one-line nudge if `.onboarding-skipped` exists). Otherwise → continue.
+1. **First-run check (before your first reply).** If `Users/.active-user` is absent → your first response MUST be the onboarding offer (or the one-line nudge if `Users/.onboarding-skipped` exists), regardless of the user's message. **Restore first:** if `~/.digitalgrowth-os-backup/<name>/config.md` exists (the session-start hook reports this), add `Restore my previous setup` as the first option — on yes, copy that folder back to `Users/<name>/`, restore the Knowledge spines from `~/.digitalgrowth-os-backup/knowledge/<name>/` (`index.md`, `overview.md`, `log.md`, `Decisions/team-log.md`) — seeding from `Knowledge/_seeds/` only for any the backup lacks — then write `.active-user`, delete any skip marker, and skip onboarding. If `.active-user` exists but is **empty or names a folder missing under `Users/`**, the marker is stale — tell the user and treat this as first-run (offer onboarding, or the one-line nudge if `.onboarding-skipped` exists). Otherwise → continue.
 2. Read `Users/<active-user>/config.md` (identity, style, routing) and `Users/<active-user>/memory/MEMORY.md` (memory index).
 3. **Update greeting:** if `config.md → Last seen OS version` ≠ the OS-Version at the top of this file, read the top entry of `CHANGELOG.md`, mention what's new in one line, and update `Last seen OS version`. If the session-start hook printed **OS update available**, offer `/os-update` in one line and continue with the user's request — never block on it.
-3b. **Self-heal on load.** If the hook reports memory-index drift, a missing index, or a stale marker, repair it per `/daily-sync` steps 4–4b before relying on memory, and say so in one line. Missing per-user knowledge logs are recreated silently on first use.
+3b. **Self-heal on load.** If the hook reports memory-index drift, a missing index, or a stale marker, repair it per `/daily-sync` steps 4–4b before relying on memory, and say so in one line. Missing per-user knowledge spines are seeded silently from `Knowledge/_seeds/` on first use.
 4. `Tasks/active.md` — current campaign and task focus. `GOALS.md` — 30-60-90 goals and KPIs.
 5. **Lark wiki is live.** On any project question, search the wiki first (§Lark MCP below).
 6. Cross-team questions: `TEAM.md` (roster, OKR owners), `TEAM-GOALS.md` (shared KRs).
@@ -40,10 +40,11 @@ Team members run Claude through a 3P gateway account — account-level memory is
 
 - **Per-user memory** lives in `Users/<name>/memory/` — one durable fact per file, indexed in `MEMORY.md`, loaded every session. Format and write-triggers: see `Users/_template/memory/MEMORY.md`.
 - **Write immediately, not at session end**, when: the user corrects you (highest value — a correction memory stops the same wrong answer recurring), a decision is made, a durable preference or stakeholder/channel insight surfaces.
-- **`/eod`** — end-of-day sweep: harvest durable facts from the conversation, update memory, refresh the digest, append the usage log, and **mirror `Users/<name>/` to `~/.digitalgrowth-os-backup/`** so a re-clone can never lose memory. Suggest it when a session with substantive decisions is wrapping up.
+- **`/eod`** — end-of-day sweep: harvest durable facts from the conversation, update memory, refresh the digest, append the usage log, and **mirror `Users/<name>/` plus the four gitignored Knowledge spines to `~/.digitalgrowth-os-backup/`** so a re-clone can never lose memory or accumulated wiki knowledge. Suggest it when a session with substantive decisions is wrapping up.
 - **`/daily-sync`** — morning routine: consolidate and prune memory, refresh `claude-project-digest.md`, then hand off to `/today`.
 - **`claude-project-digest.md`** — compact snapshot the user manually re-uploads to their claude.ai Project knowledge so non-Cowork chats know them too. Keep it under ~120 lines.
 - Verify memory against current files before citing — memories drift. On conflict, the workspace file wins. Canonical project-bound facts live in `Knowledge/People/` and `Knowledge/Reference/`.
+- **Three memory surfaces, one precedence order.** `Users/<name>/memory/` (canonical, in-repo) → `fathippo` MCP (portable recall for non-Cowork sessions, §MCP servers) → `claude-project-digest.md` (manual paste into claude.ai). Write durable facts to the repo files **first**; the other two are projections of them. Never let a fathippo recall or a stale digest override a workspace file.
 
 ## OS updates (weekly)
 
@@ -102,14 +103,23 @@ Every claim in `Knowledge/` carries a provenance tag. Tags prevent weak evidence
 See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 
 **Layer structure:**
+- `Knowledge/Source/` — immutable copies of original artifacts (never edit)
+- `Knowledge/Ingestion/` — staging area for raw artifacts before promotion
+- `Knowledge/Concepts/` — durable explainers for reusable ideas, mechanics, and vocabulary (attribution windows, incrementality, an internal metric definition). **Rewrite in place** as understanding improves; never append-and-contradict.
+- `Knowledge/Segments/` — audience segment profiles: persona, channel affinity, lifecycle stage, messaging angle
 - `Knowledge/Hypotheses/` — testable beliefs: candidate → proposed → confirmed / rejected
 - `Knowledge/Decisions/` — formal decisions: pending → active → archived (reasoning + reversal conditions)
-- `Knowledge/Segments/` — audience segment profiles: persona, channel affinity, lifecycle stage, messaging angle
-- `Knowledge/Ingestion/` — staging area for raw artifacts before promotion
-- `Knowledge/Source/` — immutable copies of original artifacts (never edit)
+- `Knowledge/Research/` — multi-source synthesis output from `/synthesize-research`
+- `Knowledge/People/` — stakeholder profiles (confirm before editing)
+- `Knowledge/Reference/` — team-canonical facts, provenance rules, Lark wiki index
 - `Knowledge/Maintenance/` — weekly sweep logs
 
-**Contradiction rule:** when two claims conflict, preserve both with their tags. Never merge into false consensus.
+**The three wiki spines** (per-user, gitignored — see §Memory & persistence):
+`index.md` = catalog of what you know · `overview.md` = synthesis of what it adds up to (rewritten, not appended; contradictions and superseded beliefs tracked explicitly) · `log.md` = append-only history of every ingest, search, and sweep.
+
+**The loop:** **ingest** (`/wiki-ingest` — read source, route to a layer, update index + overview, log it) → **query** (search the wiki first on any project question; file useful answers back as pages) → **lint** (`/wiki-maintain` weekly — stale claims, orphaned pages, contradictions, dead links).
+
+**Contradiction rule:** when two claims conflict, preserve both with their tags, and record the pair under *Open contradictions* in `overview.md`. Never merge into false consensus — resolve with an experiment, not with whichever source sounded more certain.
 
 ## Quality gates
 - After campaign brief / business case, and **before any public artifact ships** → `/brief-review [file]` (the only gate shipped as a skill today; the user's `config.md` may add more)
@@ -139,15 +149,22 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 - Area: `#paid` · `#content` · `#email` · `#seo` · `#lifecycle` · `#web` · `#analytics` · `#strategy`
 - All files Markdown; new docs use `Templates/`
 
-## Lark MCP — live knowledge base
+## MCP servers
+
+Two ship in the repo's `.mcp.json`; approve both when Claude Code prompts on first open. Neither holds a credential — each reads one env var the user exports themselves (`${LARK_APP_SECRET}`, `${FATHIPPO_API_KEY}`). **Never paste a real key into `.mcp.json`** — it is tracked and pushed. Setup for both: `Workflows/lark-setup.md`.
+
+- **`fathippo`** — hosted memory, shared across runtimes. Complements the file-based memory in `Users/<name>/memory/`, it does not replace it: **the repo files remain canonical** (see §Memory & persistence). Use it so the same durable facts follow the user into non-Cowork Claude sessions; on any conflict between fathippo recall and a workspace file, **the file wins**. Absent key → the server simply doesn't load; carry on with file memory and say so once.
+- **`lark-mcp`** — the live team wiki. Protocol below.
+
+### Lark wiki — live knowledge base
 
 **Every time a user asks a question about the project, search the Lark wiki first before answering.**
 
 - **Wiki space, space ID, root node, Lark domain:** live in the user's `config.md → Lark` block (written during onboarding Phase 0B). This template file keeps no real values — **never emit a literal `[YOUR_*]` placeholder in a link**; if the config values are unset, ask the user for them.
 - **Full wiki index:** `Knowledge/Reference/lark-wiki-index.md`
-- **Shared Lark app:** `cli_a944aca53c381ed3` — same App ID + Secret for everyone, configured in each user's local `~/.claude.json`.
+- **Shared Lark app:** `cli_a944aca53c381ed3` — same App ID for everyone; ships in `.mcp.json`. The App Secret never does.
 - **Auth model (per-user OAuth):** `--token-mode user_access_token`. Each user OAuth-logs-in with their own Lark account; **results are scoped to what that user's identity can access**. If a doc isn't showing up, the user lacks Lark access to it.
-- **Secret handling (non-negotiable):** the App ID may live in the repo. The **App Secret must NEVER be committed** — each user receives it via secure channel and pastes it into their own local config. Rotate it if exposed.
+- **Secret handling (non-negotiable):** the App ID may live in the repo. The **App Secret must NEVER be committed** — each user receives it via secure channel and exports it as `LARK_APP_SECRET` in their own shell. Rotate it if exposed.
 - **Not connected?** → `Workflows/lark-setup.md`.
 
 ### Search protocol (mandatory on every project question)
@@ -155,7 +172,7 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 2. Pull content with `mcp__lark-mcp__docx_v1_document_rawContent` if needed
 3. **Always include the source link**, built from the Lark domain in the user's `config.md`: docs `https://<lark-domain>/docx/{token}` · sheets `/sheets/{token}` · bitable `/base/{token}` · wiki `/wiki/{node_token}`
 4. If nothing relevant is found or the call errors, say so plainly and do not fabricate a source. Not connected → `Workflows/lark-setup.md`. Weak results → say the wiki had no useful hit and continue from clearly labeled non-wiki evidence.
-5. **After every useful search — persist:** new doc → `lark-wiki-index.md` row · key finding → `Knowledge/Ingestion/[topic]-[YYYY-MM-DD].md` with `[doc-research]` · testable belief → `Knowledge/Hypotheses/candidate/` · stakeholder insight → `Knowledge/People/[name].md` · one row to `Knowledge/log.md` (date · search_key · docs found · files touched; create the file with that header if absent — it is per-user, gitignored). Full promotion: `/wiki-ingest`.
+5. **After every useful search — persist:** new doc → `lark-wiki-index.md` row · key finding → `Knowledge/Ingestion/[topic]-[YYYY-MM-DD].md` with `[doc-research]` · testable belief → `Knowledge/Hypotheses/candidate/` · reusable idea or metric definition → `Knowledge/Concepts/[slug].md` · stakeholder insight → `Knowledge/People/[name].md` · a finding that changes the standing picture → update `Knowledge/overview.md` · one row to `Knowledge/log.md` (date · search_key · docs found · files touched; seed the file from `Knowledge/_seeds/` if absent). Full promotion: `/wiki-ingest`.
 6. No useful result → still log one row to `Knowledge/log.md` (`0 useful docs · no files touched`).
 
 ### DO NOT

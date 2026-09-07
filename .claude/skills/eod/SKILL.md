@@ -42,11 +42,29 @@ in a file, it didn't happen.
    workflow tweak, a new tag, or a `config.md` routing rule — with the evidence ("you've done
    X manually 3 times"). Offer to scaffold it; never auto-write. At most one proposal per
    sweep, and drop a proposal the user has declined before (check `config.md` notes).
-7. **Backup (self-heal).** Mirror the user layer outside the repo so deleting or re-cloning the
-   OS folder cannot lose it:
-   `mkdir -p ~/.digitalgrowth-os-backup/<user> && rsync -a --delete Users/<user>/ ~/.digitalgrowth-os-backup/<user>/ && date > ~/.digitalgrowth-os-backup/<user>/.last-backup`
+7. **Backup (self-heal).** Mirror everything that is gitignored — the user layer **and the four
+   Knowledge spines** — outside the repo, so deleting or re-cloning the OS folder cannot lose it.
+   Both are needed: the spines are in neither git nor the user layer, so without this step a
+   re-clone silently loses every accumulated wiki entry.
+   ```bash
+   # user layer (restore path — keep this destination stable)
+   mkdir -p ~/.digitalgrowth-os-backup/<user>
+   rsync -a --delete Users/<user>/ ~/.digitalgrowth-os-backup/<user>/
+
+   # gitignored Knowledge spines (separate root so the --delete above can never remove them)
+   mkdir -p ~/.digitalgrowth-os-backup/knowledge/<user>/Decisions
+   for f in Knowledge/index.md Knowledge/overview.md Knowledge/log.md; do
+     [ -f "$f" ] && cp "$f" ~/.digitalgrowth-os-backup/knowledge/<user>/
+   done
+   [ -f Knowledge/Decisions/team-log.md ] && \
+     cp Knowledge/Decisions/team-log.md ~/.digitalgrowth-os-backup/knowledge/<user>/Decisions/
+
+   date > ~/.digitalgrowth-os-backup/<user>/.last-backup
+   ```
    The session-start hook warns when this stamp is older than 7 days or absent. On first-run
-   with no `.active-user`, CLAUDE.md offers a restore from this path before onboarding.
+   with no `.active-user`, CLAUDE.md offers a restore from these paths before onboarding.
+   Report both in the closing summary — "user layer + N knowledge spines mirrored" — so a
+   missing spine is visible rather than assumed.
 8. Close with a 3-line summary: memories written (count + names), tasks updated, digest + backup status.
 
 ## Rules

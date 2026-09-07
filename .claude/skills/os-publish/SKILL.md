@@ -21,7 +21,9 @@ push — `/os-update` only pulls. If `git push` is rejected for permissions, sto
    - `git ls-files Users` returns only `Users/README.md` and `Users/_template/**`. Anything else
      means a personal folder got force-added — stop.
    - No staged or modified path under `Users/<name>/`, `Knowledge/log.md`, `Knowledge/index.md`,
-     `Knowledge/Decisions/team-log.md`, `.claude/settings.local.json`, `.obsidian/`.
+     `Knowledge/overview.md`, `Knowledge/Decisions/team-log.md`, `.claude/settings.local.json`,
+     `.obsidian/`. (`Knowledge/_seeds/**` IS template and should ship — do not confuse the tracked
+     seed with the gitignored live file it seeds.)
      (All are gitignored; a hit means someone bypassed the ignore.)
    - **Secret scan** on the diff: `git diff HEAD | grep -nE '(APP_SECRET|SECRET|TOKEN|PASSWORD)\s*[:=]\s*"?[A-Za-z0-9_\-]{12,}|ghp_[A-Za-z0-9]{20,}|xox[abp]-|sk-[A-Za-z0-9]{20,}'`.
      The Lark App ID (`cli_…`) is allowed; the App Secret is never. Any hit → stop.

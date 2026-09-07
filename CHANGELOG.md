@@ -7,6 +7,53 @@ fixes and copy.
 
 ---
 
+## 1.3.0 — 2026-09-07
+
+**The Knowledge wiki now starts the same for everyone, and a second connector carries your memory between Claude sessions.**
+
+- **Your wiki no longer starts empty-and-improvised.** `Knowledge/index.md`, `overview.md`,
+  `log.md`, and `Decisions/team-log.md` are personal files git never touches — which also meant a
+  fresh clone had none of them, and each session invented its own layout. They are now seeded from
+  tracked skeletons in **`Knowledge/_seeds/`**, so every teammate's wiki has the same shape and you
+  can read each other's. Existing files are never overwritten. Onboarding seeds them at Phase 10;
+  `/wiki-ingest`, `/wiki-maintain`, and `/daily-sync` seed anything missing on the fly.
+- **New synthesis page: `Knowledge/overview.md`.** `index.md` lists what you know; `overview.md`
+  says what it adds up to — what's working, what isn't, **open contradictions**, biggest unknowns,
+  and a *Superseded* table so a reversed belief is never silent. Rewritten in place, not appended
+  to. `/wiki-maintain` now flags stale synthesis, contradictions older than 30 days, and decayed
+  `[assumption]` claims.
+- **`Knowledge/Concepts/` is wired in.** The folder existed but nothing wrote to it. `/wiki-ingest`
+  now routes reusable ideas, mechanics, and metric definitions there — one page per concept,
+  rewritten as understanding improves.
+- **`fathippo` connector added** (optional, in `.mcp.json`). Hosted memory so durable facts follow
+  you into Claude sessions outside this folder. **No memory leaves your machine unless you set
+  `FATHIPPO_API_KEY`.** Repo files in `Users/<you>/memory/` stay canonical — on any disagreement,
+  the file wins. Setup: `Workflows/lark-setup.md` §fathippo.
+- **Secret-handling fix (please read).** Onboarding Phase 0B and `lark-setup.md` told users to paste
+  the Lark App Secret into `~/.claude.json`, contradicting `.mcp.json`'s env-var design. Both now
+  say the same thing: export `LARK_APP_SECRET` in your shell, never write a credential to a config
+  file.
+- **Privacy note corrected in `README.md`.** It claimed only `Users/<you>/` is gitignored and that
+  the repo is "safe to push as-is." Both were wrong: your Knowledge spines are gitignored too, and
+  `Knowledge/Reference/lark-wiki-index.md` + `lark-wiki-performance-marketing.md` are **tracked** and
+  accumulate your space IDs, Lark domain, and doc tokens. To keep them local you must uncomment
+  their `.gitignore` entries **and** `git rm --cached` them.
+- **Removed as redundant:** stale git worktree, the leftover `.agents/` tree, `Knowledge/_archive/`,
+  `Knowledge/_drafts/`, `Tasks/archive/` (all unreferenced), `Workflows/github-account-switch.md`
+  (pre-dated the single-repo `/os-publish` model), and `Templates/reviewer-verdict-schema.md` — which
+  documented two skills that don't exist and was itself referenced by nothing. Templates: 12 → 11.
+- **Data-loss fix — `/eod` now backs up your Knowledge wiki.** Since 1.1.1 the four spines have
+  been gitignored, which also meant they were in neither git nor the `/eod` backup (that mirrored
+  only `Users/<you>/`) — so re-cloning the repo silently lost every accumulated wiki entry while
+  the backup-age warning still showed green. `/eod` now mirrors them to
+  `~/.digitalgrowth-os-backup/knowledge/<you>/`, and first-run restore brings them back.
+
+**Migration:** none required. Your existing `Knowledge/` files are untouched; only missing ones get
+seeded. To enable fathippo, export `FATHIPPO_API_KEY` and restart Claude Code — skip it and
+everything works as before.
+
+---
+
 ## 1.2.0 — 2026-09-07
 
 **Claude-only, self-updating, self-healing — and a 4-minute Quick onboarding path.**
