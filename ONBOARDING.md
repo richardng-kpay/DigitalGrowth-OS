@@ -81,4 +81,4 @@ uncomment the matching lines in `.gitignore` first.
 
 - [README.md](README.md) — full setup reference and folder map
 - [HOW-IT-WORKS.md](HOW-IT-WORKS.md) — how a real team week flows through the system
-- [AGENTS.md](AGENTS.md) — agent roster and routing logic
+- [Agents/README.md](Agents/README.md) — agent roster and routing logic

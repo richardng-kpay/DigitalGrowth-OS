@@ -33,7 +33,7 @@ This suite tests both:
 13. Phase 6 OKR follow-ups skipped — `GOALS.md` strategic alignment section missing or still templated
 14. Phase 4 thought-framework questions skipped — `config.md` `Thought frameworks` section empty
 15. Phase 2 taste questions skipped or assistant invented taste preferences instead of asking
-16. Assistant writes personal values into template-layer files (`CLAUDE.md`, `AGENTS.md`, workflows, skills)
+16. Assistant writes personal values into template-layer files (`CLAUDE.md`, workflows, skills)
 17. `Users/.active-user` written before `config.md` and memory seeds succeed — an aborted run leaves the clone permanently marked configured
 18. Memory seeds missing or malformed — no frontmatter (`name`/`description`/`type`/`date`), multiple facts per file, or no `MEMORY.md` index line
 19. Phase 0 scripted orientation paragraph (user layer + memory value prop) skipped or buried

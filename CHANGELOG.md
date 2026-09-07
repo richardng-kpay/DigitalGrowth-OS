@@ -7,6 +7,32 @@ fixes and copy.
 
 ---
 
+## 1.2.0 — 2026-09-07
+
+**Claude-only, self-updating, self-healing.**
+
+- **Claude only.** `AGENTS.md` (Codex CLI), `GEMINI.md` (Gemini CLI), and the mirrored
+  `.agents/skills/` tree are gone. One skill tree, one entry point (`CLAUDE.md`), one contract.
+  `/os-contract-check` now flags any multi-harness residue instead of enforcing tree parity.
+- **You're told when an update exists.** A tracked session-start hook
+  (`.claude/settings.json` → `.claude/hooks/os-update-check.sh`) compares your copy with the
+  team repo once per session and says **OS update available** when you're behind. Report-only,
+  silent offline. `/os-update` now names every skill, agent, workflow, and template that arrived.
+- **New `/os-publish`** (OS owner only) — the single sanctioned push path: contract check,
+  secret + personal-data scan, change-acceptance criteria (moved here from the retired
+  `AGENTS.md`), version bump, changelog entry, then commit + push behind an explicit gate.
+- **Memory survives a re-clone.** `/eod` mirrors `Users/<you>/` to
+  `~/.digitalgrowth-os-backup/<you>/` (off-repo). A fresh clone that finds that backup offers
+  **Restore my previous setup** before onboarding. The hook warns when the backup is >7 days old.
+- **Self-heal on load.** The hook reports memory-index drift (unindexed files, dangling index
+  lines), a missing index, or a stale `.active-user`; `/daily-sync` repairs them and recreates
+  any missing scaffold or per-user knowledge-log files, with a size guard on the memory index.
+- Fixes: `.obsidian/workspace.json` and `.claude/settings.local.json` are no longer tracked
+  (opening the vault in Obsidian used to dirty a template file and trip the update warning);
+  `/os-contract-check` gains sync-surface and version-parity checks.
+- **Migration:** none for users. Start one fresh session after `/os-update` so the hook and
+  `/os-publish` register.
+
 ## 1.1.1 — 2026-07-07
 
 **Fail-loop and onboarding hardening + the learn→optimize loop.**

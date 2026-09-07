@@ -2,7 +2,7 @@
 
 A shared AI assistant setup for a digital growth team. Attach it to your Claude Cowork and it remembers your role, your channels, your KPIs, and your working style — so you're not re-explaining yourself every time you open a chat. It walks you through setup itself, gets smarter the more you use it, and receives improvements from the OS owner every week without ever touching your personal data.
 
-(For the technically inclined: a multi-agent operating-system template — marketing templates, repeatable workflows, Claude/Codex skills, a persistent per-user memory layer, and role-adaptive configuration.)
+(For the technically inclined: a multi-agent operating-system template for Claude — marketing templates, repeatable workflows, Claude Code skills, a persistent per-user memory layer with off-repo backup, and role-adaptive configuration.)
 
 **Roles supported:** Performance Marketing Manager · Content & SEO Lead · Lifecycle Marketing Manager · Website Product Owner · Analytics & Data Lead · Growth Lead
 
@@ -10,17 +10,11 @@ A shared AI assistant setup for a digital growth team. Attach it to your Claude 
 
 ## Start here: first-run setup
 
-**Using Claude Cowork (most team members)?** Attach this folder inside your Cowork and say anything (even just `hi`) — on first run the OS offers to set itself up, whatever your first message is. That's the whole step 1; skip the table below, it's for command-line setups.
+**Using Claude Cowork (most team members)?** Attach this folder inside your Cowork and say anything (even just `hi`) — on first run the OS offers to set itself up, whatever your first message is. That's the whole step 1.
 
-The OS is harness-neutral. Onboarding also works in **Claude Code**, **Codex CLI**, and **Gemini CLI**:
+**Using Claude Code instead** (CLI, desktop app, or VS Code extension)? Open the repo root — `CLAUDE.md` is the entry point and the same onboarding runs. This OS is built for Claude only; other assistants are not supported.
 
-| Harness | Entry-point file | What you do |
-|---|---|---|
-| Claude Code | `CLAUDE.md` | Open the repo in Claude Code (CLI, desktop, or VS Code extension) |
-| Codex CLI | `AGENTS.md` | Run `codex` from the repo root |
-| Gemini CLI | `GEMINI.md` | Run `gemini` from the repo root |
-
-Then, in any harness:
+Then:
 
 1. Say anything — on a fresh copy the OS offers onboarding by itself. The explicit trigger also works:
    ```text
@@ -38,7 +32,7 @@ Then, in any harness:
 
 **Expected first-run outcome:** your personal layer created at `Users/<you>/` — `config.md` with your role, channels, KPIs, operating style, and agent routing, plus a seeded memory index. `GOALS.md` with your 30-60-90 marketing goals. `Tasks/active.md` with this week's priorities. Stakeholder stubs in `Knowledge/People/`. `CLAUDE.md` itself is never personalized — it stays template-only so weekly updates never conflict with your data.
 
-> **One thing to do after onboarding:** your personal layer (`Users/<you>/`) exists only on your machine. Copy that folder somewhere safe occasionally — if the OS folder is ever deleted or re-created from GitHub, that backup is what restores your memory.
+> **After onboarding, run `/eod` at the end of your first day.** It mirrors your personal layer (`Users/<you>/`) to `~/.digitalgrowth-os-backup/` outside the repo. If the OS folder is ever deleted or re-created from GitHub, the first session finds that backup and offers to restore you.
 
 ---
 
@@ -125,7 +119,7 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 
 ## Skills (slash commands)
 
-20 slash commands ship with the OS. Available immediately after onboarding.
+21 slash commands ship with the OS. Available immediately after onboarding.
 
 **Daily work:**
 
@@ -150,7 +144,8 @@ Invoke any agent with: `Computer, [task]` → routes automatically. Full routing
 |---|---|---|
 | `/daily-sync` | Morning | Consolidates memory, refreshes the claude.ai project digest, hands off to `/today` |
 | `/eod` | End of day | Saves the day's decisions, corrections, and insights so tomorrow starts smarter |
-| `/os-update` | Weekly | Pulls the latest template improvements; your personal files always win on conflict |
+| `/os-update` | Weekly, or when the session says "OS update available" | Pulls the latest template improvements and names the skills/agents that arrived; your personal files always win on conflict |
+| `/os-publish` | OS owner only | Ships a versioned release: contract check, secret scan, changelog, push |
 | `/os-feedback` | Anytime | Rates the OS and routes feedback to the OS owner (local log + shared Lark base) |
 | `/wiki-maintain` | Weekly | Checks Knowledge index drift, stale evidence, and orphan pages |
 | `/os-contract-check` | Before releases | Confirms docs, skills, workflows, templates, and evals still line up |
@@ -235,7 +230,9 @@ DigitalGrowth-OS/
 ├── Evals/                            ← Onboarding and synthesis eval suites
 ├── Meetings/                         ← Meeting notes
 └── .claude/
-    └── skills/                       ← 20 slash commands (mirrored in .agents/skills/)
+    ├── settings.json                 ← Session-start hook registration (tracked)
+    ├── hooks/os-update-check.sh      ← "OS update available" + memory-health check, report-only
+    └── skills/                       ← 21 slash commands
 ```
 
 ---
@@ -244,9 +241,11 @@ DigitalGrowth-OS/
 
 The OS owner ships template improvements through this repo — new skills, better workflows, fixes. Each release bumps the `OS-Version` marker in `CLAUDE.md` and adds a `CHANGELOG.md` entry.
 
-Run `/os-update` weekly (or schedule it). It fetches the latest template, shows what changed in plain language, and merges with a hard guarantee: **your personal files always win on conflict**. `GOALS.md`, `Tasks/`, `Knowledge/People/`, `Projects/`, and everything in `Users/` survive every update.
+You don't have to remember to check. Every session starts with a quiet comparison against the team repo; when your copy is behind, the assistant says **OS update available** and offers `/os-update`. Run it then (or weekly, or schedule it). It fetches the latest template, shows what changed in plain language, names the new skills and agents, and merges with a hard guarantee: **your personal files always win on conflict**. `GOALS.md`, `Tasks/`, `Knowledge/People/`, `Projects/`, and everything in `Users/` survive every update. New skills load in the following session.
 
 Have opinions about the OS? `/os-feedback` sends them to the OS owner — rating, friction points, and a wish for the next release.
+
+**For the OS owner:** `/os-publish` is the release path. Edit or add skills (`.claude/skills/<name>/SKILL.md`), agents (`Agents/GrowthTeam/`), workflows, or templates in your clone, then run it: it runs `/os-contract-check`, scans for secrets and personal data, bumps `OS-Version`, writes the `CHANGELOG.md` entry, and pushes to `main` (or opens a PR) behind an explicit "yes, publish" gate. Nothing else pushes.
 
 ---
 
@@ -273,4 +272,4 @@ Four default principles, configurable during onboarding:
 
 ---
 
-Built on Claude Code and Codex CLI. Designed as a configurable, role-adaptive operating-system template for digital growth teams.
+Built on Claude (Cowork and Claude Code). Designed as a configurable, role-adaptive operating-system template for digital growth teams.

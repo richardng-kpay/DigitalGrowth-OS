@@ -1,4 +1,4 @@
-<!-- OS-Version: 1.1.1 -->
+<!-- OS-Version: 1.2.0 -->
 <!-- First-run signal: the file `Users/.active-user`. If it is ABSENT, this clone is not onboarded — offer onboarding (see §Onboarding mode), unless `Users/.onboarding-skipped` exists (the user declined: one-line nudge only). If present, it names the active user's folder under `Users/`. The old `Onboarding-Complete` marker is retired: CLAUDE.md is template-layer only and is NEVER personalized. -->
 
 # CLAUDE.md — Digital Growth OS (team template)
@@ -9,7 +9,7 @@ This file holds **team-wide rules only**. All personal configuration lives in th
 
 ## The two layers (load-bearing rule)
 
-- **Template layer** (git-tracked, updated weekly from GitHub via `/os-update`): this file, `AGENTS.md`, `Workflows/`, `Templates/`, `Agents/`, skills, `Evals/`, team file structure. **Never personalized.**
+- **Template layer** (git-tracked, updated weekly from GitHub via `/os-update`): this file, `Workflows/`, `Templates/`, `Agents/`, skills, `Evals/`, team file structure. **Never personalized.**
 - **User layer** (`Users/<name>/`, gitignored, never touched by updates): `config.md`, `memory/`, `feedback-log.md`, `usage-log.md`.
 - **User-owned working files** (tracked as blank templates, personalized after onboarding, frozen upstream): `GOALS.md`, `Tasks/active.md`, `Tasks/backlog.md`, `Tasks/follow-ups.md`, `Tasks/dayjob-active.md`, `Tasks/team-board.md`, `Knowledge/People/`, `Projects/`, `Knowledge/Reference/company.md`, `Knowledge/Reference/ground-truth.md`, `Knowledge/Reference/lark-wiki-*.md`. `/os-update` keeps the local version on any conflict in these paths — the canonical protected list lives in `.claude/skills/os-update/SKILL.md`.
 - **Per-user knowledge logs** (gitignored, created on first use): `Knowledge/index.md`, `Knowledge/log.md`, `Knowledge/Decisions/team-log.md`. Never shipped by updates; if absent, create from the format documented in the writing skill.
@@ -26,9 +26,10 @@ If a personal value you need is a placeholder, ask the user for that one value �
 When onboarding starts: run `Workflows/interactive-onboarding.md` phase by phase. Ask through `AskUserQuestion`, validate inferences instead of adopting them, summarize proposed edits, and only write files after explicit confirmation. Onboarding writes to the **user layer and user-owned files only** — never to template files.
 
 ## On Session Start
-1. **First-run check (before your first reply).** If `Users/.active-user` is absent → your first response MUST be the onboarding offer (or the one-line nudge if `Users/.onboarding-skipped` exists), regardless of the user's message. If `.active-user` exists but is **empty or names a folder missing under `Users/`**, the marker is stale — tell the user and treat this as first-run (offer onboarding, or the one-line nudge if `.onboarding-skipped` exists). Otherwise → continue.
+1. **First-run check (before your first reply).** If `Users/.active-user` is absent → your first response MUST be the onboarding offer (or the one-line nudge if `Users/.onboarding-skipped` exists), regardless of the user's message. **Restore first:** if `~/.digitalgrowth-os-backup/<name>/config.md` exists (the session-start hook reports this), add `Restore my previous setup` as the first option — on yes, copy that folder back to `Users/<name>/`, write `.active-user`, delete any skip marker, and skip onboarding. If `.active-user` exists but is **empty or names a folder missing under `Users/`**, the marker is stale — tell the user and treat this as first-run (offer onboarding, or the one-line nudge if `.onboarding-skipped` exists). Otherwise → continue.
 2. Read `Users/<active-user>/config.md` (identity, style, routing) and `Users/<active-user>/memory/MEMORY.md` (memory index).
-3. **Update greeting:** if `config.md → Last seen OS version` ≠ the OS-Version at the top of this file, read the top entry of `CHANGELOG.md`, mention what's new in one line, and update `Last seen OS version`.
+3. **Update greeting:** if `config.md → Last seen OS version` ≠ the OS-Version at the top of this file, read the top entry of `CHANGELOG.md`, mention what's new in one line, and update `Last seen OS version`. If the session-start hook printed **OS update available**, offer `/os-update` in one line and continue with the user's request — never block on it.
+3b. **Self-heal on load.** If the hook reports memory-index drift, a missing index, or a stale marker, repair it per `/daily-sync` steps 4–4b before relying on memory, and say so in one line. Missing per-user knowledge logs are recreated silently on first use.
 4. `Tasks/active.md` — current campaign and task focus. `GOALS.md` — 30-60-90 goals and KPIs.
 5. **Lark wiki is live.** On any project question, search the wiki first (§Lark MCP below).
 6. Cross-team questions: `TEAM.md` (roster, OKR owners), `TEAM-GOALS.md` (shared KRs).
@@ -39,15 +40,17 @@ Team members run Claude through a 3P gateway account — account-level memory is
 
 - **Per-user memory** lives in `Users/<name>/memory/` — one durable fact per file, indexed in `MEMORY.md`, loaded every session. Format and write-triggers: see `Users/_template/memory/MEMORY.md`.
 - **Write immediately, not at session end**, when: the user corrects you (highest value — a correction memory stops the same wrong answer recurring), a decision is made, a durable preference or stakeholder/channel insight surfaces.
-- **`/eod`** — end-of-day sweep: harvest durable facts from the conversation, update memory, refresh the digest, append the usage log. Suggest it when a session with substantive decisions is wrapping up.
+- **`/eod`** — end-of-day sweep: harvest durable facts from the conversation, update memory, refresh the digest, append the usage log, and **mirror `Users/<name>/` to `~/.digitalgrowth-os-backup/`** so a re-clone can never lose memory. Suggest it when a session with substantive decisions is wrapping up.
 - **`/daily-sync`** — morning routine: consolidate and prune memory, refresh `claude-project-digest.md`, then hand off to `/today`.
 - **`claude-project-digest.md`** — compact snapshot the user manually re-uploads to their claude.ai Project knowledge so non-Cowork chats know them too. Keep it under ~120 lines.
 - Verify memory against current files before citing — memories drift. On conflict, the workspace file wins. Canonical project-bound facts live in `Knowledge/People/` and `Knowledge/Reference/`.
 
 ## OS updates (weekly)
 
-- **`/os-update`** — pulls the latest template from GitHub, shows the CHANGELOG delta, and protects user-owned files (local version wins on conflict). Recommend running it weekly; users can schedule it.
-- Versioning: `OS-Version` marker at the top of this file + `CHANGELOG.md` (newest first). Template changes ship only via the repo — never edit template files locally, or weekly pulls will conflict.
+- **`/os-update`** — pulls the latest template from GitHub, shows the CHANGELOG delta, names the skills and agents that arrived, and protects user-owned files (local version wins on conflict). Recommend running it weekly; users can schedule it.
+- **Update notice:** a tracked SessionStart hook (`.claude/settings.json` → `.claude/hooks/os-update-check.sh`) fetches `origin/main` once per session and prints **OS update available** when this clone is behind. It is report-only and silent offline.
+- **`/os-publish`** (OS owner only) — the only sanctioned push path: contract check, secret scan, version bump, changelog, then commit + push behind an explicit gate. Team members never push.
+- Versioning: `OS-Version` marker at the top of this file + `CHANGELOG.md` (newest first). Template changes ship only via `/os-publish` — never edit template files locally, or weekly pulls will conflict.
 
 ## Feedback loop
 
@@ -121,7 +124,7 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 - Headers in sentence case. Bold the 1–3 critical facts per section, never full sentences.
 
 ## DO NOT
-- Commit, push, or delete files without approval — and **never commit `Users/<name>/` personal folders** (gitignored by design; `Users/README.md` and `Users/_template/**` are tracked template files)
+- Commit, push, or delete files without approval — the OS owner publishes via `/os-publish` only — and **never commit `Users/<name>/` personal folders** (gitignored by design; `Users/README.md` and `Users/_template/**` are tracked template files)
 - Write setup files during onboarding before the user confirms the summary
 - Personalize template-layer files — personal values go in `Users/<name>/` or user-owned files only
 - Replace placeholders with invented values — ask the user

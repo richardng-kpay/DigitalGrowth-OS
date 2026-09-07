@@ -58,3 +58,8 @@ Knowledge/Decisions/team-log.md
 # Uncomment to prevent committing your team's internal wiki data:
 # Knowledge/Reference/lark-wiki-index.md
 # Knowledge/Reference/lark-wiki-performance-marketing.md
+
+# Editor state and local harness settings — per machine, never part of the template.
+# (workspace.json was tracked before OS 1.2.0 and made every Obsidian user's tree dirty.)
+.obsidian/workspace.json
+.claude/settings.local.json

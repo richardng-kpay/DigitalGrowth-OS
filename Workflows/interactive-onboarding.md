@@ -2,7 +2,7 @@
 
 Use this workflow when a team member first sets up or clones the DigitalGrowth-OS.
 
-This workflow is harness-neutral — it runs the same way in Claude Code, Codex CLI, or Gemini CLI. The configuration it writes lives in the **user layer** (`Users/<name>/config.md` and siblings — see `Users/README.md`) and is respected by all harnesses. **Template-layer files (`CLAUDE.md`, `AGENTS.md`, workflows, skills) are never personalized** — they are updated weekly from GitHub via `/os-update`, and personal edits to them would conflict.
+This workflow runs in Claude (Cowork or Claude Code). The configuration it writes lives in the **user layer** (`Users/<name>/config.md` and siblings — see `Users/README.md`). **Template-layer files (`CLAUDE.md`, workflows, skills) are never personalized** — they are updated weekly from GitHub via `/os-update`, and personal edits to them would conflict.
 
 **When to run.** This workflow is designed for an OS attached inside a user's Cowork. Run it **proactively on first run** — defined by the file `Users/.active-user` being **absent**. When it is absent, greet the user and offer onboarding before answering substantive work. Do not wait for a trigger phrase; assume most users won't know one. **Do not use placeholder presence as the first-run signal** — a configured user may intentionally retain placeholders, and `.active-user` is the single source of truth. If it exists, only run this workflow when the user explicitly asks (a trigger phrase or a re-run request).
 
@@ -20,14 +20,14 @@ Trigger phrases (shortcuts to the same flow):
 
 1. **Be interactive.** Do not assume the user's role, channels, KPIs, company, goals, or stakeholders.
 1a. **Validate assumptions, don't adopt them.** You may *infer* a starting point (role from a job title, company from an email domain, a likely KPI from the role) — but an inference is an assumption until the user confirms it. Surface every inference as an `AskUserQuestion` choice with your best guess pre-listed as an option, and let the user confirm or correct. Never write an inferred value into a file as if the user stated it.
-2. **Ask through the question tool, not the chat.** When running in a harness that exposes a structured question tool (Claude Code's `AskUserQuestion`), use it for every question batch. Present each question with its likely answers as selectable options. Do **not** print numbered questions as plain chat text and wait for a typed reply — that is the fallback only. See **Question mechanism** below.
+2. **Ask through the question tool, not the chat.** Use `AskUserQuestion` for every question batch. Present each question with its likely answers as selectable options. Do **not** print numbered questions as plain chat text and wait for a typed reply — that is the fallback only. See **Question mechanism** below.
 3. **Ask in small batches.** Group related questions; the structured tool takes up to **4 questions per call**, each with **2–4 options**. Send one batch, wait for the answers, then continue.
 4. **Offer choices, but always allow custom answers.** Every option set is a starting point, never a lock-in. The structured tool's built-in **"Other"** free-text choice covers this; in chat fallback, say "or give your own."
 5. **Role-branch after Phase 1.** Once the user confirms their role, the rest of the interview adapts to that role's specific channels and KPIs.
 6. **Summarize before writing.** Show a Phase 9 confirmation summary before editing any files.
 7. **Only write files after explicit confirmation.** "Sounds good" does not count — ask for explicit yes.
 8. **Preserve placeholders when the user is unsure.** Do not invent values.
-9. **Write to the user layer and user-owned files only.** Personal config → `Users/<name>/config.md`; goals → `GOALS.md`; tasks → `Tasks/*.md`; stakeholders → `Knowledge/People/`. Never write personal values into `CLAUDE.md`, `AGENTS.md`, or any other template-layer file.
+9. **Write to the user layer and user-owned files only.** Personal config → `Users/<name>/config.md`; goals → `GOALS.md`; tasks → `Tasks/*.md`; stakeholders → `Knowledge/People/`. Never write personal values into `CLAUDE.md` or any other template-layer file.
 
 ## Question mechanism
 
@@ -35,9 +35,9 @@ Every phase below lists what to `Ask:`. Deliver those questions as follows:
 
 - **Preferred (Claude Code):** call `AskUserQuestion`. Map each item to a question with a short `header` (e.g. `Role`, `Tone`, `Pushback`) and 2–4 plausible `options` drawn from the role/style menus in this workflow. Use `multiSelect: true` when answers are not mutually exclusive (e.g. channels owned, review gates). The user can always pick "Other" to type a custom value, which satisfies rule 4. **When a phase lists more than 4 questions, split into two consecutive calls; when an option menu exceeds 4 entries (e.g. the 7 roles in Phase 1), present the 3 likeliest for this user plus "Other" — never silently drop options without the "Other" escape.**
 - **Open-ended fields** that have no natural option set (the user's **name**, **company**, free-form goal text) can still go through the tool as a single question whose options are sensible guesses plus "Other", or be asked inline when the tool would add friction. Prefer the tool whenever 2+ reasonable options exist. **Exception — any field you *inferred* (per rule 1a, e.g. company from an email domain) must go through the tool as a confirmable option, never asked inline as open free-text**, so the user actively confirms or corrects the guess rather than passively accepting it.
-- **Fallback (Codex CLI, Gemini CLI, or any harness without the tool):** ask the same questions as a numbered list in chat, 3–5 at a time, each with example choices and an explicit "or give your own."
+- **Fallback (only if `AskUserQuestion` is unavailable in the current session):** ask the same questions as a numbered list in chat, 3–5 at a time, each with example choices and an explicit "or give your own."
 
-This keeps the workflow harness-neutral — the *questions* are identical; only the *delivery* adapts to whether a structured question tool is available.
+The *questions* are identical either way; only the *delivery* adapts to whether the structured question tool is available.
 
 ## Setup capture schema
 
@@ -623,7 +623,7 @@ Run this check before declaring onboarding finished.
 | **Area tags match role** | `config.md` → `Area tags` match the role's configured tag set. | Re-run Phase 1B. |
 | **Primary agent set** | `config.md` → `Primary agent` is not placeholder text. | Re-run Phase 1B. |
 | **Memory seeded** | `Users/<name>/memory/MEMORY.md` index has ≥1 entry. | Seed from interview capture (Phase 10 edit plan). |
-| **Template layer untouched** | `git status` shows no modifications to `CLAUDE.md`, `AGENTS.md`, `Workflows/`, or skills. | Revert the personal edit and move the value into `config.md`. |
+| **Template layer untouched** | `git status` shows no modifications to `CLAUDE.md`, `Workflows/`, or skills. | Revert the personal edit and move the value into `config.md`. |
 | **KPIs specific** | Each KPI in `GOALS.md` names an actual metric and target, not just a category. | Re-run Phase 6. |
 | **Active tasks present** | `Tasks/active.md` has ≥1 P0 or P1 item that is not a template placeholder. | Re-run Phase 5. |
 | **At least one stakeholder started** | `Knowledge/People/` has ≥1 non-template file, or user explicitly deferred. | Re-run Phase 7. |
@@ -691,7 +691,7 @@ Tighten before shipping if the assistant:
 - Assumes a role or channels without asking.
 - Skips Phase 1B branching.
 - Writes files before confirmation.
-- Proposes writing personal values into `CLAUDE.md`, `AGENTS.md`, or any template-layer file.
+- Proposes writing personal values into `CLAUDE.md` or any template-layer file.
 - Finishes without writing `Users/.active-user` or seeding `Users/<name>/memory/`.
 - Re-offers full onboarding to a user who previously picked `Skip for now` (the `.onboarding-skipped` marker must downgrade the offer to a one-line nudge).
 - Uses PM-specific terminology (PRD, roadmap, sprint, engineering handoff).
