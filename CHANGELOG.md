@@ -7,6 +7,37 @@ fixes and copy.
 
 ---
 
+## 1.4.0 — 2026-09-10
+
+**You can now hand the growth agents and briefs to anyone — no clone, no onboarding — and they keep getting your updates automatically.**
+
+- **New: the Growth Toolkit plugin.** [both] Other teams can install the 7 role agents and 10 of
+  the 21 skills in two commands — `claude plugin marketplace add richardng-kpay/DigitalGrowth-OS`
+  then `claude plugin install growth-toolkit@kpay-growth` — instead of adopting the whole OS.
+  Marketplace installs update on **every push to `main`**, not on version bumps; the Cowork
+  `.plugin` zip fallback is a snapshot with no auto-updates. Full guide in the new
+  **`SHARING.md`**, including how to pre-wire it for a whole team via `.claude/settings.json`.
+  **If you already have the full OS clone, do not install the plugin** — those 10 skills would
+  appear twice.
+- **Shipped skills and agents now work outside the OS.** [both] `/campaign-brief`,
+  `/content-brief`, `/email-brief`, `/experiment-brief`, `/channel-review`,
+  `/weekly-performance-report`, `/brief-review`, `/synthesize-research`, `/evals` and
+  `/eval-review` each gained a *Running outside the full OS* block: they resolve templates through
+  the plugin root and ask you for goals, targets and audience context inline rather than failing on
+  a missing `Knowledge/` or `Tasks/` file. The 7 growth agents gained the same fallback.
+- **Skills and agents got real descriptions.** [both] Every shipped skill now has proper
+  frontmatter, and the 7 agents have dispatch descriptions — so Claude picks the right one from
+  what you asked rather than needing the name. Previously a skill's description was just its own
+  title.
+- **Stale model IDs corrected.** [both] The per-agent model tables named `claude-sonnet-4-6` and
+  `claude-opus-4-7`; they now name the current `claude-sonnet-5` and `claude-opus-5`.
+- **`/os-publish` and `/os-contract-check` now cover the plugin channel.** [clone] Publishing
+  checks that the generated `plugins/growth-toolkit/` tree matches its sources and that the
+  manifest validates, so plugin users can never silently fall behind clone users. Changelog
+  bullets are tagged with the channel they reach.
+
+---
+
 ## 1.3.0 — 2026-09-07
 
 **The Knowledge wiki now starts the same for everyone, and a second connector carries your memory between Claude sessions.**

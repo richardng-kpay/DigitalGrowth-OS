@@ -41,6 +41,14 @@ architecture change.
 11. Version parity: the `OS-Version` marker in `CLAUDE.md` equals the version of
     the top `CHANGELOG.md` entry, and `README.md`'s skill count equals the number
     of skill folders.
+12. Plugin channel: `.claude-plugin/marketplace.json` is valid JSON,
+    `claude plugin validate .` passes (the "no version specified" warning is
+    intentional), and `./scripts/build-plugin.sh --check` reports the generated
+    `plugins/growth-toolkit/` tree is current. A stale tree is a P1 finding — it
+    means plugin users are running older skills than clone users. Every skill in
+    the build script's `SKILLS` array must carry a `## Running outside the full OS`
+    block, and no shipped skill may be one of the clone-only ones (`today`, `todo`,
+    `eod`, `daily-sync`, `team-standup`, `wiki-*`, `os-*`).
 
 ## Steps
 
@@ -64,6 +72,7 @@ architecture change.
    - `.mcp.json` and `.claude/settings.json` JSON validation
    - `bash -n .claude/hooks/os-update-check.sh` and `test -x` on the same file
    - version parity: `grep OS-Version CLAUDE.md` vs the first `## x.y.z` heading in `CHANGELOG.md`
+   - plugin channel: `claude plugin validate .` and `./scripts/build-plugin.sh --check`
 7. Output findings by priority and name the file that should change.
 
 ## Output format

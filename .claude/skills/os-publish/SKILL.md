@@ -34,6 +34,18 @@ push — `/os-update` only pulls. If `git push` is rejected for permissions, sto
      budgets, or customer data before accepting a template change here.
 2. **Contract check.** Run `/os-contract-check`. Any P0 or P1 → fix first, then re-run. Do not
    publish over a failing contract.
+2b. **Plugin channel.** This repo is also a plugin marketplace (`kpay-growth` →
+   `growth-toolkit`), so a release ships to clone users *and* plugin users. Before versioning:
+   - `./scripts/build-plugin.sh --check` — stale means someone edited a shipped skill, agent, or
+     template without rebuilding. Run `./scripts/build-plugin.sh` and stage the result.
+   - `claude plugin validate .` — errors block the release. The "no version specified" warning is
+     expected and intentional: omitting `version` is what makes every push an update for plugin
+     users.
+   - If this release **adds** a skill, decide whether it belongs in the plugin. It does **not** if
+     it reads `Tasks/`, `Users/`, or the `Knowledge/` spines. If it does belong, add it to the
+     `SKILLS` array in `scripts/build-plugin.sh`, give it the `## Running outside the full OS`
+     block the other shipped skills carry, and rebuild.
+   - Never hand-edit `plugins/growth-toolkit/` — it is generated. See `SHARING.md`.
 3. **Change acceptance.** For each change in the release, confirm it passes all four:
    **Relevance** (improves daily growth output or experiment rigour) · **Simplicity** (no
    maintenance burden without proportional gain) · **Stability** (does not destabilise a working
@@ -47,7 +59,8 @@ push — `/os-update` only pulls. If `git push` is rejected for permissions, sto
    Confirm with the owner.
 5. **Release notes.** Write the new `CHANGELOG.md` entry at the top, in the user's language
    (what they can now do, not commit hashes). Name every new or changed skill (`/name`) and agent
-   by name; mark anything requiring user action as **Migration**. Update `OS-Version` in
+   by name; mark anything requiring user action as **Migration**. Tag each bullet with the channel
+   it reaches — **[clone]**, **[plugin]**, or **[both]** — since the two audiences differ. Update `OS-Version` in
    `CLAUDE.md` and the skill/template counts in `README.md` if they changed. Stage the release.
 6. **Gate.** Show `git diff --cached --stat`, the changelog entry, and the target
    (`origin/main` direct, or branch → PR). Ask for an explicit **"yes, publish"**. A polite
@@ -61,7 +74,9 @@ push — `/os-update` only pulls. If `git push` is rejected for permissions, sto
 8. **Verify and report.** Confirm `git rev-parse origin/main` matches the release commit (direct
    mode) or link the PR. Report: version, what shipped, and the sentence "team members see
    *OS update available* at their next session start and pull it with `/os-update`; new skills
-   load in their following session."
+   load in their following session." If the release touched the plugin, add: "plugin users pick
+   this up on their next marketplace refresh, or immediately with
+   `claude plugin update growth-toolkit`."
 
 ## Hard rules
 

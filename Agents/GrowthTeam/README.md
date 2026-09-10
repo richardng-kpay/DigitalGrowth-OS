@@ -22,8 +22,8 @@ When you say **"Computer, [task]"**, the system routes to the right agent automa
 | Tier | Model | When |
 |---|---|---|
 | **Fast** | `claude-haiku-4-5-20251001` | Daily ops, quick metric pulls, triage, QA checks. Never in agentic loops with untrusted input. |
-| **Standard** | `claude-sonnet-4-6` | Default — campaign briefs, channel analysis, experiment design, weekly reports, most skills |
-| **Deep** | `claude-opus-4-7` | Quarterly strategy, attribution model review, complex experiment design, long-form content |
+| **Standard** | `claude-sonnet-5` | Default — campaign briefs, channel analysis, experiment design, weekly reports, most skills |
+| **Deep** | `claude-opus-5` | Quarterly strategy, attribution model review, complex experiment design, long-form content |
 
 ---
 

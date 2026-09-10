@@ -1,0 +1,21 @@
+{
+  "name": "growth-toolkit",
+  "displayName": "Growth Toolkit",
+  "description": "Seven growth role agents (paid media, content/SEO, lifecycle, web/CRO, analytics, growth lead, creative reviewer) plus campaign, content, email, experiment, channel-review, reporting, research-synthesis and eval skills.",
+  "author": {
+    "name": "Richard Ng",
+    "url": "https://github.com/richardng-kpay"
+  },
+  "homepage": "https://github.com/richardng-kpay/DigitalGrowth-OS/blob/main/SHARING.md",
+  "repository": "https://github.com/richardng-kpay/DigitalGrowth-OS",
+  "keywords": [
+    "growth",
+    "marketing",
+    "paid-media",
+    "seo",
+    "lifecycle",
+    "cro",
+    "analytics",
+    "experiments"
+  ]
+}
