@@ -1,0 +1,31 @@
+{
+  "name": "kpay-growth",
+  "owner": {
+    "name": "Richard Ng",
+    "url": "https://github.com/richardng-kpay"
+  },
+  "metadata": {
+    "description": "Growth agents and campaign skills from the KPay Digital Growth OS. Install the plugin for the tools alone; clone the repo if you want the full OS with its Tasks, Knowledge and memory layers."
+  },
+  "plugins": [
+    {
+      "name": "growth-toolkit",
+      "displayName": "Growth Toolkit",
+      "description": "Seven growth role agents (paid media, content/SEO, lifecycle, web/CRO, analytics, growth lead, creative reviewer) plus campaign, content, email, experiment, channel-review, reporting, research-synthesis and eval skills.",
+      "source": "./plugins/growth-toolkit",
+      "category": "marketing",
+      "keywords": [
+        "growth",
+        "marketing",
+        "paid-media",
+        "seo",
+        "lifecycle",
+        "cro",
+        "analytics",
+        "experiments"
+      ],
+      "homepage": "https://github.com/richardng-kpay/DigitalGrowth-OS/blob/main/SHARING.md",
+      "repository": "https://github.com/richardng-kpay/DigitalGrowth-OS"
+    }
+  ]
+}

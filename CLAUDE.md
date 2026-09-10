@@ -1,4 +1,4 @@
-<!-- OS-Version: 1.3.0 -->
+<!-- OS-Version: 1.4.0 -->
 <!-- First-run signal: the file `Users/.active-user`. If it is ABSENT, this clone is not onboarded — offer onboarding (see §Onboarding mode), unless `Users/.onboarding-skipped` exists (the user declined: one-line nudge only). If present, it names the active user's folder under `Users/`. The old `Onboarding-Complete` marker is retired: CLAUDE.md is template-layer only and is NEVER personalized. -->
 
 # CLAUDE.md — Digital Growth OS (team template)
@@ -50,7 +50,8 @@ Team members run Claude through a 3P gateway account — account-level memory is
 
 - **`/os-update`** — pulls the latest template from GitHub, shows the CHANGELOG delta, names the skills and agents that arrived, and protects user-owned files (local version wins on conflict). Recommend running it weekly; users can schedule it.
 - **Update notice:** a tracked SessionStart hook (`.claude/settings.json` → `.claude/hooks/os-update-check.sh`) fetches `origin/main` once per session and prints **OS update available** when this clone is behind. It is report-only and silent offline.
-- **`/os-publish`** (OS owner only) — the only sanctioned push path: contract check, secret scan, version bump, changelog, then commit + push behind an explicit gate. Team members never push.
+- **`/os-publish`** (OS owner only) — the only sanctioned push path: contract check, secret scan, plugin rebuild check, version bump, changelog, then commit + push behind an explicit gate. Team members never push.
+- **Second channel — the `growth-toolkit` plugin.** This repo is also a plugin marketplace (`kpay-growth`) for people who want the agents and briefs *without* the OS workspace. `plugins/growth-toolkit/` is **generated** by `scripts/build-plugin.sh` — never hand-edit it; edit the canonical source and rebuild. Nobody should run both channels at once. Full protocol, install commands, and what the plugin deliberately omits: `SHARING.md`.
 - Versioning: `OS-Version` marker at the top of this file + `CHANGELOG.md` (newest first). Template changes ship only via `/os-publish` — never edit template files locally, or weekly pulls will conflict.
 
 ## Feedback loop
@@ -140,7 +141,8 @@ See `Knowledge/Reference/provenance-tags.md` for decay windows and rules.
 - Replace placeholders with invented values — ask the user
 - Create `Projects/` files without a `brief.md`
 - Edit `Knowledge/People/` profiles without confirming
-- Create new top-level folders — extend existing
+- Create new top-level folders — extend existing (`.claude-plugin/`, `plugins/`, `scripts/` are the standing exception: the plugin spec requires those exact locations)
+- Hand-edit `plugins/growth-toolkit/` — it is generated; edit the source and run `scripts/build-plugin.sh`
 - Ship any public artifact without the selected reviewer gates
 - Use Haiku in agentic loops with untrusted input
 
